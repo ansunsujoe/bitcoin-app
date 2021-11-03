@@ -1,0 +1,42 @@
+version: '3.7'
+
+services:
+  database:
+    image: mysql
+    pull_policy: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: bitcoin
+    deploy:
+      resources:
+        limits:
+          memory: 12288m
+        reservations:
+          memory: 8192m
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./database/bitcoin.sql:/bitcoin.sql
+    restart: unless-stopped
+  
+  backend:
+    image: mansoonseason77/btc-backend:master
+    pull_policy: always
+    # environment:
+    #   ALPHAVANTAGE_KEY: ${ALPHAVANTAGE_KEY}
+    depends_on:
+      - database
+    ports:
+      - "5001:5001"
+    restart: unless-stopped
+
+  frontend:
+    image: mansoonseason77/bitcoinapp:master
+    pull_policy: always
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
