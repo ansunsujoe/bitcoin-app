@@ -1,12 +1,13 @@
 /*!
 
 =========================================================
-* Black Dashboard React v1.2.0
+* Paper Dashboard React - v1.3.0
 =========================================================
 
-* Product Page: https://www.creative-tim.com/product/black-dashboard-react
-* Copyright 2020 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/black-dashboard-react/blob/master/LICENSE.md)
+* Product Page: https://www.creative-tim.com/product/paper-dashboard-react
+* Copyright 2021 Creative Tim (https://www.creative-tim.com)
+
+* Licensed under MIT (https://github.com/creativetimofficial/paper-dashboard-react/blob/main/LICENSE.md)
 
 * Coded by Creative Tim
 
@@ -64,7 +65,6 @@
   bottom: 0;
   color: #fff;
   z-index: 1;
-  padding-left: 0;
 }
 
 @media all and (min-width: 992px) {
@@ -80,60 +80,128 @@
   margin: 0 auto;
 }
 
-.offline-doc .page-header {
-  min-height: 100vh;
-  max-height: 999px;
-  padding: 0;
-  color: #ffffff;
-  position: relative; }
-  .offline-doc .page-header .page-header-image {
-    position: absolute;
-    background-size: cover;
-    background-position: center center;
-    width: 100%;
-    height: 100%;
-    z-index: -1; }
-  .offline-doc .page-header .content-center {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    z-index: 2;
-    -ms-transform: translate(-50%, -50%);
-    -webkit-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-    text-align: center;
-    color: #FFFFFF;
-    padding: 0 15px;
-    width: 100%;
-    max-width: 880px; }
-  .offline-doc .page-header footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%; }
-  .offline-doc .page-header .container {
-    height: 100%;
-    z-index: 1; }
-  .offline-doc .page-header .category,
-  .offline-doc .page-header .description {
-    color: rgba(255, 255, 255, 0.8); }
-  .offline-doc .page-header.page-header-small {
-    min-height: 60vh;
-    max-height: 440px; }
-  .offline-doc .page-header.page-header-mini {
-    min-height: 40vh;
-    max-height: 340px; }
-  .offline-doc .page-header .title {
-    margin-bottom: 15px; }
-  .offline-doc .page-header .title + h4 {
-    margin-top: 10px; }
-  .offline-doc .page-header:after, .offline-doc .page-header:before {
-    position: absolute;
-    z-index: 0;
-    width: 100%;
-    height: 100%;
-    display: block;
-    left: 0;
-    top: 0;
-    content: ""; }
-  .offline-doc .page-header:before {
-    background-color: rgba(0, 0, 0, 0.8); }
+/* Nucleo Style */
+
+.demo-iconshtml {
+  font-size: 62.5%;
+}
+
+.demo-icons body {
+  font-size: 1.6rem;
+  font-family: sans-serif;
+  color: #333333;
+  background: white;
+}
+
+.demo-icons a {
+  color: #608CEE;
+  text-decoration: none;
+}
+
+.demo-icons header {
+  text-align: center;
+  padding: 100px 0 0;
+}
+
+.demo-icons header h1 {
+  font-size: 2.8rem;
+}
+
+.demo-icons header p {
+  font-size: 1.4rem;
+  margin-top: 1em;
+}
+
+.demo-icons header a:hover {
+  text-decoration: underline;
+}
+
+.demo-icons .nc-icon {
+  font-size: 34px;
+}
+
+.demo-icons section h2 {
+  border-bottom: 1px solid #e2e2e2;
+  padding: 0 0 1em .2em;
+  margin-bottom: 1em;
+}
+
+.demo-icons ul {
+  padding-left: 0;
+}
+
+.demo-icons ul::after {
+  clear: both;
+  content: "";
+  display: table;
+}
+
+.demo-icons ul li {
+  width: 20%;
+  float: left;
+  padding: 16px 0;
+  text-align: center;
+  border-radius: .25em;
+  -webkit-transition: background 0.2s;
+  -moz-transition: background 0.2s;
+  transition: background 0.2s;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  overflow: hidden;
+}
+
+.demo-icons ul li:hover {
+  background: #f4f4f4;
+}
+
+.demo-icons ul p,
+.demo-icons ul em,
+.demo-icons ul input {
+  display: inline-block;
+  font-size: 1rem;
+  color: #999999;
+  -webkit-user-select: auto;
+  -moz-user-select: auto;
+  -ms-user-select: auto;
+  user-select: auto;
+  white-space: nowrap;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+.demo-icons ul p {
+  padding: 20px 0 0;
+  font-size: 12px;
+  margin: 0;
+}
+
+.demo-icons ul p::selection,
+.demo-icons ul em::selection {
+  background: #608CEE;
+  color: #efefef;
+}
+
+.demo-icons ul em {
+  font-size: 12px;
+}
+
+.demo-icons ul em::before {
+  content: '[';
+}
+
+.demo-icons ul em::after {
+  content: ']';
+}
+
+.demo-icons ul input {
+  text-align: center;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  outline: none;
+  display: none;
+}

@@ -1,12 +1,13 @@
 /*!
 
 =========================================================
-* Black Dashboard React v1.2.0
+* Paper Dashboard React - v1.3.0
 =========================================================
 
-* Product Page: https://www.creative-tim.com/product/black-dashboard-react
-* Copyright 2020 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/black-dashboard-react/blob/master/LICENSE.md)
+* Product Page: https://www.creative-tim.com/product/paper-dashboard-react
+* Copyright 2021 Creative Tim (https://www.creative-tim.com)
+
+* Licensed under MIT (https://github.com/creativetimofficial/paper-dashboard-react/blob/main/LICENSE.md)
 
 * Coded by Creative Tim
 
@@ -16,78 +17,71 @@
 
 */
 import Dashboard from "views/Dashboard.js";
-import Icons from "views/Icons.js";
-import Map from "views/Map.js";
 import Notifications from "views/Notifications.js";
-import Rtl from "views/Rtl.js";
-import TableList from "views/TableList.js";
+import Icons from "views/Icons.js";
 import Typography from "views/Typography.js";
-import UserProfile from "views/UserProfile.js";
+import TableList from "views/Tables.js";
+import Maps from "views/Map.js";
+import UserPage from "views/User.js";
+import UpgradeToPro from "views/Upgrade.js";
 
 var routes = [
   {
     path: "/dashboard",
     name: "Dashboard",
-    rtlName: "لوحة القيادة",
-    icon: "tim-icons icon-chart-pie-36",
+    icon: "nc-icon nc-bank",
     component: Dashboard,
     layout: "/admin",
   },
   {
     path: "/icons",
     name: "Icons",
-    rtlName: "الرموز",
-    icon: "tim-icons icon-atom",
+    icon: "nc-icon nc-diamond",
     component: Icons,
     layout: "/admin",
   },
   {
-    path: "/map",
-    name: "Map",
-    rtlName: "خرائط",
-    icon: "tim-icons icon-pin",
-    component: Map,
+    path: "/maps",
+    name: "Maps",
+    icon: "nc-icon nc-pin-3",
+    component: Maps,
     layout: "/admin",
   },
   {
     path: "/notifications",
     name: "Notifications",
-    rtlName: "إخطارات",
-    icon: "tim-icons icon-bell-55",
+    icon: "nc-icon nc-bell-55",
     component: Notifications,
     layout: "/admin",
   },
   {
-    path: "/user-profile",
+    path: "/user-page",
     name: "User Profile",
-    rtlName: "ملف تعريفي للمستخدم",
-    icon: "tim-icons icon-single-02",
-    component: UserProfile,
+    icon: "nc-icon nc-single-02",
+    component: UserPage,
     layout: "/admin",
   },
   {
     path: "/tables",
     name: "Table List",
-    rtlName: "قائمة الجدول",
-    icon: "tim-icons icon-puzzle-10",
+    icon: "nc-icon nc-tile-56",
     component: TableList,
     layout: "/admin",
   },
   {
     path: "/typography",
     name: "Typography",
-    rtlName: "طباعة",
-    icon: "tim-icons icon-align-center",
+    icon: "nc-icon nc-caps-small",
     component: Typography,
     layout: "/admin",
   },
   {
-    path: "/rtl-support",
-    name: "RTL Support",
-    rtlName: "ار تي ال",
-    icon: "tim-icons icon-world",
-    component: Rtl,
-    layout: "/rtl",
+    pro: true,
+    path: "/upgrade",
+    name: "Upgrade to PRO",
+    icon: "nc-icon nc-spaceship",
+    component: UpgradeToPro,
+    layout: "/admin",
   },
 ];
 export default routes;

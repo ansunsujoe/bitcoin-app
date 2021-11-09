@@ -1,12 +1,13 @@
 /*!
 
 =========================================================
-* Black Dashboard React v1.2.0
+* Paper Dashboard React - v1.3.0
 =========================================================
 
-* Product Page: https://www.creative-tim.com/product/black-dashboard-react
-* Copyright 2020 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/black-dashboard-react/blob/master/LICENSE.md)
+* Product Page: https://www.creative-tim.com/product/paper-dashboard-react
+* Copyright 2021 Creative Tim (https://www.creative-tim.com)
+
+* Licensed under MIT (https://github.com/creativetimofficial/paper-dashboard-react/blob/main/LICENSE.md)
 
 * Coded by Creative Tim
 
@@ -16,7 +17,6 @@
 
 */
 import React from "react";
-
 // reactstrap components
 import { Card, CardHeader, CardBody, Row, Col } from "reactstrap";
 
@@ -29,245 +29,137 @@ const MapWrapper = () => {
     let lng = "-73.985428";
     const myLatlng = new google.maps.LatLng(lat, lng);
     const mapOptions = {
-      scrollwheel: false, //we disable de scroll over the map, it is a really annoing when you scroll through page
+      zoom: 13,
+      center: myLatlng,
+      scrollwheel: false,
+      zoomControl: true,
       styles: [
         {
-          elementType: "geometry",
+          featureType: "water",
           stylers: [
             {
-              color: "#1d2c4d",
+              saturation: 43,
+            },
+            {
+              lightness: -11,
+            },
+            {
+              hue: "#0088ff",
             },
           ],
         },
         {
-          elementType: "labels.text.fill",
+          featureType: "road",
+          elementType: "geometry.fill",
           stylers: [
             {
-              color: "#8ec3b9",
+              hue: "#ff0000",
+            },
+            {
+              saturation: -100,
+            },
+            {
+              lightness: 99,
             },
           ],
         },
         {
-          elementType: "labels.text.stroke",
-          stylers: [
-            {
-              color: "#1a3646",
-            },
-          ],
-        },
-        {
-          featureType: "administrative.country",
+          featureType: "road",
           elementType: "geometry.stroke",
           stylers: [
             {
-              color: "#4b6878",
+              color: "#808080",
             },
-          ],
-        },
-        {
-          featureType: "administrative.land_parcel",
-          elementType: "labels.text.fill",
-          stylers: [
             {
-              color: "#64779e",
-            },
-          ],
-        },
-        {
-          featureType: "administrative.province",
-          elementType: "geometry.stroke",
-          stylers: [
-            {
-              color: "#4b6878",
+              lightness: 54,
             },
           ],
         },
         {
           featureType: "landscape.man_made",
-          elementType: "geometry.stroke",
+          elementType: "geometry.fill",
           stylers: [
             {
-              color: "#334e87",
+              color: "#ece2d9",
+            },
+          ],
+        },
+        {
+          featureType: "poi.park",
+          elementType: "geometry.fill",
+          stylers: [
+            {
+              color: "#ccdca1",
+            },
+          ],
+        },
+        {
+          featureType: "road",
+          elementType: "labels.text.fill",
+          stylers: [
+            {
+              color: "#767676",
+            },
+          ],
+        },
+        {
+          featureType: "road",
+          elementType: "labels.text.stroke",
+          stylers: [
+            {
+              color: "#ffffff",
+            },
+          ],
+        },
+        {
+          featureType: "poi",
+          stylers: [
+            {
+              visibility: "off",
             },
           ],
         },
         {
           featureType: "landscape.natural",
-          elementType: "geometry",
+          elementType: "geometry.fill",
           stylers: [
             {
-              color: "#023e58",
+              visibility: "on",
             },
-          ],
-        },
-        {
-          featureType: "poi",
-          elementType: "geometry",
-          stylers: [
             {
-              color: "#283d6a",
-            },
-          ],
-        },
-        {
-          featureType: "poi",
-          elementType: "labels.text.fill",
-          stylers: [
-            {
-              color: "#6f9ba5",
-            },
-          ],
-        },
-        {
-          featureType: "poi",
-          elementType: "labels.text.stroke",
-          stylers: [
-            {
-              color: "#1d2c4d",
+              color: "#b8cb93",
             },
           ],
         },
         {
           featureType: "poi.park",
-          elementType: "geometry.fill",
           stylers: [
             {
-              color: "#023e58",
+              visibility: "on",
             },
           ],
         },
         {
-          featureType: "poi.park",
-          elementType: "labels.text.fill",
+          featureType: "poi.sports_complex",
           stylers: [
             {
-              color: "#3C7680",
+              visibility: "on",
             },
           ],
         },
         {
-          featureType: "road",
-          elementType: "geometry",
+          featureType: "poi.medical",
           stylers: [
             {
-              color: "#304a7d",
+              visibility: "on",
             },
           ],
         },
         {
-          featureType: "road",
-          elementType: "labels.text.fill",
+          featureType: "poi.business",
           stylers: [
             {
-              color: "#98a5be",
-            },
-          ],
-        },
-        {
-          featureType: "road",
-          elementType: "labels.text.stroke",
-          stylers: [
-            {
-              color: "#1d2c4d",
-            },
-          ],
-        },
-        {
-          featureType: "road.highway",
-          elementType: "geometry",
-          stylers: [
-            {
-              color: "#2c6675",
-            },
-          ],
-        },
-        {
-          featureType: "road.highway",
-          elementType: "geometry.fill",
-          stylers: [
-            {
-              color: "#9d2a80",
-            },
-          ],
-        },
-        {
-          featureType: "road.highway",
-          elementType: "geometry.stroke",
-          stylers: [
-            {
-              color: "#9d2a80",
-            },
-          ],
-        },
-        {
-          featureType: "road.highway",
-          elementType: "labels.text.fill",
-          stylers: [
-            {
-              color: "#b0d5ce",
-            },
-          ],
-        },
-        {
-          featureType: "road.highway",
-          elementType: "labels.text.stroke",
-          stylers: [
-            {
-              color: "#023e58",
-            },
-          ],
-        },
-        {
-          featureType: "transit",
-          elementType: "labels.text.fill",
-          stylers: [
-            {
-              color: "#98a5be",
-            },
-          ],
-        },
-        {
-          featureType: "transit",
-          elementType: "labels.text.stroke",
-          stylers: [
-            {
-              color: "#1d2c4d",
-            },
-          ],
-        },
-        {
-          featureType: "transit.line",
-          elementType: "geometry.fill",
-          stylers: [
-            {
-              color: "#283d6a",
-            },
-          ],
-        },
-        {
-          featureType: "transit.station",
-          elementType: "geometry",
-          stylers: [
-            {
-              color: "#3a4762",
-            },
-          ],
-        },
-        {
-          featureType: "water",
-          elementType: "geometry",
-          stylers: [
-            {
-              color: "#0e1626",
-            },
-          ],
-        },
-        {
-          featureType: "water",
-          elementType: "labels.text.fill",
-          stylers: [
-            {
-              color: "#4e6d70",
+              visibility: "simplified",
             },
           ],
         },
@@ -280,12 +172,12 @@ const MapWrapper = () => {
       position: myLatlng,
       map: map,
       animation: google.maps.Animation.DROP,
-      title: "BLK Design System PRO React!",
+      title: "Paper Dashboard React!",
     });
 
     const contentString =
-      '<div class="info-window-content"><h2>BLK Dashboard React</h2>' +
-      "<p>A freebie Admin for ReactStrap, Bootstrap, React, and React Hooks.</p></div>";
+      '<div class="info-window-content"><h2>Paper Dashboard React</h2>' +
+      "<p>A free Admin for React, Reactstrap, and React Hooks.</p></div>";
 
     const infowindow = new google.maps.InfoWindow({
       content: contentString,
@@ -294,8 +186,12 @@ const MapWrapper = () => {
     google.maps.event.addListener(marker, "click", function () {
       infowindow.open(map, marker);
     });
-  }, []);
-  return <div ref={mapRef} />;
+  });
+  return (
+    <>
+      <div style={{ height: `100%` }} ref={mapRef}></div>
+    </>
+  );
 };
 
 function Map() {
@@ -304,7 +200,7 @@ function Map() {
       <div className="content">
         <Row>
           <Col md="12">
-            <Card className="card-plain">
+            <Card>
               <CardHeader>Google Maps</CardHeader>
               <CardBody>
                 <div

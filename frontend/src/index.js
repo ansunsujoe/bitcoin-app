@@ -1,12 +1,13 @@
 /*!
 
 =========================================================
-* Black Dashboard React v1.2.0
+* Paper Dashboard React - v1.3.0
 =========================================================
 
-* Product Page: https://www.creative-tim.com/product/black-dashboard-react
-* Copyright 2020 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/black-dashboard-react/blob/master/LICENSE.md)
+* Product Page: https://www.creative-tim.com/product/paper-dashboard-react
+* Copyright 2021 Creative Tim (https://www.creative-tim.com)
+
+* Licensed under MIT (https://github.com/creativetimofficial/paper-dashboard-react/blob/main/LICENSE.md)
 
 * Coded by Creative Tim
 
@@ -19,28 +20,19 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
-import AdminLayout from "layouts/Admin/Admin.js";
-import RTLLayout from "layouts/RTL/RTL.js";
-
-import "assets/scss/black-dashboard-react.scss";
+import "bootstrap/dist/css/bootstrap.css";
+import "assets/scss/paper-dashboard.scss?v=1.3.0";
 import "assets/demo/demo.css";
-import "assets/css/nucleo-icons.css";
-import "@fortawesome/fontawesome-free/css/all.min.css";
+import "perfect-scrollbar/css/perfect-scrollbar.css";
 
-import ThemeContextWrapper from "./components/ThemeWrapper/ThemeWrapper";
-import BackgroundColorWrapper from "./components/BackgroundColorWrapper/BackgroundColorWrapper";
+import AdminLayout from "layouts/Admin.js";
 
 ReactDOM.render(
-  <ThemeContextWrapper>
-    <BackgroundColorWrapper>
-      <BrowserRouter>
-        <Switch>
-          <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
-          <Route path="/rtl" render={(props) => <RTLLayout {...props} />} />
-          <Redirect from="/" to="/admin/dashboard" />
-        </Switch>
-      </BrowserRouter>
-    </BackgroundColorWrapper>
-  </ThemeContextWrapper>,
+  <BrowserRouter>
+    <Switch>
+      <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
+      <Redirect to="/admin/dashboard" />
+    </Switch>
+  </BrowserRouter>,
   document.getElementById("root")
 );

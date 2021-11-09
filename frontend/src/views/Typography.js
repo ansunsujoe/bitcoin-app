@@ -1,12 +1,13 @@
 /*!
 
 =========================================================
-* Black Dashboard React v1.2.0
+* Paper Dashboard React - v1.3.0
 =========================================================
 
-* Product Page: https://www.creative-tim.com/product/black-dashboard-react
-* Copyright 2020 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/black-dashboard-react/blob/master/LICENSE.md)
+* Product Page: https://www.creative-tim.com/product/paper-dashboard-react
+* Copyright 2021 Creative Tim (https://www.creative-tim.com)
+
+* Licensed under MIT (https://github.com/creativetimofficial/paper-dashboard-react/blob/main/LICENSE.md)
 
 * Coded by Creative Tim
 
@@ -18,7 +19,7 @@
 import React from "react";
 
 // reactstrap components
-import { Card, CardHeader, CardBody, CardTitle, Row, Col } from "reactstrap";
+import { Card, CardHeader, CardBody, Row, Col } from "reactstrap";
 
 function Typography() {
   return (
@@ -27,47 +28,45 @@ function Typography() {
         <Row>
           <Col md="12">
             <Card>
-              <CardHeader className="mb-5">
-                <h5 className="card-category">Black Table Heading</h5>
-                <CardTitle tag="h3">
-                  Created using Poppins Font Family
-                </CardTitle>
+              <CardHeader>
+                <h5 className="title">Paper Table Heading</h5>
+                <p className="category">Created using Montserrat Font Family</p>
               </CardHeader>
               <CardBody>
                 <div className="typography-line">
                   <h1>
                     <span>Header 1</span>
-                    The Life of Black Dashboard React
+                    The Life of Paper Dashboard
                   </h1>
                 </div>
                 <div className="typography-line">
                   <h2>
                     <span>Header 2</span>
-                    The Life of Black Dashboard React
+                    The Life of Paper Dashboard
                   </h2>
                 </div>
                 <div className="typography-line">
                   <h3>
                     <span>Header 3</span>
-                    The Life of Black Dashboard React
+                    The Life of Paper Dashboard
                   </h3>
                 </div>
                 <div className="typography-line">
                   <h4>
                     <span>Header 4</span>
-                    The Life of Black Dashboard React
+                    The Life of Paper Dashboard
                   </h4>
                 </div>
                 <div className="typography-line">
                   <h5>
                     <span>Header 5</span>
-                    The Life of Black Dashboard React
+                    The Life of Paper Dashboard
                   </h5>
                 </div>
                 <div className="typography-line">
                   <h6>
                     <span>Header 6</span>
-                    The Life of Black Dashboard React
+                    The Life of Paper Dashboard
                   </h6>
                 </div>
                 <div className="typography-line">
@@ -141,66 +140,6 @@ function Typography() {
                     Header with small subtitle <br />
                     <small>Use "small" tag for the headers</small>
                   </h2>
-                </div>
-                <div className="typography-line">
-                  <span>Lists</span>
-                  <Row>
-                    <Col md="3">
-                      <h5>Unordered List</h5>
-                      <ul>
-                        <li>List Item</li>
-                        <li>List Item</li>
-                        <li className="list-unstyled">
-                          <ul>
-                            <li>List Item</li>
-                            <li>List Item</li>
-                            <li>List Item</li>
-                          </ul>
-                        </li>
-                        <li>List Item</li>
-                      </ul>
-                    </Col>
-                    <Col md="3">
-                      <h5>Ordered List</h5>
-                      <ol>
-                        <li>List Item</li>
-                        <li>List Item</li>
-                        <li>List item</li>
-                        <li>List Item</li>
-                      </ol>
-                    </Col>
-                    <Col md="3">
-                      <h5>Unstyled List</h5>
-                      <ul className="list-unstyled">
-                        <li>List Item</li>
-                        <li>List Item</li>
-                        <li>List item</li>
-                        <li>List Item</li>
-                      </ul>
-                    </Col>
-                    <Col md="3">
-                      <h5>Inline List</h5>
-                      <ul className="list-inline">
-                        <li className="list-inline-item">List1</li>
-                        <li className="list-inline-item">List2</li>
-                        <li className="list-inline-item">List3</li>
-                      </ul>
-                    </Col>
-                  </Row>
-                </div>
-                <div className="typography-line">
-                  <span>Code</span>
-                  <p>
-                    This is <code>.css-class-as-code</code>, an example of an
-                    inline code element. Wrap inline code within a{" "}
-                    <code>{`<code>...</code>`}</code>
-                    tag.
-                  </p>
-                  <pre>
-                    1. #This is an example of preformatted text.
-                    <br />
-                    2. #Here is another line of code
-                  </pre>
                 </div>
               </CardBody>
             </Card>

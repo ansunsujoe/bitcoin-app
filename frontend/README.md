@@ -1,24 +1,18 @@
-# [Black Dashboard React](https://demos.creative-tim.com/black-dashboard-react/#/dashboard) [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&logo=twitter)](https://twitter.com/intent/tweet?url=https%3A%2F%2Fdemos.creative-tim.com%2Fblack-dashboard-react%2F%23%2Fadmin%2Fdashboard&text=Black%20Dashboard%20React%20by%20Creative%20Tim%20%7C%20Free%20React%20Admin%20Template&original_referer=https%3A%2F%2Fdemos.creative-tim.com%2Fblack-dashboard-react%2F&via=creativetim&hashtags=react%2Ccreativetim%2Cdark%2Cdashboard%2Cbootstrap%2Creactstrap%2Creactjs)
+# [Paper Dashboard React](https://demos.creative-tim.com/paper-dashboard-react/#/dashboard) [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&logo=twitter)](https://twitter.com/intent/tweet?url=https%3A%2F%2Fdemos.creative-tim.com%2Fpaper-dashboard-react%2F%23%2Fdashboard&text=Paper%20Dashboard%20React%20by%20Creative%20Tim%20%7C%20Free%20React%20Admin%20Template&original_referer=https%3A%2F%2Fdemos.creative-tim.com%2Fpaper-dashboard-react%2F&via=creativetim&hashtags=react%2Ccreativetim%2Cpaper%2Cdashboard%2Cbootstrap%2Creactstrap%2Creactjs)
 
 
 
-![version](https://img.shields.io/badge/version-1.2.0-blue.svg) ![license](https://img.shields.io/badge/license-MIT-blue.svg) [![GitHub issues open](https://img.shields.io/github/issues/creativetimofficial/black-dashboard-react.svg?maxAge=2592000)]() [![GitHub issues closed](https://img.shields.io/github/issues-closed-raw/creativetimofficial/black-dashboard-react.svg?maxAge=2592000)]()  [![Chat](https://img.shields.io/badge/chat-on%20discord-7289da.svg)](https://discord.gg/E4aHAQy)
+![version](https://img.shields.io/badge/version-1.3.0-blue.svg) ![license](https://img.shields.io/badge/license-MIT-blue.svg) [![GitHub issues open](https://img.shields.io/github/issues/creativetimofficial/paper-dashboard-react.svg?maxAge=2592000)]() [![GitHub issues closed](https://img.shields.io/github/issues-closed-raw/creativetimofficial/paper-dashboard-react.svg?maxAge=2592000)]()  [![Chat](https://img.shields.io/badge/chat-on%20discord-7289da.svg)](https://discord.gg/E4aHAQy)
 
-![Product Gif](./github-assets/black-dashboard-react.gif)
+![Product Gif](./src/assets/github/paper-dashboard-react.gif)
 
+If you are a react developer or a react website owner that needs to work within a dashboard and want to have a pretty sight while doing so, Paper Dashboard React is for you. Paper Dashboard React is a Bootstrap Admin Panel which combines soft colours with beautiful typography and spacious cards and graphics. It is a powerful tool, but it is light and easy to use. It has enough features to allow you to get the job done, but it is not crowded to the point where you can't find the files for a specific plugin.
 
-Black Dashboard React is a beautiful [Bootstrap 4](http://getbootstrap.com/), [Reacstrap](https://reactstrap.github.io/) and [React](https://reactjs.org/) ([create-react-app](https://github.com/facebook/create-react-app)) Admin Dashboard with a huge number of components built to fit together and look amazing. If you are looking for a tool to manage and visualize data about your business, this dashboard is the thing for you. It combines colors that are easy on the eye, spacious cards, beautiful typography, and graphics.
-Black Dashboard React comes packed with all plugins that you might need inside a project and documentation on how to get started. It is light and easy to use, and also very powerful.
+We like consistency and design that blends into its purpose. Paper Dashboard React is a perfect example of our most thoughtful work. It combines over a dozen components and plugins, while looking like everything fits together. For an easy start or inspiration for you project, we have also create a set of example pages, like the user settings or usage graphics.
 
-Black Dashboard React features over 16 individual components, giving you the freedom of choosing and combining. This means that there are thousands of possible combinations. All components can take variations in color, that you can easily modify using SASS files. You will save a lot of time going from prototyping to full-functional code because all elements are implemented.
-We thought about everything, so this dashboard comes with 2 versions, Dark Mode and Light Mode.
+Paper Dashboard React is built using the same design language as [Paper Dashboard 2](https://www.creative-tim.com/product/paper-dashboard-2).
 
-Special thanks go for the owners of these plugins:
-- [Perfect Scrollbar](http://utatti.github.io/perfect-scrollbar/) for the nice scrollbars for windows.
-- [React Chartjs](http://jerairrest.github.io/react-chartjs-2/) for the wonderful wrapper for charts.
-- [Chartjs](https://www.chartjs.org/) for the wonderful charts.
-
-We are very excited to share this dashboard with you and we look forward to hearing your feedback!
+**Bootstrap 4 Support** Paper Dashboard React is built on top of the much awaited Bootstrap 4 and uses the most used react framework that implements the Bootstrap 4 components on react, reactstrap. This makes starting a new project very simple. It also provides benefits if you are already working on a Bootstrap 4 and/or reactstrap project; you can just import the Paper Dashboard React style over it. Most of the elements have been redesigned; but if you are using an element we have not touched, it will fall back to the Bootstrap default.
 
 **Example Pages** We wanted to fully display the power of this dashboard, so the kit comes packed with examples showing you how to use the components.
 
@@ -39,34 +33,35 @@ We are very excited to share this dashboard with you and we look forward to hear
 
 ## Versions
 
-[<img src="./github-assets/html.png" width="60" height="60" />](https://www.creative-tim.com/product/black-dashboard)
-[<img src="./github-assets/react.svg" width="60" height="60" />](https://www.creative-tim.com/product/black-dashboard-react)[<img src="./github-assets/vuejs.png" width="60" height="60" />](https://www.creative-tim.com/product/vue-black-dashboard)
+[<img src="https://s3.amazonaws.com/creativetim_bucket/github/html.png" width="60" height="60" />](https://www.creative-tim.com/product/paper-dashboard-2)
+[<img src="https://s3.amazonaws.com/creativetim_bucket/github/react.svg" width="60" height="60" />](https://www.creative-tim.com/product/paper-dashboard-react)
 
 
-| HTML | React | Vue |
-| --- | --- | --- |
-| [![Black Dashboard HTML](https://s3.amazonaws.com/creativetim_bucket/products/93/thumb/opt_bd_thumbnail.jpg)](https://www.creative-tim.com/product/black-dashboard) | [![Black Dashboard React](https://s3.amazonaws.com/creativetim_bucket/products/136/thumb/opt_bd_react.jpg)](https://www.creative-tim.com/product/black-dashboard-react) | [![Vue Black Dashboard](https://s3.amazonaws.com/creativetim_bucket/products/99/thumb/opt_bd_vue_thumbnail.jpg)](https://www.creative-tim.com/product/vue-black-dashboard) |
+| HTML | React |
+| --- | --- |
+| [![Paper Dashboard 2 HTML](https://s3.amazonaws.com/creativetim_bucket/products/86/thumb/opt_pd2_thumbnail.jpg)](https://www.creative-tim.com/product/paper-dashboard-2) | [![Paper Dashboard React](https://s3.amazonaws.com/creativetim_bucket/products/98/thumb/opt_pd_react_thumbnail.jpg)](https://www.creative-tim.com/product/paper-dashboard-react) |
 
 ## Demo
 
 | Dashboard | User Profile | Tables | Maps | Notification |
 | --- | --- | --- | --- | --- |
-| [![Start page](./github-assets/dashboard-page.png)](https://demos.creative-tim.com/black-dashboard-react/#/dashboard) | [![User profile page](./github-assets/user-page.png)](https://demos.creative-tim.com/black-dashboard-react/#/user-page) | [![Tables page ](./github-assets/table-page.png)](https://demos.creative-tim.com/black-dashboard-react/#/table-list) | [![Maps Page](./github-assets/maps-page.png)](https://demos.creative-tim.com/black-dashboard-react/#/maps) | [![Notification page](./github-assets/notifications-page.png)](https://demos.creative-tim.com/black-dashboard-react/#/notifications)
+| [![Start page](./src/assets/github/paper-dashboard-react-dashboard-page.png)](https://demos.creative-tim.com/paper-dashboard-react/#/dashboard) | [![User profile page](./src/assets/github/paper-dashboard-react-user-page.png)](https://demos.creative-tim.com/paper-dashboard-react/#/user-page) | [![Tables page ](./src/assets/github/paper-dashboard-react-table-page.png)](https://demos.creative-tim.com/paper-dashboard-react/#/table-list) | [![Maps Page](./src/assets/github/paper-dashboard-react-maps-page.png)](https://demos.creative-tim.com/paper-dashboard-react/#/maps) | [![Notification page](./src/assets/github/paper-dashboard-react-notifications-page.png)](https://demos.creative-tim.com/paper-dashboard-react/#/notifications)
 
-[View More](https://demos.creative-tim.com/black-dashboard-react/#/dashboard).
+[View More](https://demos.creative-tim.com/paper-dashboard-react/#/dashboard).
 
 
 ## Quick start
 
 Quick start options:
 
-- Clone the repo: `git clone https://github.com/creativetimofficial/black-dashboard-react.git`.
-- [Download from Github](https://github.com/creativetimofficial/black-dashboard-react/archive/master.zip).
-- [Download from Creative Tim](https://www.creative-tim.com/product/black-dashboard-react).
+- `npm i paper-dashboard-react`
+- Clone the repo: `git clone https://github.com/creativetimofficial/paper-dashboard-react.git`.
+- [Download from Github](https://github.com/creativetimofficial/paper-dashboard-react/archive/main.zip).
+- [Download from Creative Tim](https://www.creative-tim.com/product/paper-dashboard-react).
 
 
 ## Documentation
-The documentation for the Black Dashboard React is hosted at our [website](https://demos.creative-tim.com/black-dashboard-react/#/documentation/tutorial).
+The documentation for the Paper Dashboard React is hosted at our [website](https://demos.creative-tim.com/paper-dashboard-react/#/documentation/tutorial).
 
 
 ## File Structure
@@ -74,18 +69,16 @@ The documentation for the Black Dashboard React is hosted at our [website](https
 Within the download you'll find the following directories and files:
 
 ```
-black-dashboard-react
-.
-├── package.json
 ├── CHANGELOG.md
 ├── ISSUE_TEMPLATE.md
 ├── LICENSE.md
 ├── README.md
-├── Documentation
+├── docs
 │   └── documentation.html
-├── github-assets
-│   └── react.svg
+├── jsconfig.json
+├── package.json
 ├── public
+│   ├── favicon.ico
 │   ├── index.html
 │   └── manifest.json
 └── src
@@ -93,48 +86,49 @@ black-dashboard-react
     ├── logo-white.svg
     ├── logo.svg
     ├── routes.js
-    ├── assets
-    │   ├── css
-    │   ├── demo
-    │   ├── fonts
-    │   ├── img
-    │   └── scss
-    │       ├── black-dashboard
-    │       │   ├── bootstrap
-    │       │   │   ├── mixins
-    │       │   │   └── utilities
-    │       │   ├── custom
-    │       │   │   ├── cards
-    │       │   │   ├── mixins
-    │       │   │   ├── utilities
-    │       │   │   └── vendor
-    │       └── black-dashboard.scss
     ├── components
     │   ├── FixedPlugin
-    │   │   └── FixedPlugin.js
+    │   │   └── FixedPlugin.jsx
     │   ├── Footer
-    │   │   └── Footer.js
+    │   │   └── Footer.jsx
     │   ├── Navbars
-    │   │   ├── AdminNavbar.js
-    │   │   └── RTLNavbar.js
+    │   │   └── DemoNavbar.jsx
     │   └── Sidebar
-    │       └── Sidebar.js
+    │       └── Sidebar.jsx
     ├── layouts
-    │   ├── Admin
-    │   │   └── Admin.js
-    │   └── RTL
-    │       └── RTL.js
+    │   └── Admin.jsx
     ├── variables
-    │   └── charts.js
-    └── views
-        ├── Dashboard.js
-        ├── Icons.js
-        ├── Map.js
-        ├── Notifications.js
-        ├── Rtl.js
-        ├── TableList.js
-        ├── Typography.js
-        └── UserProfile.js
+    │   ├── charts.jsx
+    │   ├── general.jsx
+    │   └── icons.jsx
+    ├── views
+    │   ├── Dashboard.jsx
+    │   ├── Icons.jsx
+    │   ├── Map.jsx
+    │   ├── Notifications.jsx
+    │   ├── Tables.jsx
+    │   ├── Typography.jsx
+    │   ├── Upgrade.jsx
+    │   └── User.jsx
+    └── assets
+        ├── css
+        │   ├── paper-dashboard.css
+        │   ├── paper-dashboard.css.map
+        │   └── paper-dashboard.min.css
+        ├── demo
+        ├── fonts
+        ├── github
+        ├── img
+        │   └── faces
+        └── scss
+            ├── paper-dashboard
+            │   ├── cards
+            │   ├── mixins
+            │   ├── plugins
+            │   └── react
+            │       ├── custom
+            │       └── react-differences.scss
+            └── paper-dashboard.scss
 ```
 
 ## Browser Support
@@ -145,17 +139,17 @@ At present, we officially aim to support the last two versions of the following 
 
 
 ## Resources
-- Demo: https://demos.creative-tim.com/black-dashboard-react/#/dashboard
-- Download Page: https://www.creative-tim.com/product/black-dashboard-react
-- Documentation: https://demos.creative-tim.com/black-dashboard-react/#/documentation/tutorial
+- Demo: https://demos.creative-tim.com/paper-dashboard-react/#/dashboard
+- Download Page: https://www.creative-tim.com/product/paper-dashboard-react
+- Documentation: https://demos.creative-tim.com/paper-dashboard-react/#/documentation/tutorial
 - License Agreement: https://www.creative-tim.com/license
 - Support: https://www.creative-tim.com/contact-us
-- Issues: [Github Issues Page](https://github.com/creativetimofficial/black-dashboard-react/issues)
+- Issues: [Github Issues Page](https://github.com/creativetimofficial/paper-dashboard-react/issues)
 
 ## Reporting Issues
-We use GitHub Issues as the official bug tracker for the Black Dashboard React. Here are some advices for our users that want to report an issue:
+We use GitHub Issues as the official bug tracker for the Paper Dashboard React. Here are some advices for our users that want to report an issue:
 
-1. Make sure that you are using the latest version of the Black Dashboard React. Check the CHANGELOG from your dashboard on our [website](https://www.creative-tim.com/).
+1. Make sure that you are using the latest version of the Paper Dashboard React. Check the CHANGELOG from your dashboard on our [website](https://www.creative-tim.com/).
 2. Providing us reproducible steps for the issue will shorten the time it takes for it to be fixed.
 3. Some issues may be browser specific, so specifying in what browser you encountered the issue might help.
 
@@ -165,8 +159,8 @@ If you have questions or need help integrating the product please [contact us](h
 
 ## Licensing
 
-- Copyright 2020 Creative Tim (https://www.creative-tim.com)
-- Licensed under MIT (https://github.com/creativetimofficial/black-dashboard-react/blob/master/LICENSE.md)
+- Copyright 2021 Creative Tim (https://www.creative-tim.com)
+- Licensed under MIT (https://github.com/creativetimofficial/paper-dashboard-react/blob/main/LICENSE.md)
 
 ## Useful Links
 
