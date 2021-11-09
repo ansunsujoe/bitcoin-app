@@ -19,6 +19,7 @@ services:
       - "3307:3306"
     volumes:
       - ./database/bitcoin.sql:/bitcoin.sql
+      - ./mysql_data:/var/lib/mysql
     restart: unless-stopped
   
   backend:
