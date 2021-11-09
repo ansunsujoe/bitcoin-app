@@ -1,190 +1,124 @@
-/*eslint-disable*/
-import React, { Component } from "react";
-// nodejs library to set properties for components
-import PropTypes from "prop-types";
-// nodejs library that concatenates classes
-import classnames from "classnames";
+/*!
 
-import imagine1 from "assets/img/sidebar-1.jpg";
-import imagine2 from "assets/img/sidebar-2.jpg";
-import imagine3 from "assets/img/sidebar-3.jpg";
-import imagine4 from "assets/img/sidebar-4.jpg";
+=========================================================
+* Black Dashboard React v1.2.0
+=========================================================
 
-import Button from "components/CustomButtons/Button.js";
+* Product Page: https://www.creative-tim.com/product/black-dashboard-react
+* Copyright 2020 Creative Tim (https://www.creative-tim.com)
+* Licensed under MIT (https://github.com/creativetimofficial/black-dashboard-react/blob/master/LICENSE.md)
 
-export default function FixedPlugin(props) {
-  const [classes, setClasses] = React.useState("dropdown show");
-  const [bg_checked, setBg_checked] = React.useState(true);
-  const [bgImage, setBgImage] = React.useState(props.bgImage);
+* Coded by Creative Tim
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+*/
+import React from "react";
+
+// reactstrap components
+import { Button, Dropdown, DropdownToggle, Badge } from "reactstrap";
+import { ThemeContext, themes } from "contexts/ThemeContext";
+import { backgroundColors } from "contexts/BackgroundColorContext";
+
+function FixedPlugin(props) {
+  const [dropDownIsOpen, setdropDownIsOpen] = React.useState(false);
   const handleClick = () => {
-    props.handleFixedClick();
+    setdropDownIsOpen(!dropDownIsOpen);
   };
   return (
-    <div
-      className={classnames("fixed-plugin", {
-        "rtl-fixed-plugin": props.rtlActive,
-      })}
-    >
-      <div id="fixedPluginClasses" className={props.fixedClasses}>
-        <div onClick={handleClick}>
+    <div className="fixed-plugin">
+      <Dropdown isOpen={dropDownIsOpen} toggle={handleClick}>
+        <DropdownToggle tag="div">
           <i className="fa fa-cog fa-2x" />
-        </div>
-        <ul className="dropdown-menu">
-          <li className="header-title">SIDEBAR FILTERS</li>
+        </DropdownToggle>
+        <ul className="dropdown-menu show">
+          <li className="header-title">SIDEBAR BACKGROUND</li>
           <li className="adjustments-line">
-            <a className="switch-trigger">
-              <div>
-                <span
-                  className={
-                    props.bgColor === "purple"
-                      ? "badge filter badge-purple active"
-                      : "badge filter badge-purple"
-                  }
-                  data-color="purple"
-                  onClick={() => {
-                    props.handleColorClick("purple");
-                  }}
-                />
-                <span
-                  className={
-                    props.bgColor === "blue"
-                      ? "badge filter badge-blue active"
-                      : "badge filter badge-blue"
-                  }
-                  data-color="blue"
-                  onClick={() => {
-                    props.handleColorClick("blue");
-                  }}
-                />
-                <span
-                  className={
-                    props.bgColor === "green"
-                      ? "badge filter badge-green active"
-                      : "badge filter badge-green"
-                  }
-                  data-color="green"
-                  onClick={() => {
-                    props.handleColorClick("green");
-                  }}
-                />
-                <span
-                  className={
-                    props.bgColor === "red"
-                      ? "badge filter badge-red active"
-                      : "badge filter badge-red"
-                  }
-                  data-color="red"
-                  onClick={() => {
-                    props.handleColorClick("red");
-                  }}
-                />
-                <span
-                  className={
-                    props.bgColor === "orange"
-                      ? "badge filter badge-orange active"
-                      : "badge filter badge-orange"
-                  }
-                  data-color="orange"
-                  onClick={() => {
-                    props.handleColorClick("orange");
-                  }}
-                />
-              </div>
-            </a>
-          </li>
-          <li className="header-title">Images</li>
-          <li className={bgImage === imagine1 ? "active" : ""}>
-            <a
-              className="img-holder switch-trigger"
-              onClick={() => {
-                setBgImage(imagine1);
-                props.handleImageClick(imagine1);
-              }}
-            >
-              <img src={imagine1} alt="..." />
-            </a>
-          </li>
-          <li className={bgImage === imagine2 ? "active" : ""}>
-            <a
-              className="img-holder switch-trigger"
-              onClick={() => {
-                setBgImage(imagine2);
-                props.handleImageClick(imagine2);
-              }}
-            >
-              <img src={imagine2} alt="..." />
-            </a>
-          </li>
-          <li className={bgImage === imagine3 ? "active" : ""}>
-            <a
-              className="img-holder switch-trigger"
-              onClick={() => {
-                setBgImage(imagine3);
-                props.handleImageClick(imagine3);
-              }}
-            >
-              <img src={imagine3} alt="..." />
-            </a>
-          </li>
-          <li className={bgImage === imagine4 ? "active" : ""}>
-            <a
-              className="img-holder switch-trigger"
-              onClick={() => {
-                setBgImage(imagine4);
-                props.handleImageClick(imagine4);
-              }}
-            >
-              <img src={imagine4} alt="..." />
-            </a>
-          </li>
-
-          <li className="button-container">
-            <div className="button-container">
-              <Button
+            <div className="badge-colors text-center">
+              <Badge
+                color="primary"
+                className={
+                  props.bgColor === backgroundColors.primary ? "active" : ""
+                }
+                onClick={() => {
+                  props.handleBgClick(backgroundColors.primary);
+                }}
+              />{" "}
+              <Badge
+                color="info"
+                className={
+                  props.bgColor === backgroundColors.blue ? "active" : ""
+                }
+                onClick={() => {
+                  props.handleBgClick(backgroundColors.blue);
+                }}
+              />{" "}
+              <Badge
                 color="success"
-                href="https://www.creative-tim.com/product/material-dashboard-react?ref=mdr-fixed-plugin"
-                target="_blank"
-                fullWidth
-              >
-                Download free!
-              </Button>
+                className={
+                  props.bgColor === backgroundColors.green ? "active" : ""
+                }
+                onClick={() => {
+                  props.handleBgClick(backgroundColors.green);
+                }}
+              />{" "}
             </div>
           </li>
-          <li className="button-container">
-            <div className="button-container">
-              <Button
-                color="warning"
-                href="https://www.creative-tim.com/product/material-dashboard-pro-react?ref=mdr-fixed-plugin"
-                target="_blank"
-                fullWidth
-              >
-                Get PRO version
-              </Button>
-            </div>
+          <li className="adjustments-line text-center color-change">
+            <ThemeContext.Consumer>
+              {({ changeTheme }) => (
+                <>
+                  <span className="color-label">LIGHT MODE</span>{" "}
+                  <Badge
+                    className="light-badge mr-2"
+                    onClick={() => changeTheme(themes.light)}
+                  />{" "}
+                  <Badge
+                    className="dark-badge ml-2"
+                    onClick={() => changeTheme(themes.dark)}
+                  />{" "}
+                  <span className="color-label">DARK MODE</span>{" "}
+                </>
+              )}
+            </ThemeContext.Consumer>
           </li>
           <li className="button-container">
             <Button
-              color="info"
-              fullWidth
-              href="https://demos.creative-tim.com/material-dashboard-react/#/documentation/tutorial?ref=mdr-fixed-plugin"
-              target="_blank"
+              href="https://www.creative-tim.com/product/black-dashboard-react"
+              color="primary"
+              block
+              className="btn-round"
+            >
+              Download Now
+            </Button>
+            <Button
+              color="default"
+              block
+              className="btn-round"
+              outline
+              href="https://demos.creative-tim.com/black-dashboard-react/#/documentation/tutorial"
             >
               Documentation
             </Button>
           </li>
-          <li className="adjustments-line" />
+          <li className="header-title">Want more components?</li>
+          <li className="button-container">
+            <Button
+              href="https://www.creative-tim.com/product/black-dashboard-pro-react"
+              className="btn-round"
+              disabled
+              block
+              color="danger"
+            >
+              Get pro version
+            </Button>
+          </li>
         </ul>
-      </div>
+      </Dropdown>
     </div>
   );
 }
 
-FixedPlugin.propTypes = {
-  bgImage: PropTypes.string,
-  handleFixedClick: PropTypes.func,
-  rtlActive: PropTypes.bool,
-  fixedClasses: PropTypes.string,
-  bgColor: PropTypes.oneOf(["purple", "blue", "green", "orange", "red"]),
-  handleColorClick: PropTypes.func,
-  handleImageClick: PropTypes.func,
-};
+export default FixedPlugin;

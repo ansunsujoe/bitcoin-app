@@ -1,63 +1,51 @@
 {
-  "name": "material-dashboard-react",
-  "version": "1.10.0",
-  "description": "Material Dashboard React. Coded by Creative Tim",
-  "private": false,
-  "main": "dist/index.js",
+  "name": "black-dashboard-react",
+  "version": "1.2.0",
+  "private": true,
+  "homepage": "https://demos.creative-tim.com/black-dashboard-react/#/admin/dashboard",
   "dependencies": {
-    "@material-ui/core": "4.11.4",
-    "@material-ui/icons": "4.11.2",
-    "chartist": "0.10.1",
-    "classnames": "2.3.1",
-    "history": "5.0.0",
-    "perfect-scrollbar": "1.5.1",
+    "@fortawesome/fontawesome-free": "5.15.1",
+    "bootstrap": "4.5.3",
+    "chart.js": "2.9.4",
+    "classnames": "2.2.6",
+    "node-sass": "4.14.1",
+    "node-sass-package-importer": "5.3.2",
+    "perfect-scrollbar": "1.5.0",
     "prop-types": "15.7.2",
-    "react": "17.0.2",
-    "react-chartist": "0.14.4",
-    "react-dom": "17.0.2",
+    "react": "17.0.1",
+    "react-chartjs-2": "2.11.1",
+    "react-dom": "17.0.1",
+    "react-notification-alert": "0.0.13",
     "react-router-dom": "5.2.0",
-    "react-scripts": "4.0.3",
-    "react-swipeable-views": "0.13.9"
+    "react-scripts": "4.0.1",
+    "reactstrap": "8.7.1"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && gulp licenses",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm install && npm start",
-    "lint:check": "eslint . --ext=js,jsx;  exit 0",
-    "lint:fix": "eslint . --ext=js,jsx --fix;  exit 0",
-    "build-package-css": "cp src/assets/css/material-dashboard-react.css dist/material-dashboard-react.css",
-    "build-package": "npm run build-package-css && babel src --out-dir dist"
+    "compile-scss": "node-sass --importer node_modules/node-sass-package-importer/dist/cli.js src/assets/scss/black-dashboard-react.scss src/assets/css/black-dashboard-react.css",
+    "minify-scss": "node-sass --importer node_modules/node-sass-package-importer/dist/cli.js src/assets/scss/black-dashboard-react.scss src/assets/css/black-dashboard-react.min.css --output-style compressed",
+    "map-scss": "node-sass --importer node_modules/node-sass-package-importer/dist/cli.js src/assets/scss/black-dashboard-react.scss src/assets/css/black-dashboard-react.css --source-map true"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/creativetimofficial/material-dashboard-react.git"
+  "eslintConfig": {
+    "extends": "react-app"
   },
-  "keywords": [],
-  "author": "Creative Tim <hello@creative-tim.com> (https://www.creative-tim.com/)",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/creativetimofficial/material-dashboard-react/issues"
-  },
-  "homepage": "https://creativetimofficial.github.io/material-dashboard-react/#/dashboard",
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
   "optionalDependencies": {
-    "@babel/core": "7.14.0",
-    "typescript": "4.2.4"
+    "eslint-plugin-flowtype": "5.2.0",
+    "jquery": "3.5.1",
+    "typescript": "4.1.2"
   },
   "devDependencies": {
-    "eslint-config-prettier": "8.3.0",
-    "eslint-plugin-prettier": "3.4.0",
     "gulp": "4.0.2",
-    "gulp-append-prepend": "1.0.9",
-    "prettier": "2.2.1"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": []
+    "gulp-append-prepend": "1.0.8"
   }
 }

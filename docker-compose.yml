@@ -24,8 +24,6 @@ services:
   backend:
     image: mansoonseason77/btc-backend:master
     pull_policy: always
-    # environment:
-    #   ALPHAVANTAGE_KEY: ${ALPHAVANTAGE_KEY}
     depends_on:
       - database
     ports:
