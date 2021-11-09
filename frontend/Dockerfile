@@ -5,6 +5,6 @@ WORKDIR /usr/src/app
 
 EXPOSE 3000
 COPY frontend .
-RUN npm install --silent
+RUN npm install
 
 CMD ["npm", "start"]
