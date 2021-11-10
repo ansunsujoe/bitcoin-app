@@ -131,6 +131,7 @@ dmypy.json
 # Postgres
 pg_data
 images
+mysql_data/
 
 # Frontend
 frontend/node_modules/*
