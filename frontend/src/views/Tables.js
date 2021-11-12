@@ -37,12 +37,12 @@ function Tables() {
           <Col md="12">
             <Card>
               <CardHeader>
-                <CardTitle tag="h4">Simple Table</CardTitle>
+                <CardTitle tag="h4">Buys</CardTitle>
               </CardHeader>
               <CardBody>
                 <Table responsive>
                   <thead className="text-primary">
-                    <tr>
+                    <tr className="text-success">
                       <th>Name</th>
                       <th>Country</th>
                       <th>City</th>
@@ -98,17 +98,14 @@ function Tables() {
             </Card>
           </Col>
           <Col md="12">
-            <Card className="card-plain">
+            <Card>
               <CardHeader>
-                <CardTitle tag="h4">Table on Plain Background</CardTitle>
-                <p className="card-category">
-                  Here is a subtitle for this table
-                </p>
+                <CardTitle tag="h4">Sells</CardTitle>
               </CardHeader>
               <CardBody>
                 <Table responsive>
                   <thead className="text-primary">
-                    <tr>
+                    <tr className="text-danger">
                       <th>Name</th>
                       <th>Country</th>
                       <th>City</th>

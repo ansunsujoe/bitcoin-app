@@ -41,13 +41,6 @@ var routes = [
     layout: "/admin",
   },
   {
-    path: "/maps",
-    name: "Maps",
-    icon: "nc-icon nc-pin-3",
-    component: Maps,
-    layout: "/admin",
-  },
-  {
     path: "/notifications",
     name: "Notifications",
     icon: "nc-icon nc-bell-55",
@@ -63,8 +56,8 @@ var routes = [
   },
   {
     path: "/tables",
-    name: "Table List",
-    icon: "nc-icon nc-tile-56",
+    name: "Transactions",
+    icon: "nc-icon nc-bank",
     component: TableList,
     layout: "/admin",
   },
