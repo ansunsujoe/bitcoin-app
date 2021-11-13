@@ -68,6 +68,8 @@ function Dashboard(props) {
     <div className="wrapper">
       <Sidebar
         {...props}
+        isTrader={isTrader}
+        isManager={isManager}
         routes={routes}
         bgColor={backgroundColor}
         activeColor={activeColor}
@@ -82,7 +84,7 @@ function Dashboard(props) {
                 key={key}
                 render={() => <prop.component isTrader={isTrader} 
                 handleTraderClick={handleTraderClick}
-                isManager={isTrader} 
+                isManager={isManager} 
                 handleManagerClick={handleManagerClick} />}
               />)
           })}

@@ -93,6 +93,14 @@ function User(props) {
                   inputProps={{ 'aria-label': 'controlled' }}
                 />
                 </FormGroup>
+                <FormGroup>
+                  <label>Manager</label>
+                  <Switch
+                  checked={props.isManager}
+                  onChange={props.handleManagerClick}
+                  inputProps={{ 'aria-label': 'controlled' }}
+                />
+                </FormGroup>
               </CardBody>
             </Card>
           </Col>

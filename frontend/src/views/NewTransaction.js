@@ -49,41 +49,41 @@ function NewTransaction(props) {
                     <Col className="pr-3" md="12">
                       <FormGroup>
                         <label>Full Name</label>
-                        <Input
-                          defaultValue="Jason"
-                          placeholder="Company"
-                          type="text"
-                        />
+                        <Input type="select" name="transactionType" id="transactionType">
+                          <option>1</option>
+                          <option>2</option>
+                          <option>3</option>
+                          <option>4</option>
+                          <option>5</option>
+                        </Input>
                       </FormGroup>
                     </Col>
                   </Row>
                   <Row>
                     <Col className="pr-1" md="4">
                       <FormGroup>
-                        <label>Telephone</label>
-                        <Input
-                          defaultValue="Creative Code Inc."
-                          placeholder="Company"
-                          type="text"
-                        />
+                        <label>Transaction Type</label>
+                        <Input type="select" name="transactionType" id="transactionType">
+                          <option>Buy</option>
+                          <option>Sell</option>
+                        </Input>
                       </FormGroup>
                     </Col>
                     <Col className="px-1" md="4">
                       <FormGroup>
-                        <label>Cell</label>
-                        <Input
-                          defaultValue="Cell"
-                          placeholder="Username"
-                          type="text"
-                        />
+                        <label>Commission Type</label>
+                        <Input type="select" name="transactionType" id="transactionType">
+                          <option>USD</option>
+                          <option>BTC</option>
+                        </Input>
                       </FormGroup>
                     </Col>
                     <Col className="pl-1" md="4">
                       <FormGroup>
                         <label htmlFor="exampleInputEmail1">
-                          Email address
+                          Commission
                         </label>
-                        <Input placeholder="Email" type="email" />
+                        <Input placeholder="Commission" disabled />
                       </FormGroup>
                     </Col>
                   </Row>
@@ -133,7 +133,7 @@ function NewTransaction(props) {
                         color="info"
                         type="submit"
                       >
-                        Update Profile
+                        Submit Transaction
                       </Button>
                     </div>
                   </Row>
