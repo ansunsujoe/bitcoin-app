@@ -1,5 +1,5 @@
 from app import db
 
 class Transaction(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    
+    transaction_id = db.Column(db.Integer, primary_key=True)
+    trader_id = db.Column(db.Integer)

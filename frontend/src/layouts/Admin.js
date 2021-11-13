@@ -80,12 +80,12 @@ function Dashboard(props) {
         </Switch>
         <Footer fluid />
       </div>
-      <FixedPlugin
+      {/* <FixedPlugin
         bgColor={backgroundColor}
         activeColor={activeColor}
         handleActiveClick={handleActiveClick}
         handleBgClick={handleBgClick}
-      />
+      /> */}
     </div>
   );
 }

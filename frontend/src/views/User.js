@@ -43,46 +43,35 @@ function User() {
               <div className="image">
                 <img
                   alt="..."
-                  src={require("assets/img/damir-bosnjak.jpg").default}
+                  src={require("assets/img/bitcoin-background.jpg").default}
                 />
               </div>
               <CardBody>
                 <div className="author">
-                  <a href="#pablo" onClick={(e) => e.preventDefault()}>
+                  <p>
                     <img
                       alt="..."
                       className="avatar border-gray"
-                      src={require("assets/img/mike.jpg").default}
+                      src={require("assets/img/default-avatar.png").default}
                     />
-                    <h5 className="title">Chet Faker</h5>
-                  </a>
-                  <p className="description">@chetfaker</p>
+                    <h5 className="title">Jason Wozniak</h5>
+                  </p>
                 </div>
-                <p className="description text-center">
-                  "I like the way you work it <br />
-                  No diggity <br />I wanna bag it up"
-                </p>
               </CardBody>
               <CardFooter>
                 <hr />
                 <div className="button-container">
                   <Row>
-                    <Col className="ml-auto" lg="3" md="6" xs="6">
+                    <Col className="ml-auto mr-auto" lg="6" md="6" xs="6">
                       <h5>
-                        12 <br />
-                        <small>Files</small>
+                        12 &#8383;<br />
+                        <small>Bitcoin</small>
                       </h5>
                     </Col>
-                    <Col className="ml-auto mr-auto" lg="4" md="6" xs="6">
+                    <Col className="ml-auto mr-auto" lg="6" md="6" xs="6">
                       <h5>
-                        2GB <br />
-                        <small>Used</small>
-                      </h5>
-                    </Col>
-                    <Col className="mr-auto" lg="3">
-                      <h5>
-                        24,6$ <br />
-                        <small>Spent</small>
+                        $20000 <br />
+                        <small>USD</small>
                       </h5>
                     </Col>
                   </Row>
@@ -91,7 +80,7 @@ function User() {
             </Card>
             <Card>
               <CardHeader>
-                <CardTitle tag="h4">Team Members</CardTitle>
+                <CardTitle tag="h4">Permissions</CardTitle>
               </CardHeader>
               <CardBody>
                 <ul className="list-unstyled team-members">
@@ -203,22 +192,33 @@ function User() {
               <CardBody>
                 <Form>
                   <Row>
-                    <Col className="pr-1" md="5">
+                    <Col className="pr-3" md="12">
                       <FormGroup>
-                        <label>Company (disabled)</label>
+                        <label>Full Name</label>
                         <Input
-                          defaultValue="Creative Code Inc."
-                          disabled
+                          defaultValue="Jason"
                           placeholder="Company"
                           type="text"
                         />
                       </FormGroup>
                     </Col>
-                    <Col className="px-1" md="3">
+                  </Row>
+                  <Row>
+                    <Col className="pr-1" md="4">
                       <FormGroup>
-                        <label>Username</label>
+                        <label>Telephone</label>
                         <Input
-                          defaultValue="michael23"
+                          defaultValue="Creative Code Inc."
+                          placeholder="Company"
+                          type="text"
+                        />
+                      </FormGroup>
+                    </Col>
+                    <Col className="px-1" md="4">
+                      <FormGroup>
+                        <label>Cell</label>
+                        <Input
+                          defaultValue="Cell"
                           placeholder="Username"
                           type="text"
                         />
@@ -230,28 +230,6 @@ function User() {
                           Email address
                         </label>
                         <Input placeholder="Email" type="email" />
-                      </FormGroup>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col className="pr-1" md="6">
-                      <FormGroup>
-                        <label>First Name</label>
-                        <Input
-                          defaultValue="Chet"
-                          placeholder="Company"
-                          type="text"
-                        />
-                      </FormGroup>
-                    </Col>
-                    <Col className="pl-1" md="6">
-                      <FormGroup>
-                        <label>Last Name</label>
-                        <Input
-                          defaultValue="Faker"
-                          placeholder="Last Name"
-                          type="text"
-                        />
                       </FormGroup>
                     </Col>
                   </Row>
@@ -280,10 +258,10 @@ function User() {
                     </Col>
                     <Col className="px-1" md="4">
                       <FormGroup>
-                        <label>Country</label>
+                        <label>State</label>
                         <Input
-                          defaultValue="Australia"
-                          placeholder="Country"
+                          defaultValue="Texas"
+                          placeholder="State"
                           type="text"
                         />
                       </FormGroup>
@@ -296,21 +274,9 @@ function User() {
                     </Col>
                   </Row>
                   <Row>
-                    <Col md="12">
-                      <FormGroup>
-                        <label>About Me</label>
-                        <Input
-                          type="textarea"
-                          defaultValue="Oh so, your weak rhyme You doubt I'll bother, reading into it"
-                        />
-                      </FormGroup>
-                    </Col>
-                  </Row>
-                  <Row>
                     <div className="update ml-auto mr-auto">
                       <Button
-                        className="btn-round"
-                        color="primary"
+                        color="info"
                         type="submit"
                       >
                         Update Profile
