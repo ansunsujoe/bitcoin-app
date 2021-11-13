@@ -21,31 +21,19 @@ import Notifications from "views/Notifications.js";
 import Icons from "views/Icons.js";
 import Typography from "views/Typography.js";
 import TableList from "views/Tables.js";
-import Maps from "views/Map.js";
+import NewTransaction from "views/NewTransaction.js"
 import UserPage from "views/User.js";
-import UpgradeToPro from "views/Upgrade.js";
+import Clients from "views/Clients.js"
 
 var routes = [
   {
     path: "/dashboard",
     name: "Dashboard",
-    icon: "nc-icon nc-bank",
+    icon: "nc-icon nc-chart-bar-32",
     component: Dashboard,
     layout: "/admin",
-  },
-  {
-    path: "/icons",
-    name: "Icons",
-    icon: "nc-icon nc-diamond",
-    component: Icons,
-    layout: "/admin",
-  },
-  {
-    path: "/notifications",
-    name: "Notifications",
-    icon: "nc-icon nc-bell-55",
-    component: Notifications,
-    layout: "/admin",
+    traderOnly: false,
+    managerOnly: false
   },
   {
     path: "/user-page",
@@ -53,13 +41,44 @@ var routes = [
     icon: "nc-icon nc-single-02",
     component: UserPage,
     layout: "/admin",
+    traderOnly: false,
+    managerOnly: false
   },
   {
-    path: "/tables",
-    name: "Transactions",
+    path: "/transactions",
+    name: "My Transactions",
     icon: "nc-icon nc-bank",
     component: TableList,
     layout: "/admin",
+    traderOnly: false,
+    managerOnly: false
+  },
+  {
+    path: "/all-transactions",
+    name: "All Transactions",
+    icon: "nc-icon nc-bullet-list-67",
+    component: TableList,
+    layout: "/admin",
+    traderOnly: false,
+    managerOnly: true
+  },
+  {
+    path: "/tables",
+    name: "New Transaction",
+    icon: "nc-icon nc-cart-simple",
+    component: NewTransaction,
+    layout: "/admin",
+    traderOnly: false,
+    managerOnly: false
+  },
+  {
+    path: "/clients",
+    name: "Clients",
+    icon: "nc-icon nc-globe",
+    component: Clients,
+    layout: "/admin",
+    traderOnly: true,
+    managerOnly: false
   },
   {
     path: "/typography",
@@ -67,14 +86,26 @@ var routes = [
     icon: "nc-icon nc-caps-small",
     component: Typography,
     layout: "/admin",
+    traderOnly: false,
+    managerOnly: false
   },
   {
-    pro: true,
-    path: "/upgrade",
-    name: "Upgrade to PRO",
-    icon: "nc-icon nc-spaceship",
-    component: UpgradeToPro,
+    path: "/icons",
+    name: "Icons",
+    icon: "nc-icon nc-diamond",
+    component: Icons,
     layout: "/admin",
+    traderOnly: false,
+    managerOnly: false
+  },
+  {
+    path: "/notifications",
+    name: "Notifications",
+    icon: "nc-icon nc-bell-55",
+    component: Notifications,
+    layout: "/admin",
+    traderOnly: false,
+    managerOnly: false
   },
 ];
 export default routes;

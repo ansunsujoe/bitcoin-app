@@ -45,6 +45,7 @@ function Sidebar(props) {
       }
     };
   });
+
   return (
     <div
       className="sidebar"
@@ -70,7 +71,7 @@ function Sidebar(props) {
       <div className="sidebar-wrapper" ref={sidebar}>
         <Nav>
           {props.routes.map((prop, key) => {
-            return (
+            return ((prop.traderOnly === props.isTrader || prop.traderOnly === false) && (prop.managerOnly === props.isManager || prop.managerOnly === false)) ? (
               <li
                 className={
                   activeRoute(prop.path) + (prop.pro ? " active-pro" : "")
@@ -86,7 +87,7 @@ function Sidebar(props) {
                   <p>{prop.name}</p>
                 </NavLink>
               </li>
-            );
+            ) : null
           })}
         </Nav>
       </div>

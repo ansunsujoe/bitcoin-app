@@ -17,9 +17,11 @@
 
 */
 import React from "react";
+import { transactionData } from "variables/sampleData";
 
 // reactstrap components
 import {
+  Button,
   Card,
   CardHeader,
   CardBody,
@@ -29,7 +31,7 @@ import {
   Col,
 } from "reactstrap";
 
-function Tables() {
+function Tables(props) {
   return (
     <>
       <div className="content">
@@ -37,61 +39,55 @@ function Tables() {
           <Col md="12">
             <Card>
               <CardHeader>
-                <CardTitle tag="h4">Buys</CardTitle>
+                <CardTitle tag="h4">BTC Buys</CardTitle>
               </CardHeader>
               <CardBody>
                 <Table responsive>
                   <thead className="text-primary">
-                    <tr className="text-success">
-                      <th>Name</th>
-                      <th>Country</th>
-                      <th>City</th>
-                      <th className="text-right">Salary</th>
-                    </tr>
+                    {props.isTrader ? (
+                      <tr className="text-success">
+                        <th>Time</th>
+                        <th>Client</th>
+                        <th>Commission</th>
+                        <th>Status</th>
+                        <th className="text-right">Value</th>
+                        <th className="text-right">Complete</th>
+                        <th className="text-right">Cancel</th>
+                      </tr>
+                      ) : (
+                        <tr className="text-success">
+                          <th>Time</th>
+                          <th>Client</th>
+                          <th>Commission</th>
+                          <th>Status</th>
+                          <th className="text-right">Value</th>
+                        </tr>
+                      )
+                    }
+                    
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>Dakota Rice</td>
-                      <td>Niger</td>
-                      <td>Oud-Turnhout</td>
-                      <td className="text-right">$36,738</td>
-                    </tr>
-                    <tr>
-                      <td>Minerva Hooper</td>
-                      <td>Curaçao</td>
-                      <td>Sinaai-Waas</td>
-                      <td className="text-right">$23,789</td>
-                    </tr>
-                    <tr>
-                      <td>Sage Rodriguez</td>
-                      <td>Netherlands</td>
-                      <td>Baileux</td>
-                      <td className="text-right">$56,142</td>
-                    </tr>
-                    <tr>
-                      <td>Philip Chaney</td>
-                      <td>Korea, South</td>
-                      <td>Overland Park</td>
-                      <td className="text-right">$38,735</td>
-                    </tr>
-                    <tr>
-                      <td>Doris Greene</td>
-                      <td>Malawi</td>
-                      <td>Feldkirchen in Kärnten</td>
-                      <td className="text-right">$63,542</td>
-                    </tr>
-                    <tr>
-                      <td>Mason Porter</td>
-                      <td>Chile</td>
-                      <td>Gloucester</td>
-                      <td className="text-right">$78,615</td>
-                    </tr>
-                    <tr>
-                      <td>Jon Porter</td>
-                      <td>Portugal</td>
-                      <td>Gloucester</td>
-                      <td className="text-right">$98,615</td>
-                    </tr>
+                    {transactionData.map((t) => (
+                      props.isTrader ? (
+                      <tr>
+                        <td>{t.time}</td>
+                        <td>{t.client}</td>
+                        <td>{t.commission}</td>
+                        <td>{t.status}</td>
+                        <td className="text-right">{t.value} &#8383;</td>
+                        <td className="text-right"><Button color="success" type="submit" size="sm" disabled={t.status === "Complete"}>Complete</Button></td>
+                        <td className="text-right"><Button color="success" type="submit" size="sm" disabled={t.status === "Complete"}>Cancel</Button></td>
+                      </tr>
+                      ) : (
+                        <tr>
+                          <td>{t.time}</td>
+                          <td>{t.client}</td>
+                          <td>{t.commission}</td>
+                          <td>{t.status}</td>
+                          <td className="text-right">{t.value} &#8383;</td>
+                        </tr>
+                      )
+                    ))}
                   </tbody>
                 </Table>
               </CardBody>
@@ -100,61 +96,54 @@ function Tables() {
           <Col md="12">
             <Card>
               <CardHeader>
-                <CardTitle tag="h4">Sells</CardTitle>
+                <CardTitle tag="h4">BTC Sells</CardTitle>
               </CardHeader>
               <CardBody>
                 <Table responsive>
                   <thead className="text-primary">
-                    <tr className="text-danger">
-                      <th>Name</th>
-                      <th>Country</th>
-                      <th>City</th>
-                      <th className="text-right">Salary</th>
-                    </tr>
+                  {props.isTrader ? (
+                      <tr className="text-danger">
+                        <th>Time</th>
+                        <th>Client</th>
+                        <th>Commission</th>
+                        <th>Status</th>
+                        <th className="text-right">Value</th>
+                        <th className="text-right">Complete</th>
+                        <th className="text-right">Cancel</th>
+                      </tr>
+                      ) : (
+                        <tr className="text-danger">
+                          <th>Time</th>
+                          <th>Client</th>
+                          <th>Commission</th>
+                          <th>Status</th>
+                          <th className="text-right">Value</th>
+                        </tr>
+                      )
+                    }
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>Dakota Rice</td>
-                      <td>Niger</td>
-                      <td>Oud-Turnhout</td>
-                      <td className="text-right">$36,738</td>
-                    </tr>
-                    <tr>
-                      <td>Minerva Hooper</td>
-                      <td>Curaçao</td>
-                      <td>Sinaai-Waas</td>
-                      <td className="text-right">$23,789</td>
-                    </tr>
-                    <tr>
-                      <td>Sage Rodriguez</td>
-                      <td>Netherlands</td>
-                      <td>Baileux</td>
-                      <td className="text-right">$56,142</td>
-                    </tr>
-                    <tr>
-                      <td>Philip Chaney</td>
-                      <td>Korea, South</td>
-                      <td>Overland Park</td>
-                      <td className="text-right">$38,735</td>
-                    </tr>
-                    <tr>
-                      <td>Doris Greene</td>
-                      <td>Malawi</td>
-                      <td>Feldkirchen in Kärnten</td>
-                      <td className="text-right">$63,542</td>
-                    </tr>
-                    <tr>
-                      <td>Mason Porter</td>
-                      <td>Chile</td>
-                      <td>Gloucester</td>
-                      <td className="text-right">$78,615</td>
-                    </tr>
-                    <tr>
-                      <td>Jon Porter</td>
-                      <td>Portugal</td>
-                      <td>Gloucester</td>
-                      <td className="text-right">$98,615</td>
-                    </tr>
+                    {transactionData.map((t) => (
+                      props.isTrader ? (
+                      <tr>
+                        <td>{t.time}</td>
+                        <td>{t.client}</td>
+                        <td>{t.commission}</td>
+                        <td>{t.status}</td>
+                        <td className="text-right">{t.value} &#8383;</td>
+                        <td className="text-right"><Button color="danger" type="submit" size="sm" disabled={t.status === "Complete"}>Complete</Button></td>
+                        <td className="text-right"><Button color="danger" type="submit" size="sm" disabled={t.status === "Complete"}>Cancel</Button></td>
+                      </tr>
+                      ) : (
+                        <tr>
+                          <td>{t.time}</td>
+                          <td>{t.client}</td>
+                          <td>{t.commission}</td>
+                          <td>{t.status}</td>
+                          <td className="text-right">{t.value} &#8383;</td>
+                        </tr>
+                      )
+                    ))}
                   </tbody>
                 </Table>
               </CardBody>

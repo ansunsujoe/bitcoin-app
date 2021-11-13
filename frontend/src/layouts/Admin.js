@@ -24,17 +24,21 @@ import { Route, Switch, useLocation } from "react-router-dom";
 import DemoNavbar from "components/Navbars/DemoNavbar.js";
 import Footer from "components/Footer/Footer.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
-import FixedPlugin from "components/FixedPlugin/FixedPlugin.js";
 
 import routes from "routes.js";
 
 var ps;
 
 function Dashboard(props) {
+  // Different variables
   const [backgroundColor, setBackgroundColor] = React.useState("black");
   const [activeColor, setActiveColor] = React.useState("info");
+  const [isTrader, setIsTrader] = React.useState(false);
+  const [isManager, setIsManager] = React.useState(false);
   const mainPanel = React.useRef();
   const location = useLocation();
+
+  // Use effect
   React.useEffect(() => {
     if (navigator.platform.indexOf("Win") > -1) {
       ps = new PerfectScrollbar(mainPanel.current);
@@ -51,12 +55,15 @@ function Dashboard(props) {
     mainPanel.current.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
   }, [location]);
-  const handleActiveClick = (color) => {
-    setActiveColor(color);
-  };
-  const handleBgClick = (color) => {
-    setBackgroundColor(color);
-  };
+
+  // Event handlers
+  const handleTraderClick = (event) => {
+    setIsTrader(event.target.checked);
+  }
+  const handleManagerClick = (event) => {
+    setIsManager(event.target.checked);
+  }
+
   return (
     <div className="wrapper">
       <Sidebar
@@ -72,10 +79,12 @@ function Dashboard(props) {
             return (
               <Route
                 path={prop.layout + prop.path}
-                component={prop.component}
                 key={key}
-              />
-            );
+                render={() => <prop.component isTrader={isTrader} 
+                handleTraderClick={handleTraderClick}
+                isManager={isTrader} 
+                handleManagerClick={handleManagerClick} />}
+              />)
           })}
         </Switch>
         <Footer fluid />

@@ -33,73 +33,15 @@ import {
   Col,
 } from "reactstrap";
 
-import Switch from '@mui/material/Switch';
-
-function User(props) {
+function NewTransaction(props) {
   return (
     <>
       <div className="content">
         <Row>
-          <Col md="4">
-            <Card className="card-user">
-              <div className="image">
-                <img
-                  alt="..."
-                  src={require("assets/img/bitcoin-background.jpg").default}
-                />
-              </div>
-              <CardBody>
-                <div className="author">
-                  <p>
-                    <img
-                      alt="..."
-                      className="avatar border-gray"
-                      src={require("assets/img/default-avatar.png").default}
-                    />
-                    <h5 className="title">Jason Wozniak</h5>
-                  </p>
-                </div>
-              </CardBody>
-              <CardFooter>
-                <hr />
-                <div className="button-container">
-                  <Row>
-                    <Col className="ml-auto mr-auto" lg="6" md="6" xs="6">
-                      <h5>
-                        12 &#8383;<br />
-                        <small>Bitcoin</small>
-                      </h5>
-                    </Col>
-                    <Col className="ml-auto mr-auto" lg="6" md="6" xs="6">
-                      <h5>
-                        $20000 <br />
-                        <small>USD</small>
-                      </h5>
-                    </Col>
-                  </Row>
-                </div>
-              </CardFooter>
-            </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle tag="h4">Permissions</CardTitle>
-              </CardHeader>
-              <CardBody>
-                <FormGroup>
-                  <label>Trader</label>
-                  <Switch
-                  checked={props.isTrader}
-                  onChange={props.handleTraderClick}
-                  inputProps={{ 'aria-label': 'controlled' }}
-                />
-                </FormGroup>
-              </CardBody>
-            </Card>
-          </Col>
-          <Col md="8">
+          <Col md="12">
             <Card className="card-user">
               <CardHeader>
-                <CardTitle tag="h5">Edit Profile</CardTitle>
+                <CardTitle tag="h5">Transaction Form</CardTitle>
               </CardHeader>
               <CardBody>
                 <Form>
@@ -205,4 +147,4 @@ function User(props) {
   );
 }
 
-export default User;
+export default NewTransaction;

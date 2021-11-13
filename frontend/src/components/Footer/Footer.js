@@ -30,26 +30,20 @@ function Footer(props) {
           <nav className="footer-nav">
             <ul>
               <li>
-                <a href="https://www.creative-tim.com" target="_blank">
-                  Creative Tim
+                <a href="https://github.com/ansunsujoe/bitcoin-app" target="_blank">
+                  Code
                 </a>
               </li>
               <li>
-                <a href="https://blog.creative-tim.com" target="_blank">
-                  Blog
-                </a>
-              </li>
-              <li>
-                <a href="https://www.creative-tim.com/license" target="_blank">
-                  Licenses
+                <a href="https://api.coindesk.com/v1/bpi/currentprice.json" target="_blank">
+                  API
                 </a>
               </li>
             </ul>
           </nav>
           <div className="credits ml-auto">
             <div className="copyright">
-              &copy; {1900 + new Date().getYear()}, made with{" "}
-              <i className="fa fa-heart heart" /> by Creative Tim
+              &copy; {1900 + new Date().getYear()}, Bitcoin Dallas
             </div>
           </div>
         </Row>
