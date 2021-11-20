@@ -24,6 +24,7 @@ import TableList from "views/Tables.js";
 import NewTransaction from "views/NewTransaction.js"
 import UserPage from "views/User.js";
 import Clients from "views/Clients.js"
+import Manager from "./views/Manager";
 
 var routes = [
   {
@@ -57,7 +58,7 @@ var routes = [
     path: "/all-transactions",
     name: "All Transactions",
     icon: "nc-icon nc-bullet-list-67",
-    component: TableList,
+    component: Manager,
     layout: "/admin",
     traderOnly: false,
     managerOnly: true
