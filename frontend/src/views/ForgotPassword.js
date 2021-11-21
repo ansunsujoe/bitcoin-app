@@ -38,10 +38,11 @@ const ForgotPassword = ({ updateView }) => {
               <label>Email</label>
               <Input
                 placeholder="Email"
-                type="text"
+                type="email"
                 name="email"
                 onChange={(e)=>{updateEmail(e.target.value)}}
                 value = {email}
+                required
               />
             </FormGroup>
           </Col>

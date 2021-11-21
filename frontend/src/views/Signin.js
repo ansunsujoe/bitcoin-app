@@ -20,6 +20,11 @@ const Signin = ({ updateView }) => {
     password: ""
   })
 
+  const [errorStates, updateErrors] = useState({
+    username: false,
+    password: false
+  })
+
   const updateForm = (e) => {
     updateSignIn({
       ...signInStates,
@@ -28,8 +33,21 @@ const Signin = ({ updateView }) => {
   }
 
   const submitForm = (e) => {
-    console.log(signInStates)
     e.preventDefault()
+    let errors = {
+      username : false,
+      password : false
+    }
+    if(signInStates.username.length == 0){
+      errors.username = true
+    }
+    if(signInStates.password.length == 0){
+      errors.password = true
+    }
+      updateErrors({
+        ...errors
+      })
+    
   }
 
   return (
@@ -51,6 +69,7 @@ const Signin = ({ updateView }) => {
                 type="text"
                 name="username"
                 onChange={updateForm}
+                className = {(errorStates && errorStates.username)?"is-invalid":""}
               />
             </FormGroup>
           </Col>
@@ -64,6 +83,7 @@ const Signin = ({ updateView }) => {
                 type="password"
                 name="password"
                 onChange={updateForm}
+                className = {(errorStates && errorStates.password)?"is-invalid":""}
               />
             </FormGroup>
           </Col>
