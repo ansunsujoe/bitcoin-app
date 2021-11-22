@@ -51,13 +51,8 @@ function Trader_Approve(props) {
                         <th>Commission</th>
                         <th>Status</th>
                         <th className="text-right">Value</th>
-<<<<<<< HEAD
                         <th className="text-right">APPROVE</th>
                         <th className="text-right">REJECT</th>
-=======
-                        <th className="text-right">Complete</th>
-                        <th className="text-right">Cancel</th>
->>>>>>> 8604d6b (adding route, rename view file)
                       </tr>
                       ) : (
                         <tr className="text-success">
@@ -80,13 +75,8 @@ function Trader_Approve(props) {
                         <td>{t.commission}</td>
                         <td>{t.status}</td>
                         <td className="text-right">{t.value} &#8383;</td>
-<<<<<<< HEAD
                         <td className="text-right"><Button color="success" type="submit" size="sm" disabled={t.status === "Complete"}>APPROVE</Button></td>
                         <td className="text-right"><Button color="danger" type="submit" size="sm" disabled={t.status === "Complete"}>REJECT</Button></td>
-=======
-                        <td className="text-right"><Button color="success" type="submit" size="sm" disabled={t.status === "Complete"}>Complete</Button></td>
-                        <td className="text-right"><Button color="success" type="submit" size="sm" disabled={t.status === "Complete"}>Cancel</Button></td>
->>>>>>> 8604d6b (adding route, rename view file)
                       </tr>
                       ) : (
                         <tr>
@@ -141,7 +131,7 @@ function Trader_Approve(props) {
                         <td>{t.commission}</td>
                         <td>{t.status}</td>
                         <td className="text-right">{t.value} &#8383;</td>
-                        <td className="text-right"><Button color="danger" type="submit" size="sm" disabled={t.status === "Complete"}>Complete</Button></td>
+                        <td className="text-right"><Button color="success" type="submit" size="sm" disabled={t.status === "Complete"}>Complete</Button></td>
                         <td className="text-right"><Button color="danger" type="submit" size="sm" disabled={t.status === "Complete"}>Cancel</Button></td>
                       </tr>
                       ) : (
@@ -165,8 +155,4 @@ function Trader_Approve(props) {
   );
 }
 
-<<<<<<< HEAD
 export default Trader_Approve;
-=======
-export default Trader;
->>>>>>> 8604d6b (adding route, rename view file)
