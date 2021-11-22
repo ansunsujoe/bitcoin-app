@@ -82,6 +82,15 @@ var routes = [
     managerOnly: false
   },
   {
+    path: "/approve-transactions",
+    name: "Approve Transactions",
+    icon: "nc-icon nc-globe",
+    component: Trader_Approve,
+    layout: "/admin",
+    traderOnly: true,
+    managerOnly: false
+  },
+  {
     path: "/typography",
     name: "Typography",
     icon: "nc-icon nc-caps-small",
