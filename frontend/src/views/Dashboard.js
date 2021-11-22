@@ -16,9 +16,9 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 // react plugin used to create charts
-import { Line } from "react-chartjs-2";
+import { Line, Chart } from "react-chartjs-2";
 // reactstrap components
 import {
   Card,
@@ -33,30 +33,40 @@ import {
 import {
   dashboard24HoursPerformanceChart,
 } from "variables/charts.js";
-import axios from 'axios';
 
 
-function Dashboard(props) {
+function Dashboard() {
 
-  axios.get("https://api.coindesk.com/v1/bpi/currentprice.json")
-      .then((response) => {       
-        console.log(response.data.bpi.USD.rate_float);
-      });
-  console.log("here");
-      /*
-  const [prices, getPrices] = useState(() => {
-    axios.get("https://api.coindesk.com/v1/bpi/currentprice.json")
-      .then(res => getPrices(res.data))
-  });
-  const BtoUprice = res.data.bpi.USD.rate_float
-  const displayPrice = parseInt(BtoUprice);
-  console.log(displayPrice);
-  */
+  const [loading, setLoading] = useState(true);
+  const [priceData, setPriceData] = useState(null);
+  const [currency, setCurrency] = useState(null);
+
+  const options = [
+    { value: 'USD', text: 'USD' },
+    { value: 'EUR', text: 'EUR' },
+    { value: 'GBP', text: 'GPB' }
+  ];
+
+  useEffect(() => {
+    async function fetchPrices() {
+      const res = await fetch('https://api.coindesk.com/v1/bpi/currentprice.json')
+      const data = await res.json();
+      setCurrency(data.bpi.USD.code);
+      setPriceData(data.bpi);
+      setLoading(false);
+    }
+    fetchPrices();
+  }, []);
 
   return (
     <>
       <div className="content">
-        <Row>
+      {loading ? (
+        <div>
+        </div>
+      ) : (
+          <>
+            <Row>
           <Col lg="3" md="6" sm="6">
             <Card className="card-stats">
               <CardBody>
@@ -69,7 +79,7 @@ function Dashboard(props) {
                   <Col md="8" xs="7">
                     <div className="numbers">
                       <p className="card-category">BTC price</p>
-                      <CardTitle tag="p">57,254.33</CardTitle>
+                      <CardTitle>{(priceData[currency].rate).substring(0, 9)} </CardTitle>
                       <p />
                     </div>
                   </Col>
@@ -186,6 +196,8 @@ function Dashboard(props) {
             </Card>
           </Col>
         </Row>
+          </>
+        )}
       </div>
     </>
   );
