@@ -1,4 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux"
+import { createUser } from "Reducers/Users/actions";
+import { useHistory } from "react-router-dom";
+
+
 
 import {
     CardHeader,
@@ -14,7 +19,7 @@ import {
 import { CreateDiv } from "../styles/login";
 
 
-const Create = ({ updateView }) => {
+const Create = ({ updateView, createInit, loading, error }) => {
     const [createStates, updateSignIn] = useState({
         username: "",
         password: "",
@@ -27,8 +32,10 @@ const Create = ({ updateView }) => {
         city: "",
         state: "",
         zip: ""
-
     })
+
+    const history = useHistory()
+
 
     const [errorStates, updateErrors] = useState({
         username: false,
@@ -44,6 +51,18 @@ const Create = ({ updateView }) => {
         zip: false
 
     })
+    
+
+    useEffect(()=>{
+        if(!loading && localStorage.getItem("user"))
+        {
+          history.push("/admin")
+        }
+      },[loading])
+    
+    const createUser = async () => {
+        createInit(createStates)
+      }
 
     const updateForm = (e) => {
         updateSignIn({
@@ -53,7 +72,6 @@ const Create = ({ updateView }) => {
     }
 
     const submitForm = (e) => {
-        console.log(createStates)
         e.preventDefault()
         const errors = {
             username: false,
@@ -68,43 +86,70 @@ const Create = ({ updateView }) => {
             state: false,
             zip: false
         }
+        let errorPresent = false
         if(createStates.name.length == 0){
             errors.name = true
+            errorPresent = true
         }
         if(createStates.telephone.length == 0){
             errors.telephone = true
+            errorPresent = true
         }
         if(createStates.cell.length == 0){
             errors.cell = true
+            errorPresent = true
+
         }
         if(createStates.email.length == 0){
             errors.email = true
+            errorPresent = true
+
         }
         if(createStates.address.length == 0){
             errors.address = true
+            errorPresent = true
+
         }
         if(createStates.city.length == 0){
             errors.city = true
+            errorPresent = true
+
         }
         if(createStates.state.length == 0){
             errors.state = true
+            errorPresent = true
+
         }
+        
         if(createStates.zip.length == 0){
             errors.zip = true
+            errorPresent = true
+
         }
         if(createStates.password.length == 0){
             errors.password = true
+            errorPresent = true
+
         }
         if(createStates.confirm.length == 0){
             errors.confirm = true
+            errorPresent = true
+
         }
         if(createStates.password !== createStates.confirm){
             errors.password = true
             errors.confirm = true
+            errorPresent = true
+
         }
-        updateErrors({
-            ...errors
-        })
+        if(errorPresent){
+            updateErrors({
+                ...errors
+            })
+        }
+        else {
+            createUser()
+        }
     }
 
     return (
@@ -268,7 +313,8 @@ const Create = ({ updateView }) => {
                         </Col>
                     </Row>
                     <div className="button-container">
-                        <button type="submit" className="btn btn-lg btn-success text-capitalize">Create Account</button>
+                        <button type="submit" className="btn btn-lg btn-success text-capitalize" disabled = {loading}>Create Account</button>
+                        {error && <div style = {{color : "red"}}>{error}</div>}
                     </div>
                 </CardBody>
             </Form>
@@ -282,4 +328,20 @@ const Create = ({ updateView }) => {
     )
 }
 
-export default Create
+const mapStateToProps = state => {
+    return {
+      loading : state.user.createloading,
+      error : state.user.createError
+    }
+  }
+  
+  const mapDispatchToProps = dispatch => {
+    return {
+      createInit: data => {
+        dispatch(createUser(data));
+      }
+    };
+  };
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(Create)
+

@@ -1,4 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux"
+import { loginUser } from "Reducers/Users/actions";
+import { useHistory } from "react-router-dom";
+
 
 import {
   CardHeader,
@@ -14,7 +18,7 @@ import {
 import { CreateDiv } from "../styles/login";
 
 
-const Signin = ({ updateView }) => {
+const Signin = ({ updateView, error, loginInit, path = "/", loading }) => {
   const [signInStates, updateSignIn] = useState({
     username: "",
     password: ""
@@ -25,11 +29,26 @@ const Signin = ({ updateView }) => {
     password: false
   })
 
+  useEffect(()=>{
+    if(!loading && localStorage.getItem("user"))
+    {
+      if(path.length>1)
+        history.push(path)
+      history.push("/admin")
+    }
+  },[loading])
+
+  const history = useHistory()
+
   const updateForm = (e) => {
     updateSignIn({
       ...signInStates,
       [e.target.name]: e.target.value
     })
+  }
+
+  const loginUser = async () => {
+    loginInit(signInStates)
   }
 
   const submitForm = (e) => {
@@ -38,18 +57,24 @@ const Signin = ({ updateView }) => {
       username : false,
       password : false
     }
+    let errorPresent = false
     if(signInStates.username.length == 0){
       errors.username = true
+      errorPresent = true
     }
     if(signInStates.password.length == 0){
       errors.password = true
+      errorPresent = true
     }
+    if(errorPresent){
       updateErrors({
         ...errors
       })
-    
+    }
+    else {
+      loginUser()
+    }  
   }
-
   return (
     <div>
 
@@ -89,7 +114,8 @@ const Signin = ({ updateView }) => {
           </Col>
         </Row>
         <div className="button-container">
-          <button type="submit" className="btn btn-lg btn-success text-capitalize">Sign in</button>
+          <button type="submit" className="btn btn-lg btn-success text-capitalize" disabled = {loading}>Sign in</button>
+          {error && <div style = {{color : "red"}}>{error}</div>}
         </div>
         </CardBody>
       </Form>
@@ -103,4 +129,19 @@ const Signin = ({ updateView }) => {
   )
 }
 
-export default Signin
+const mapStateToProps = state => {
+  return {
+    loading : state.user.loading,
+    error : state.user.error
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    loginInit: data => {
+      dispatch(loginUser(data));
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Signin)

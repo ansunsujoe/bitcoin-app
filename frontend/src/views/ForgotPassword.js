@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { connect } from "react-redux"
+import { forgetPass } from "Reducers/Users/actions";
+import { useHistory } from "react-router-dom";
 
 import {
   CardHeader,
@@ -14,12 +17,12 @@ import {
 import { CreateDiv } from "../styles/login";
 
 
-const ForgotPassword = ({ updateView }) => {
+const ForgotPassword = ({ updateView , loading, error, success, forgotPassword}) => {
   const [email, updateEmail] = useState("")
 
 
   const submitForm = (e) => {
-    console.log(email)
+    forgotPassword(email)
     e.preventDefault()
   }
 
@@ -48,7 +51,9 @@ const ForgotPassword = ({ updateView }) => {
           </Col>
         </Row>
         <div className="button-container">
-          <button type="submit" className="btn btn-lg btn-success text-capitalize">Send me a reset Link</button>
+          <button type="submit" className="btn btn-lg btn-success text-capitalize" disabled = {loading}>Send me a reset Link</button>
+          {error && <div style = {{color : "red"}}>{error}</div>}
+          {success && <div style = {{color : "green"}}>Link has been sent to your id, retrieve and login</div>}
         </div>
         </CardBody>
       </Form>
@@ -62,4 +67,21 @@ const ForgotPassword = ({ updateView }) => {
   )
 }
 
-export default ForgotPassword
+const mapStateToProps = state => {
+  return {
+    loading : state.user.forgotLoading,
+    error : state.user.forgotError,
+    success : state.user.forgotSuccess
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    forgotPassword: data => {
+      dispatch(forgetPass(data));
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ForgotPassword)
+
