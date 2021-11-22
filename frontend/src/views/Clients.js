@@ -17,6 +17,7 @@
 
 */
 import React from "react";
+import { transactionData } from "variables/sampleData";
 
 // reactstrap components
 import {
@@ -45,25 +46,12 @@ function Clients(props) {
               </CardHeader>
               <CardBody>
                 <ul className="list-unstyled team-members">
+                {transactionData.map((t) => (
+                                        props.isTrader ? (
                   <li>
                     <Row>
-                      <Col md="2" xs="2">
-                        <div className="avatar">
-                          <img
-                            alt="..."
-                            className="img-circle img-no-padding img-responsive"
-                            src={
-                              require("assets/img/faces/ayo-ogunseinde-2.jpg")
-                                .default
-                            }
-                          />
-                        </div>
-                      </Col>
                       <Col md="7" xs="7">
-                        DJ Khaled <br />
-                        <span className="text-muted">
-                          <small>Offline</small>
-                        </span>
+                        {t.client}
                       </Col>
                       <Col className="text-right" md="3" xs="3">
                         <Button
@@ -77,6 +65,7 @@ function Clients(props) {
                       </Col>
                     </Row>
                   </li>
+                                        ) :(<li><p>No Clients</p></li>)))}
                   <li>
                     <Row>
                       <Col md="2" xs="2">
