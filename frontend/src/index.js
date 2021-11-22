@@ -24,15 +24,23 @@ import "bootstrap/dist/css/bootstrap.css";
 import "assets/scss/paper-dashboard.scss?v=1.3.0";
 import "assets/demo/demo.css";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
+import { Provider } from 'react-redux';
+import store from './redux/store';
+import RequireAuth from "requireAuth";
+
 
 import AdminLayout from "layouts/Admin.js";
+import Login from "layouts/Login";
 
 ReactDOM.render(
+  <Provider store = {store}>
   <BrowserRouter>
     <Switch>
-      <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
+      <Route path="/admin" render={(props) => <RequireAuth><AdminLayout {...props} /></RequireAuth>} />
+      <Route path="/login" render={(props) => <Login {...props} path = ""/>} />
       <Redirect to="/admin/dashboard" />
     </Switch>
-  </BrowserRouter>,
+  </BrowserRouter>
+  </Provider>,
   document.getElementById("root")
 );
