@@ -39,7 +39,7 @@ function Trader_Approve(props) {
           <Col md="12">
             <Card>
               <CardHeader>
-                <CardTitle tag="h4">BTC Buys</CardTitle>
+                <CardTitle tag="h4">Approve Transactions</CardTitle>
               </CardHeader>
               <CardBody>
                 <Table responsive>
