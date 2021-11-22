@@ -76,7 +76,7 @@ function Tables(props) {
                         <td>{t.status}</td>
                         <td className="text-right">{t.value} &#8383;</td>
                         <td className="text-right"><Button color="success" type="submit" size="sm" disabled={t.status === "Complete"}>Complete</Button></td>
-                        <td className="text-right"><Button color="success" type="submit" size="sm" disabled={t.status === "Complete"}>Cancel</Button></td>
+                        <td className="text-right"><Button color="danger" type="submit" size="sm" disabled={t.status === "Complete"}>Cancel</Button></td>
                       </tr>
                       ) : (
                         <tr>
@@ -131,7 +131,7 @@ function Tables(props) {
                         <td>{t.commission}</td>
                         <td>{t.status}</td>
                         <td className="text-right">{t.value} &#8383;</td>
-                        <td className="text-right"><Button color="danger" type="submit" size="sm" disabled={t.status === "Complete"}>Complete</Button></td>
+                        <td className="text-right"><Button color="success" type="submit" size="sm" disabled={t.status === "Complete"}>Complete</Button></td>
                         <td className="text-right"><Button color="danger" type="submit" size="sm" disabled={t.status === "Complete"}>Cancel</Button></td>
                       </tr>
                       ) : (
