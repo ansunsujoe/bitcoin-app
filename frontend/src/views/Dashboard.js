@@ -18,7 +18,8 @@
 */
 import { React, useState, useEffect } from "react";
 // react plugin used to create charts
-import { Line, Chart } from "react-chartjs-2";
+import { Line } from "react-chartjs-2";
+import Chart from "react-apexcharts";
 // reactstrap components
 import {
   Card,
@@ -34,12 +35,14 @@ import {
   dashboard24HoursPerformanceChart,
 } from "variables/charts.js";
 
-
 function Dashboard() {
 
   const [loading, setLoading] = useState(true);
   const [priceData, setPriceData] = useState(null);
   const [currency, setCurrency] = useState(null);
+  const [userData, setUserData] = useState(null);
+  const [chartData, setChartData] = useState(null);
+  const [series, setSeries] = useState(null);
 
   const options = [
     { value: 'USD', text: 'USD' },
@@ -53,10 +56,30 @@ function Dashboard() {
       const data = await res.json();
       setCurrency(data.bpi.USD.code);
       setPriceData(data.bpi);
-      setLoading(false);
+      //setLoading(false);
+      getChartData();
     }
     fetchPrices();
   }, []);
+
+  const getChartData = async () => {
+    const res = await fetch(`https://api.coindesk.com/v1/bpi/historical/close.json?`)
+    const data = await res.json();
+    const categories = Object.keys(data.bpi);
+    const series = Object.values(data.bpi);
+    setChartData({
+      xaxis: {
+        categories: categories
+      }
+    })
+    setSeries([
+      {
+        name: "Bitcoin Price",
+        data: series
+      }
+    ])
+    setLoading(false);
+  }
 
   return (
     <>
@@ -78,19 +101,13 @@ function Dashboard() {
                   </Col>
                   <Col md="8" xs="7">
                     <div className="numbers">
-                      <p className="card-category">BTC price</p>
-                      <CardTitle>{(priceData[currency].rate).substring(0, 9)} </CardTitle>
+                      <p className="card-category">BTC to USD</p>
+                      <CardTitle>${(priceData[currency].rate).substring(0, 9)} </CardTitle>
                       <p />
                     </div>
                   </Col>
                 </Row>
               </CardBody>
-              <CardFooter>
-                <hr />
-                <div className="stats">
-                  <i className="fas fa-sync-alt" /> Update Now
-                </div>
-              </CardFooter>
             </Card>
           </Col>
           <Col lg="3" md="6" sm="6">
@@ -105,18 +122,12 @@ function Dashboard() {
                   <Col md="8" xs="7">
                     <div className="numbers">
                       <p className="card-category">BTC Balance</p>
-                      <CardTitle tag="p">$31,345</CardTitle>
+                      <CardTitle tag="p">$31,345.46</CardTitle>
                       <p />
                     </div>
                   </Col>
                 </Row>
               </CardBody>
-              <CardFooter>
-              <hr />
-                <div className="stats">
-                  <i className="fas fa-sync-alt" /> Update Now
-                </div>
-              </CardFooter>
             </Card>
           </Col>
           <Col lg="3" md="6" sm="6">
@@ -137,12 +148,6 @@ function Dashboard() {
                   </Col>
                 </Row>
               </CardBody>
-              <CardFooter>
-              <hr />
-                <div className="stats">
-                  <i className="far fa-calendar" /> Last day
-                </div>
-              </CardFooter>
             </Card>
           </Col>
           <Col lg="3" md="6" sm="6">
@@ -163,12 +168,6 @@ function Dashboard() {
                   </Col>
                 </Row>
               </CardBody>
-              <CardFooter>
-                <hr />
-                <div className="stats">
-                  <i className="fas fa-sync-alt" /> Update now
-                </div>
-              </CardFooter>
             </Card>
           </Col>
         </Row>
@@ -187,12 +186,30 @@ function Dashboard() {
                   height={100}
                 />
               </CardBody>
-              <CardFooter>
-                <hr />
-                <div className="stats">
-                  <i className="fa fa-history" /> Updated 3 minutes ago
-                </div>
-              </CardFooter>
+            </Card>
+          </Col>
+        </Row>
+
+        <Row>
+          <Col md="12">
+            <Card>
+              <CardHeader>
+                <CardTitle tag="h5">BTC Price Over Time</CardTitle>
+                <p className="card-category">Monthly performance</p>
+              </CardHeader>
+              <CardBody>
+
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <Chart
+                options={chartData}
+                series={series}
+                type="line"
+                width="1100"
+                height="300"
+              />
+            </div>
+
+              </CardBody>
             </Card>
           </Col>
         </Row>
