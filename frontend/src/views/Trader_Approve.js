@@ -39,7 +39,7 @@ function Trader_Approve(props) {
           <Col md="12">
             <Card>
               <CardHeader>
-                <CardTitle tag="h4">BTC Buys</CardTitle>
+                <CardTitle tag="h4">Approve Transactions</CardTitle>
               </CardHeader>
               <CardBody>
                 <Table responsive>
@@ -51,8 +51,8 @@ function Trader_Approve(props) {
                         <th>Commission</th>
                         <th>Status</th>
                         <th className="text-right">Value</th>
-                        <th className="text-right">Complete</th>
-                        <th className="text-right">Cancel</th>
+                        <th className="text-right">APPROVE</th>
+                        <th className="text-right">REJECT</th>
                       </tr>
                       ) : (
                         <tr className="text-success">
@@ -75,64 +75,8 @@ function Trader_Approve(props) {
                         <td>{t.commission}</td>
                         <td>{t.status}</td>
                         <td className="text-right">{t.value} &#8383;</td>
-                        <td className="text-right"><Button color="success" type="submit" size="sm" disabled={t.status === "Complete"}>Complete</Button></td>
-                        <td className="text-right"><Button color="success" type="submit" size="sm" disabled={t.status === "Complete"}>Cancel</Button></td>
-                      </tr>
-                      ) : (
-                        <tr>
-                          <td>{t.time}</td>
-                          <td>{t.client}</td>
-                          <td>{t.commission}</td>
-                          <td>{t.status}</td>
-                          <td className="text-right">{t.value} &#8383;</td>
-                        </tr>
-                      )
-                    ))}
-                  </tbody>
-                </Table>
-              </CardBody>
-            </Card>
-          </Col>
-          <Col md="12">
-            <Card>
-              <CardHeader>
-                <CardTitle tag="h4">BTC Sells</CardTitle>
-              </CardHeader>
-              <CardBody>
-                <Table responsive>
-                  <thead className="text-primary">
-                  {props.isTrader ? (
-                      <tr className="text-danger">
-                        <th>Time</th>
-                        <th>Client</th>
-                        <th>Commission</th>
-                        <th>Status</th>
-                        <th className="text-right">Value</th>
-                        <th className="text-right">Complete</th>
-                        <th className="text-right">Cancel</th>
-                      </tr>
-                      ) : (
-                        <tr className="text-danger">
-                          <th>Time</th>
-                          <th>Client</th>
-                          <th>Commission</th>
-                          <th>Status</th>
-                          <th className="text-right">Value</th>
-                        </tr>
-                      )
-                    }
-                  </thead>
-                  <tbody>
-                    {transactionData.map((t) => (
-                      props.isTrader ? (
-                      <tr>
-                        <td>{t.time}</td>
-                        <td>{t.client}</td>
-                        <td>{t.commission}</td>
-                        <td>{t.status}</td>
-                        <td className="text-right">{t.value} &#8383;</td>
-                        <td className="text-right"><Button color="danger" type="submit" size="sm" disabled={t.status === "Complete"}>Complete</Button></td>
-                        <td className="text-right"><Button color="danger" type="submit" size="sm" disabled={t.status === "Complete"}>Cancel</Button></td>
+                        <td className="text-right"><Button color="success" type="submit" size="sm" disabled={t.status === "Complete"}>APPROVE</Button></td>
+                        <td className="text-right"><Button color="danger" type="submit" size="sm" disabled={t.status === "Complete"}>REJECT</Button></td>
                       </tr>
                       ) : (
                         <tr>
