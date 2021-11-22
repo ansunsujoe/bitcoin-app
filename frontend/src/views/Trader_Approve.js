@@ -155,4 +155,4 @@ function Trader_Approve(props) {
   );
 }
 
-export default Trader;
+export default Trader_Approve;
