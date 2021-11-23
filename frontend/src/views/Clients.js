@@ -50,10 +50,10 @@ function Clients(props) {
                       <Col md="7" xs="7">
                         {t.client}
                       </Col>
-                      <Col className="col-ms-7" xs="7">
+                      <Col  md="7" xs="7">
                         Status: 
                         <span className="text-danger">
-                          <small>Busy</small>
+                          <small>{t.status}</small>
                         </span>
                       </Col>
                       <Col className="text-right" md="3" xs="3">

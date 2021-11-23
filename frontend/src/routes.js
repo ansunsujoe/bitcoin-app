@@ -84,7 +84,7 @@ var routes = [
   },
   {
     path: "/approve-transactions",
-    name: "Approve Transactions",
+    name: "Approve Transfers",
     icon: "nc-icon nc-globe",
     component: Trader_Approve,
     layout: "/admin",
