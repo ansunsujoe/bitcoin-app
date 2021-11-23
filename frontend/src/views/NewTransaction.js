@@ -32,6 +32,7 @@ import {
   Row,
   Col,
 } from "reactstrap";
+import Slider from '@mui/material/Slider';
 
 function NewTransaction(props) {
   return (
@@ -41,35 +42,12 @@ function NewTransaction(props) {
           <Col md="12">
             <Card className="card-user">
               <CardHeader>
-                <CardTitle tag="h5">Transaction Form</CardTitle>
+                <CardTitle tag="h5">Buy Transaction Form</CardTitle>
               </CardHeader>
               <CardBody>
                 <Form>
                   <Row>
-                    <Col className="pr-3" md="12">
-                      <FormGroup>
-                        <label>Full Name</label>
-                        <Input type="select" name="transactionType" id="transactionType">
-                          <option>1</option>
-                          <option>2</option>
-                          <option>3</option>
-                          <option>4</option>
-                          <option>5</option>
-                        </Input>
-                      </FormGroup>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col className="pr-1" md="4">
-                      <FormGroup>
-                        <label>Transaction Type</label>
-                        <Input type="select" name="transactionType" id="transactionType">
-                          <option>Buy</option>
-                          <option>Sell</option>
-                        </Input>
-                      </FormGroup>
-                    </Col>
-                    <Col className="px-1" md="4">
+                    <Col className="pr-1" md="6">
                       <FormGroup>
                         <label>Commission Type</label>
                         <Input type="select" name="transactionType" id="transactionType">
@@ -78,7 +56,7 @@ function NewTransaction(props) {
                         </Input>
                       </FormGroup>
                     </Col>
-                    <Col className="pl-1" md="4">
+                    <Col className="pl-1" md="6">
                       <FormGroup>
                         <label htmlFor="exampleInputEmail1">
                           Commission
@@ -89,48 +67,88 @@ function NewTransaction(props) {
                   </Row>
                   <Row>
                     <Col md="12">
-                      <FormGroup>
-                        <label>Address</label>
-                        <Input
-                          defaultValue="Melbourne, Australia"
-                          placeholder="Home Address"
-                          type="text"
-                        />
-                      </FormGroup>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col className="pr-1" md="4">
-                      <FormGroup>
-                        <label>City</label>
-                        <Input
-                          defaultValue="Melbourne"
-                          placeholder="City"
-                          type="text"
-                        />
-                      </FormGroup>
-                    </Col>
-                    <Col className="px-1" md="4">
-                      <FormGroup>
-                        <label>State</label>
-                        <Input
-                          defaultValue="Texas"
-                          placeholder="State"
-                          type="text"
-                        />
-                      </FormGroup>
-                    </Col>
-                    <Col className="pl-1" md="4">
-                      <FormGroup>
-                        <label>Postal Code</label>
-                        <Input placeholder="ZIP Code" type="number" />
+                      <FormGroup className="mt-4 ml-3 mr-1">
+                        
+                          <Slider
+                            disabled={false}
+                            defaultValue={0}
+                            aria-labelledby="discrete-slider-always"
+                            step={1}
+                            marks
+                            min={0}
+                            max={30}
+                            valueLabelDisplay="on"
+                            color="success"
+                            // onChange={handleBuyChange}
+                          />
                       </FormGroup>
                     </Col>
                   </Row>
                   <Row>
                     <div className="update ml-auto mr-auto">
                       <Button
-                        color="info"
+                        color="success"
+                        type="submit"
+                      >
+                        Submit Transaction
+                      </Button>
+                    </div>
+                  </Row>
+                </Form>
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
+        <Row>
+          <Col md="12">
+            <Card className="card-user">
+              <CardHeader>
+                <CardTitle tag="h5">Sell Transaction Form</CardTitle>
+              </CardHeader>
+              <CardBody>
+                <Form>
+                  <Row>
+                    <Col className="pr-1" md="6">
+                      <FormGroup>
+                        <label>Commission Type</label>
+                        <Input type="select" name="transactionType" id="transactionType">
+                          <option>USD</option>
+                          <option>BTC</option>
+                        </Input>
+                      </FormGroup>
+                    </Col>
+                    <Col className="pl-1" md="6">
+                      <FormGroup>
+                        <label htmlFor="exampleInputEmail1">
+                          Commission
+                        </label>
+                        <Input placeholder="Commission" disabled />
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col md="12">
+                      <FormGroup className="mt-4 ml-3 mr-1">
+ 
+                        <Slider
+                          disabled={false}
+                          defaultValue={0}
+                          aria-labelledby="discrete-slider-always"
+                          step={1}
+                          marks
+                          min={0}
+                          max={30}
+                          valueLabelDisplay="on"
+                          color="error"
+                          // onChange={handleBuyChange}
+                        />
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <div className="update ml-auto mr-auto">
+                      <Button
+                        color="danger"
                         type="submit"
                       >
                         Submit Transaction
