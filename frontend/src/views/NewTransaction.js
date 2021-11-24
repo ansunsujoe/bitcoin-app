@@ -33,8 +33,9 @@ import {
   Col,
 } from "reactstrap";
 import Slider from '@mui/material/Slider';
-import { getCurrentBTC, getCommission } from '../utilities/transaction';
+import { getCommission } from '../utilities/transaction';
 import axios from 'axios';
+import { hasOnlyExpressionInitializer } from "typescript";
 
 function NewTransaction(props) {
   const [buyTrader, setBuyTrader] = useState("trader-1");
@@ -43,21 +44,92 @@ function NewTransaction(props) {
   const [sellCommissionType, setSellCommissionType] = useState("USD");
   const [buyCommission, setBuyCommission] = useState("0");
   const [sellCommission, setSellCommission] = useState("0");
+  const [buyCost, setBuyCost] = useState(0.0);
+  const [sellCost, setSellCost] = useState(0.0);
+  const [buyDisabled, setBuyDisabled] = useState(true);
+  const [sellDisabled, setSellDisabled] = useState(true);
   const [buyAmount, setBuyAmount] = useState(0);
   const [sellAmount, setSellAmount] = useState(0);
+  const [btcRate, setBtcRate] = useState(0.0)
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      axios.get('https://api.coindesk.com/v1/bpi/currentprice.json')
+  // Get current Bitcoin price
+  const getCurrentBTC = () => {
+    axios.get('https://api.coindesk.com/v1/bpi/currentprice.json')
       .then(response => {
-        console.log("SUCCESS", response);
-        setBuyCommission(response.data)
+        setBtcRate(response.data.bpi.USD.rate_float)
       }).catch(error => {
         console.log(error);
       })
-    }, 5000);
+  }
+
+  // Get current bitcoin price immediately
+  useEffect(() => {
+    getCurrentBTC();
+  }, []);
+
+  // Get current bitcoin price every 10 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      getCurrentBTC();
+    }, 10000);
     return () => clearInterval(interval);
   }, []);
+
+  // Change other variables when BTC rate changes
+  useEffect(() => {
+    setBuyCommission(getCommission(btcRate, buyAmount, buyCommissionType, "silver"));
+    setSellCommission(getCommission(btcRate, sellAmount, sellCommissionType, "silver"));
+    setBuyCost(buyAmount > 0 ? btcRate * buyAmount + buyCommission : 0.00);
+    setSellCost(sellAmount > 0 ? btcRate * sellAmount - sellCommission : 0.00);
+  }, [btcRate, buyAmount, sellAmount]);
+
+  // Handler functions for buy slider
+  const handleBuyChange = (e, val) => {
+    setBuyAmount(val);
+    if (val === 0) {
+      setBuyDisabled(true);
+    }
+    else {
+      setBuyDisabled(false);
+    }
+  }
+
+  // Handler functions for sell slider
+  const handleSellChange = (e, val) => {
+    setSellAmount(val);
+    if (val === 0) {
+      setSellDisabled(true);
+    }
+    else {
+      setSellDisabled(false);
+    }
+  }
+
+  // Handler function for submitting buy
+  const handleBuySubmit = (e) => {
+    // const data = {
+    //   tickerId: id,
+    //   currentPrice: price,
+    //   currentShares: shares,
+    //   shareChange: currentBuy,
+    //   action: "buy"
+    // };
+    // axios.post('http://localhost:5000/users/1/transactions/buys', data, {
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   }
+    // }).then(response => {
+    //   console.log("SUCCESS", response);
+    // }).catch(error => {
+    //   console.log(error);
+    // })
+    console.log("Good")
+  }
+
+  // Handler function for submitting sell
+  const handleSellSubmit = (e) => {
+    console.log("Good");
+  }
 
   return (
     <>
@@ -69,9 +141,9 @@ function NewTransaction(props) {
                 <CardTitle tag="h5">Buy Transaction Form</CardTitle>
               </CardHeader>
               <CardBody>
-                <Form>
+                <Form onSubmit={handleBuySubmit}>
                   <Row>
-                    <Col className="pr-1" md="4">
+                    <Col className="pr-1" md="3">
                       <FormGroup>
                         <label>Commission Type</label>
                         <Input type="select" name="commissionType" id="commissionType"
@@ -81,15 +153,7 @@ function NewTransaction(props) {
                         </Input>
                       </FormGroup>
                     </Col>
-                    <Col className="px-1" md="4">
-                      <FormGroup>
-                        <label htmlFor="exampleInputEmail1">
-                          Commission
-                        </label>
-                        <Input placeholder={buyCommission} disabled />
-                      </FormGroup>
-                    </Col>
-                    <Col className="pl-1" md="4">
+                    <Col className="px-1" md="3">
                       <FormGroup>
                         <label>Assign Trader</label>
                         <Input type="select" name="transactionType" id="transactionType"
@@ -101,6 +165,22 @@ function NewTransaction(props) {
                         </Input>
                       </FormGroup>
                     </Col>
+                    <Col className="px-1" md="3">
+                      <FormGroup>
+                        <label htmlFor="exampleInputEmail1">
+                          Commission
+                        </label>
+                        <Input placeholder={buyCommission} disabled />
+                      </FormGroup>
+                    </Col>
+                    <Col className="pl-1" md="3">
+                      <FormGroup>
+                        <label htmlFor="exampleInputEmail1">
+                          Current Cost
+                        </label>
+                        <Input placeholder={buyCost} disabled />
+                      </FormGroup>
+                    </Col> 
                   </Row>
                   <Row>
                     <Col md="12">
@@ -116,7 +196,7 @@ function NewTransaction(props) {
                             max={30}
                             valueLabelDisplay="on"
                             color="success"
-                            // onChange={handleBuyChange}
+                            onChange={handleBuyChange}
                           />
                       </FormGroup>
                     </Col>
@@ -126,6 +206,7 @@ function NewTransaction(props) {
                       <Button
                         color="success"
                         type="submit"
+                        disabled={buyDisabled}
                       >
                         Buy Bitcoin
                       </Button>
@@ -145,7 +226,7 @@ function NewTransaction(props) {
               <CardBody>
                 <Form>
                   <Row>
-                    <Col className="pr-1" md="4">
+                    <Col className="pr-1" md="3">
                       <FormGroup>
                         <label>Commission Type</label>
                         <Input type="select" name="commissionType" id="commissionType"
@@ -155,15 +236,7 @@ function NewTransaction(props) {
                         </Input>
                       </FormGroup>
                     </Col>
-                    <Col className="px-1" md="4">
-                      <FormGroup>
-                        <label htmlFor="exampleInputEmail1">
-                          Commission
-                        </label>
-                        <Input placeholder={sellCommission} disabled />
-                      </FormGroup>
-                    </Col>
-                    <Col className="pl-1" md="4">
+                    <Col className="px-1" md="3">
                       <FormGroup>
                         <label>Assign Trader</label>
                         <Input type="select" name="transactionType" id="transactionType" 
@@ -174,6 +247,22 @@ function NewTransaction(props) {
                         </Input>
                       </FormGroup>
                     </Col>
+                    <Col className="px-1" md="3">
+                      <FormGroup>
+                        <label htmlFor="exampleInputEmail1">
+                          Commission
+                        </label>
+                        <Input placeholder={sellCommission} disabled />
+                      </FormGroup>
+                    </Col>
+                    <Col className="pl-1" md="3">
+                      <FormGroup>
+                        <label htmlFor="exampleInputEmail1">
+                          Current Cost
+                        </label>
+                        <Input placeholder={sellCost} disabled />
+                      </FormGroup>
+                    </Col> 
                   </Row>
                   <Row>
                     <Col md="12">
@@ -189,7 +278,7 @@ function NewTransaction(props) {
                           max={30}
                           valueLabelDisplay="on"
                           color="error"
-                          // onChange={handleBuyChange}
+                          onChange={handleSellChange}
                         />
                       </FormGroup>
                     </Col>
@@ -199,6 +288,7 @@ function NewTransaction(props) {
                       <Button
                         color="danger"
                         type="submit"
+                        disabled={sellDisabled}
                       >
                         Sell Bitcoin
                       </Button>

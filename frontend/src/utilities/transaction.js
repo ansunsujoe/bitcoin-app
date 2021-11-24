@@ -1,20 +1,15 @@
-import axios from 'axios';
-
 const commissionRates = {
-    "silver": "0.03",
-    "gold": "0.01"
+  "silver": 0.03,
+  "gold": 0.01
 }
 
-export function getCurrentBTC() {
-    axios.get('https://api.coindesk.com/v1/bpi/currentprice.json')
-    .then(response => {
-      console.log("SUCCESS", response);
-      return response.data
-    }).catch(error => {
-      console.log(error);
-    })
+export function roundDecimal(number, x) {
+  return Math.round(number * Math.pow(10, x)) / Math.pow(10, x)
 }
 
-export function getCommission() {
-    return commissionRates["gold"];
+export function getCommission(btcRate, amount, commissionType, tier) {
+  if (commissionType === "USD") {
+    return roundDecimal(btcRate * amount * commissionRates[tier], 2);
+  }
+  return roundDecimal(amount * commissionRates[tier], 2);
 }
