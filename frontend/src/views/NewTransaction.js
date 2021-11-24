@@ -16,7 +16,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 // reactstrap components
 import {
@@ -33,8 +33,32 @@ import {
   Col,
 } from "reactstrap";
 import Slider from '@mui/material/Slider';
+import { getCurrentBTC, getCommission } from '../utilities/transaction';
+import axios from 'axios';
 
 function NewTransaction(props) {
+  const [buyTrader, setBuyTrader] = useState("trader-1");
+  const [sellTrader, setSellTrader] = useState("trader-2");
+  const [buyCommissionType, setBuyCommissionType] = useState("USD");
+  const [sellCommissionType, setSellCommissionType] = useState("USD");
+  const [buyCommission, setBuyCommission] = useState("0");
+  const [sellCommission, setSellCommission] = useState("0");
+  const [buyAmount, setBuyAmount] = useState(0);
+  const [sellAmount, setSellAmount] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      axios.get('https://api.coindesk.com/v1/bpi/currentprice.json')
+      .then(response => {
+        console.log("SUCCESS", response);
+        setBuyCommission(response.data)
+      }).catch(error => {
+        console.log(error);
+      })
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <>
       <div className="content">
@@ -47,21 +71,34 @@ function NewTransaction(props) {
               <CardBody>
                 <Form>
                   <Row>
-                    <Col className="pr-1" md="6">
+                    <Col className="pr-1" md="4">
                       <FormGroup>
                         <label>Commission Type</label>
-                        <Input type="select" name="transactionType" id="transactionType">
+                        <Input type="select" name="commissionType" id="commissionType"
+                        value={buyCommissionType} onChange={e => setBuyCommissionType(e.currentTarget.value)}>
                           <option>USD</option>
                           <option>BTC</option>
                         </Input>
                       </FormGroup>
                     </Col>
-                    <Col className="pl-1" md="6">
+                    <Col className="px-1" md="4">
                       <FormGroup>
                         <label htmlFor="exampleInputEmail1">
                           Commission
                         </label>
-                        <Input placeholder="Commission" disabled />
+                        <Input placeholder={buyCommission} disabled />
+                      </FormGroup>
+                    </Col>
+                    <Col className="pl-1" md="4">
+                      <FormGroup>
+                        <label>Assign Trader</label>
+                        <Input type="select" name="transactionType" id="transactionType"
+                        value={buyTrader} onChange={e => setBuyTrader(e.currentTarget.value)}>
+                          <option key="trader-1" value="trader-1">Rick Carney</option>
+                          <option key="trader-2" value="trader-2">Bill Keane</option>
+                          <option key="trader-3" value="trader-3">Stuart Foley</option>
+                          <option key="trader-4" value="trader-4">Manohar Gaspar</option>
+                        </Input>
                       </FormGroup>
                     </Col>
                   </Row>
@@ -90,7 +127,7 @@ function NewTransaction(props) {
                         color="success"
                         type="submit"
                       >
-                        Submit Transaction
+                        Buy Bitcoin
                       </Button>
                     </div>
                   </Row>
@@ -108,21 +145,33 @@ function NewTransaction(props) {
               <CardBody>
                 <Form>
                   <Row>
-                    <Col className="pr-1" md="6">
+                    <Col className="pr-1" md="4">
                       <FormGroup>
                         <label>Commission Type</label>
-                        <Input type="select" name="transactionType" id="transactionType">
+                        <Input type="select" name="commissionType" id="commissionType"
+                        value={sellCommissionType} onChange={e => setSellCommissionType(e.currentTarget.value)}>
                           <option>USD</option>
                           <option>BTC</option>
                         </Input>
                       </FormGroup>
                     </Col>
-                    <Col className="pl-1" md="6">
+                    <Col className="px-1" md="4">
                       <FormGroup>
                         <label htmlFor="exampleInputEmail1">
                           Commission
                         </label>
-                        <Input placeholder="Commission" disabled />
+                        <Input placeholder={sellCommission} disabled />
+                      </FormGroup>
+                    </Col>
+                    <Col className="pl-1" md="4">
+                      <FormGroup>
+                        <label>Assign Trader</label>
+                        <Input type="select" name="transactionType" id="transactionType" 
+                        value={sellTrader} onChange={e => setSellTrader(e.currentTarget.value)}>
+                          <option key="trader-1" value="trader-1">Rick Carney</option>
+                          <option key="trader-2" value="trader-2">Bill Keane</option>
+                          <option key="trader-3" value="trader-3">Stuart Foley</option>
+                        </Input>
                       </FormGroup>
                     </Col>
                   </Row>
@@ -151,7 +200,7 @@ function NewTransaction(props) {
                         color="danger"
                         type="submit"
                       >
-                        Submit Transaction
+                        Sell Bitcoin
                       </Button>
                     </div>
                   </Row>

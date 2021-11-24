@@ -31,6 +31,7 @@ class Client(db.Model):
     fiat_balance = db.Column(db.Float)
     btc_balance = db.Column(db.Float)
     user_classification = db.Column(db.String)
+    last_classification_update = db.Column(db.DateTime)
 
 class Processed(db.Model):
     order_id = db.Column(UUIDType(binary=False), primary_key=True, default=uuid.uuid4)
@@ -38,5 +39,5 @@ class Processed(db.Model):
     transaction_id = db.Column(UUIDType(binary=False), db.ForeignKey(Transaction.transaction_id))
     commission_paid = db.Column(db.Float)
     
-class Issues_On_Behalf(db.Model):
+class Issues(db.Model):
     pass

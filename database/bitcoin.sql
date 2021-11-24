@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS Transaction (
 	Commission_type VARCHAR(3),
 	Client_id NOT NULL,
 	Status VARCHAR(10),
-    Date DATE,
+    Date DATETIME,
     Currency_type VARCHAR(10),
 	Amount DOUBLE(32, 10),
 	PRIMARY KEY (Transaction_id),
@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS Client (
     Fiat_balance DOUBLE(32, 2) NOT NULL,
     BTC_balance DOUBLE(32, 10) NOT NULL,
     User_classification VARCHAR(10) NOT NULL,
+    Last_classification_update DATETIME NOT NULL,
     PRIMARY KEY (User_ID),
     FOREIGN KEY (User_ID) REFERENCES User(User_ID)
 );
@@ -52,10 +53,10 @@ CREATE TABLE IF NOT EXISTS Processed (
 );
 
 -- Issues table
-CREATE TABLE IF NOT EXISTS Issues_On_Behalf (
-    Transaction_id INT,
-	Trader_id INT,
-	Client_id INT,
+CREATE TABLE IF NOT EXISTS IssuesTransaction (
+    Transaction_id VARCHAR(50) NOT NULL,
+	Trader_id VARCHAR(50) NOT NULL,
+	Client_id VARCHAR(50) NOT NULL,
 	PRIMARY KEY(Transaction_id)
 	Foreign key (Client_id, Trader_id) REFERENCES User
 );
