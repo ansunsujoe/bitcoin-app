@@ -15,7 +15,10 @@ def get_transactions():
 # Transactions for user
 @app.route("/users/<user_id>/transactions", methods=["GET", "POST"])
 def user_transaction(user_id):
-    pass
+    if request.method == "GET":
+        pass
+    elif request.method == "POST":
+        pass
 
 # Buy transactions for user
 @app.route("/users/<user_id>/transactions/buys", methods=["GET"])
