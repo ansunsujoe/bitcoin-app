@@ -1,7 +1,9 @@
 from app import db
+from sqlalchemy_utils import UUIDType
+import uuid
 
 class User(db.Model):
-    user_id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(UUIDType(binary=False), primary_key=True, default=uuid.uuid4)
     name = db.Column(db.String)
     phone_number = db.Column(db.String)
     cell = db.Column(db.String)
@@ -15,9 +17,9 @@ class User(db.Model):
     is_manager = db.Column(db.Boolean)
 
 class Transaction(db.Model):
-    transaction_id = db.Column(db.Integer, primary_key=True)
-    trader_id = db.Column(db.Integer, db.ForeignKey(User.user_id))
-    client_id = db.Column(db.Integer, db.ForeignKey(User.user_id))
+    transaction_id = db.Column(UUIDType(binary=False), primary_key=True, default=uuid.uuid4)
+    trader_id = db.Column(UUIDType(binary=False), db.ForeignKey(User.user_id))
+    client_id = db.Column(UUIDType(binary=False), db.ForeignKey(User.user_id))
     commission_type = db.Column(db.String)
     status = db.Column(db.String)
     date = db.Column(db.DateTime)
@@ -25,15 +27,15 @@ class Transaction(db.Model):
     amount = db.Column(db.Float)
 
 class Client(db.Model):
-    user_id = db.Column(db.Integer, db.ForeignKey(User.user_id), primary_key=True)
+    user_id = db.Column(UUIDType(binary=False), db.ForeignKey(User.user_id), primary_key=True)
     fiat_balance = db.Column(db.Float)
     btc_balance = db.Column(db.Float)
     user_classification = db.Column(db.String)
 
 class Processed(db.Model):
-    order_id = db.Column(db.Integer, primary_key=True)
-    trader_id = db.Column(db.Integer, db.ForeignKey(User.user_id))
-    transaction_id = db.Column(db.Integer, db.ForeignKey(Transaction.transaction_id))
+    order_id = db.Column(UUIDType(binary=False), primary_key=True, default=uuid.uuid4)
+    trader_id = db.Column(UUIDType(binary=False), db.ForeignKey(User.user_id))
+    transaction_id = db.Column(UUIDType(binary=False), db.ForeignKey(Transaction.transaction_id))
     commission_paid = db.Column(db.Float)
     
 class Issues_On_Behalf(db.Model):

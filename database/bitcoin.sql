@@ -1,6 +1,6 @@
 -- User Table
 CREATE TABLE IF NOT EXISTS User (
-    User_ID INT NOT NULL,
+    User_ID VARCHAR(50) NOT NULL,
     Name VARCHAR(50) NOT NULL,
     Phone_number VARCHAR(15) NOT NULL,
     Cell VARCHAR(15) NOT NULL,
@@ -17,8 +17,8 @@ CREATE TABLE IF NOT EXISTS User (
 
 -- Transaction Table
 CREATE TABLE IF NOT EXISTS Transaction (
-	Transaction_id int NOT NULL,
-    Trader_id int NOT NULL,
+	Transaction_id VARCHAR(50) NOT NULL,
+    Trader_id VARCHAR(50) NOT NULL,
 	Commission_type VARCHAR(3),
 	Client_id NOT NULL,
 	Status VARCHAR(10),
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS Transaction (
 
 -- Client table
 CREATE TABLE IF NOT EXISTS Client (
-    User_ID INT NOT NULL,
+    User_ID VARCHAR(50) NOT NULL,
     Fiat_balance DOUBLE(32, 2) NOT NULL,
     BTC_balance DOUBLE(32, 10) NOT NULL,
     User_classification VARCHAR(10) NOT NULL,
@@ -42,10 +42,10 @@ CREATE TABLE IF NOT EXISTS Client (
 
 -- Processed table
 CREATE TABLE IF NOT EXISTS Processed (
-	Trader_id INT,
-    Transaction_id INT,
-	Order_id INT,
-	Commission_paid DOUBLE(32, 10),
+	Trader_id VARCHAR(50) NOT NULL,
+    Transaction_id VARCHAR(50) NOT NULL,
+	Order_id VARCHAR(50) NOT NULL,
+	Commission_paid DOUBLE(32, 10) NOT NULL,
     PRIMARY KEY (Order_id),
     FOREIGN KEY (Trader_id) REFERENCES User(User_ID),
     FOREIGN KEY (Transaction_id) REFERENCES Transaction(Transaction_id)

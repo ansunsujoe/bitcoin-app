@@ -1,6 +1,7 @@
 from app import app, db
 from flask import request, session
 from app.models import Transaction
+import uuid
 
 # Root endpoint
 @app.route("/")
@@ -18,7 +19,17 @@ def user_transaction(user_id):
     if request.method == "GET":
         pass
     elif request.method == "POST":
-        pass
+        # Read from form
+        response = request.form
+        
+        # # Create transaction object
+        # new_transaction = Transaction(
+        #     transaction_id=uuid.uuid4(),
+        #     trader_id=uuid.uuid4(),
+        #     client_id=uuid.uuid4(),
+        #     commission_type=
+        #     ...
+        # )
 
 # Buy transactions for user
 @app.route("/users/<user_id>/transactions/buys", methods=["GET"])

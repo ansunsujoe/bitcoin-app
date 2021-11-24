@@ -14,5 +14,9 @@ CORS(app, supports_credentials=True)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:root@localhost/bitcoin'
 db = SQLAlchemy(app)
 
-from app import transactions
-from app import models
+from app import transactions, users
+from app.models import *
+
+# Create tables
+db.create_all()
+db.session.commit()
