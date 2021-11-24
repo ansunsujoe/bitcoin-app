@@ -17,7 +17,7 @@
 
 */
 import React from "react";
-import { transactionData } from "variables/sampleData";
+import { transferData } from "variables/sampleTransferData";
 
 // reactstrap components
 import {
@@ -48,7 +48,7 @@ function Trader_Approve(props) {
                       <tr className="text-success">
                         <th>Time</th>
                         <th>Client</th>
-                        <th>Commission</th>
+                        <th>Amount</th>
                         <th>Status</th>
                         <th className="text-right">Value</th>
                         <th className="text-right">APPROVE</th>
@@ -67,7 +67,7 @@ function Trader_Approve(props) {
                     
                   </thead>
                   <tbody>
-                    {transactionData.map((t) => (
+                    {transferData.map((t) => (
                       props.isTrader ? (
                       <tr>
                         <td>{t.time}</td>
@@ -93,7 +93,7 @@ function Trader_Approve(props) {
               </CardBody>
             </Card>
           </Col>
-          <Col md="12">
+          {/* <Col md="12">
             <Card>
               <CardHeader>
                 <CardTitle tag="h4">BTC Sells</CardTitle>
@@ -148,7 +148,7 @@ function Trader_Approve(props) {
                 </Table>
               </CardBody>
             </Card>
-          </Col>
+          </Col> */}
         </Row>
       </div>
     </>

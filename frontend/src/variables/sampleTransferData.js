@@ -3,7 +3,7 @@ const transferData = [
         "amount": "36738",
         "time": "2019-5-19 2:55:24",
         "client": "Dakota Rice",
-        "commission": "BTC",
+        "trader": "Jason",
         "status": "Complete",
         
     },
@@ -11,7 +11,7 @@ const transferData = [
         "amount": "1413",
         "time": "2019-5-19 2:55:24",
         "client": "Dakota Rice",
-        "commission": "USD",
+        "trader": "Jason",
         "status": "Pending",
         
     },
@@ -19,7 +19,7 @@ const transferData = [
         "amount": "23",
         "time": "2019-5-19 2:55:24",
         "client": "Dakota Rice",
-        "commission": "BTC",
+        "trader": "Jason",
         "status": "Pending",
         
     },
@@ -27,7 +27,7 @@ const transferData = [
         "amount": "364",
         "time": "2019-5-19 2:55:24",
         "client": "Dakota Rice",
-        "commission": "USD",
+        "trader": "Jason",
         "status": "Complete",
         
     },
@@ -35,7 +35,7 @@ const transferData = [
         "amount": "289",
         "time": "2019-5-19 2:55:24",
         "client": "Dakota Rice",
-        "commission": "USD",
+        "trader": "Jason",
         "status": "Pending",
         
     },
