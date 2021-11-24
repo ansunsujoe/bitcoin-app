@@ -41,4 +41,4 @@ const transferData = [
     },
 ]
 
-export {transactionData};
+export {transferData};
