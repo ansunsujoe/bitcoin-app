@@ -35,7 +35,6 @@ import {
 import Slider from '@mui/material/Slider';
 import { getCommission } from '../utilities/transaction';
 import axios from 'axios';
-import { hasOnlyExpressionInitializer } from "typescript";
 
 function NewTransaction(props) {
   const [buyTrader, setBuyTrader] = useState("trader-1");

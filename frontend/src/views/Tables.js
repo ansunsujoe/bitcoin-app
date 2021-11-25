@@ -18,6 +18,7 @@
 */
 import React, {useState, useEffect} from "react";
 import { transactionData } from "variables/sampleData";
+import axios from 'axios';
 
 // reactstrap components
 import {
@@ -32,6 +33,16 @@ import {
 } from "reactstrap";
 
 function Tables(props) {
+  axios.defaults.withCredentials = true;
+
+  useEffect(() => {
+    axios.get('http://localhost:5000/users/1/transactions/buys').then(response => {
+      console.log(response)
+    }).catch(error => {
+      console.log(error);
+    })
+  }, []);
+
   return (
     <>
       <div className="content">
