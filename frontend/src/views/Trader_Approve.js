@@ -16,9 +16,8 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React, {useState, useEffect} from "react";
-import { transactionData } from "variables/sampleData";
-import axios from 'axios';
+import React from "react";
+import { transferData } from "variables/sampleTransferData";
 
 // reactstrap components
 import {
@@ -32,17 +31,7 @@ import {
   Col,
 } from "reactstrap";
 
-function Tables(props) {
-  axios.defaults.withCredentials = true;
-
-  useEffect(() => {
-    axios.get('http://localhost:5000/users/1/transactions/buys').then(response => {
-      console.log(response)
-    }).catch(error => {
-      console.log(error);
-    })
-  }, []);
-
+function Trader_Approve(props) {
   return (
     <>
       <div className="content">
@@ -50,7 +39,7 @@ function Tables(props) {
           <Col md="12">
             <Card>
               <CardHeader>
-                <CardTitle tag="h4">BTC Buys</CardTitle>
+                <CardTitle tag="h4">Current Transfers</CardTitle>
               </CardHeader>
               <CardBody>
                 <Table responsive>
@@ -59,11 +48,11 @@ function Tables(props) {
                       <tr className="text-success">
                         <th>Time</th>
                         <th>Client</th>
-                        <th>Commission</th>
+                        <th>Amount</th>
                         <th>Status</th>
                         <th className="text-right">Value</th>
-                        <th className="text-right">Complete</th>
-                        <th className="text-right">Cancel</th>
+                        <th className="text-right">APPROVE</th>
+                        <th className="text-right">REJECT</th>
                       </tr>
                       ) : (
                         <tr className="text-success">
@@ -78,7 +67,7 @@ function Tables(props) {
                     
                   </thead>
                   <tbody>
-                    {transactionData.map((t) => (
+                    {transferData.map((t) => (
                       props.isTrader ? (
                       <tr>
                         <td>{t.time}</td>
@@ -86,14 +75,8 @@ function Tables(props) {
                         <td>{t.commission}</td>
                         <td>{t.status}</td>
                         <td className="text-right">{t.value} &#8383;</td>
-                        <td className="text-right">
-                          <Button color="success" type="submit" size="sm" disabled={t.status === "Complete"}
-                          onClick={() => acceptTransaction(t.transactionId)}>Complete</Button>
-                        </td>
-                        <td className="text-right">
-                          <Button color="danger" type="submit" size="sm" disabled={t.status === "Complete"}
-                          onClick={() => cancelTransaction(t.transactionId)}>Cancel</Button>
-                        </td>
+                        <td className="text-right"><Button color="success" type="submit" size="sm" disabled={t.status === "Complete"}>APPROVE</Button></td>
+                        <td className="text-right"><Button color="danger" type="submit" size="sm" disabled={t.status === "Complete"}>REJECT</Button></td>
                       </tr>
                       ) : (
                         <tr>
@@ -110,7 +93,7 @@ function Tables(props) {
               </CardBody>
             </Card>
           </Col>
-          <Col md="12">
+          {/* <Col md="12">
             <Card>
               <CardHeader>
                 <CardTitle tag="h4">BTC Sells</CardTitle>
@@ -148,14 +131,8 @@ function Tables(props) {
                         <td>{t.commission}</td>
                         <td>{t.status}</td>
                         <td className="text-right">{t.value} &#8383;</td>
-                        <td className="text-right">
-                          <Button color="success" type="submit" size="sm" disabled={t.status === "Complete"}
-                          onClick={() => acceptTransaction(t.transactionId)}>Complete</Button>
-                        </td>
-                        <td className="text-right">
-                          <Button color="danger" type="submit" size="sm" disabled={t.status === "Complete"}
-                          onClick={() => cancelTransaction(t.transactionId)}>Cancel</Button>
-                        </td>
+                        <td className="text-right"><Button color="success" type="submit" size="sm" disabled={t.status === "Complete"}>Complete</Button></td>
+                        <td className="text-right"><Button color="danger" type="submit" size="sm" disabled={t.status === "Complete"}>Cancel</Button></td>
                       </tr>
                       ) : (
                         <tr>
@@ -171,11 +148,13 @@ function Tables(props) {
                 </Table>
               </CardBody>
             </Card>
-          </Col>
+          </Col> */}
         </Row>
       </div>
     </>
   );
 }
 
-export default Tables;
+export default Trader_Approve;
+
+

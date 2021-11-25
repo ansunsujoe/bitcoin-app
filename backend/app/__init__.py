@@ -11,8 +11,12 @@ app.secret_key = os.environ.get("SECRET_KEY")
 CORS(app, supports_credentials=True)
 
 # Flask Database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:root@localhost/bitcoin'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:root@127.0.0.1/bitcoin'
 db = SQLAlchemy(app)
 
-from app import transactions
-from app import models
+from app import transactions, users
+from app.models import *
+
+# Create tables
+db.create_all()
+db.session.commit()

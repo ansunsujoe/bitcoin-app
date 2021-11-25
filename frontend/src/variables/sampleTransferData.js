@@ -1,44 +1,44 @@
-const transactionData = [
+const transferData = [
     {
-        "transactionId": "e433433", 
+        "amount": "36738",
         "time": "2019-5-19 2:55:24",
         "client": "Dakota Rice",
-        "commission": "BTC",
+        "trader": "Jason",
         "status": "Complete",
-        "value": "36738"
+        
     },
     {
-        "transactionId": "e433433",
+        "amount": "1413",
         "time": "2019-5-19 2:55:24",
         "client": "Dakota Rice",
-        "commission": "USD",
+        "trader": "Jason",
         "status": "Pending",
-        "value": "1413"
+        
     },
     {
-        "transactionId": "e433433",
+        "amount": "23",
         "time": "2019-5-19 2:55:24",
         "client": "Dakota Rice",
-        "commission": "BTC",
+        "trader": "Jason",
         "status": "Pending",
-        "value": "23"
+        
     },
     {
-        "transactionId": "e433433",
+        "amount": "364",
         "time": "2019-5-19 2:55:24",
         "client": "Dakota Rice",
-        "commission": "USD",
+        "trader": "Jason",
         "status": "Complete",
-        "value": "364"
+        
     },
     {
-        "transactionId": "e433433",
+        "amount": "289",
         "time": "2019-5-19 2:55:24",
         "client": "Dakota Rice",
-        "commission": "USD",
+        "trader": "Jason",
         "status": "Pending",
-        "value": "289"
+        
     },
 ]
 
-export {transactionData};
+export {transferData};

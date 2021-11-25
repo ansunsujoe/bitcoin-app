@@ -2,3 +2,5 @@ Flask
 Flask-Cors
 requests
 flask_sqlalchemy
+SQLAlchemy-Utils
+PyMySQL
