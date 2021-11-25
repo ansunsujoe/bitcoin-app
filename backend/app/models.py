@@ -38,6 +38,3 @@ class Processed(db.Model):
     trader_id = db.Column(UUIDType(binary=False), db.ForeignKey(User.user_id))
     transaction_id = db.Column(UUIDType(binary=False), db.ForeignKey(Transaction.transaction_id))
     commission_paid = db.Column(db.Float)
-    
-class Issues(db.Model):
-    pass

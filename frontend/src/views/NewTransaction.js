@@ -24,7 +24,6 @@ import {
   Card,
   CardHeader,
   CardBody,
-  CardFooter,
   CardTitle,
   FormGroup,
   Form,
@@ -106,14 +105,9 @@ function NewTransaction(props) {
     }
   }
 
-  // Handler function for submitting buy
-  const handleBuySubmit = (e) => {
-    const data = {
-      commission_type: buyCommissionType,
-      amount: buyAmount,
-      action: "buy"
-    };
-    axios.post('http://localhost:5000/users/1/transactions/buys', data, {
+  // Buy/Sell Axios Request
+  const transactionSubmit = (data) => {
+    axios.post('http://localhost:5000/users/1/transactions', data, {
       headers: {
         'Content-Type': 'application/json'
       }
@@ -124,9 +118,24 @@ function NewTransaction(props) {
     })
   }
 
+  // Handler function for submitting buy
+  const handleBuySubmit = (e) => {
+    const data = {
+      commission_type: buyCommissionType,
+      amount: buyAmount,
+      action: "buy"
+    };
+    transactionSubmit(data);
+  }
+
   // Handler function for submitting sell
   const handleSellSubmit = (e) => {
-    console.log("Good");
+    const data = {
+      commission_type: sellCommissionType,
+      amount: sellAmount,
+      action: "sell"
+    };
+    transactionSubmit(data);
   }
 
   return (
@@ -222,7 +231,7 @@ function NewTransaction(props) {
                 <CardTitle tag="h5">Sell Transaction Form</CardTitle>
               </CardHeader>
               <CardBody>
-                <Form>
+                <Form onSubmit={handleSellSubmit}>
                   <Row>
                     <Col className="pr-1" md="3">
                       <FormGroup>

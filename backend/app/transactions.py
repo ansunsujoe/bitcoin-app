@@ -16,15 +16,10 @@ def get_transactions():
     pass
 
 # Transactions for user
-@app.route("/users/<user_id>/transactions", methods=["GET"])
+@app.route("/users/<user_id>/transactions", methods=["GET", "POST"])
 def user_transaction(user_id):
-    pass
-
-# Buy transactions for user
-@app.route("/users/<user_id>/transactions/buys", methods=["GET", "POST"])
-def user_transaction_buys(user_id):
     if request.method == "GET":
-        result = db.session.query(Transaction).filter(Transaction.currency_type == "BTC").all()
+        result = db.session.query(Transaction).all()
         return to_json(result)
     elif request.method == "POST":
         # Read from form
@@ -47,34 +42,24 @@ def user_transaction_buys(user_id):
         db.session.commit()
         return "Success"
 
+# Buy transactions for user
+@app.route("/users/<user_id>/transactions/buys", methods=["GET"])
+def user_transaction_buys(user_id):
+    result = db.session.query(Transaction).filter(Transaction.currency_type == "BTC").all()
+    return to_json(result)
+
 # Sell transactions for user
-@app.route("/users/<user_id>/transactions/sells", methods=["GET", "POST"])
+@app.route("/users/<user_id>/transactions/sells", methods=["GET"])
 def user_transaction_sells(user_id):
-    if request.method == "GET":
-        result = db.session.query(Transaction).filter(Transaction.currency_type == "USD").all()
-        return to_json(result)
-    elif request.method == "POST":
-        # Read from form
-        response = request.form
-        
-        # Create transaction object
-        new_transaction = Transaction(
-            transaction_id=uuid.uuid4(),
-            trader_id=uuid.uuid4(),
-            client_id=uuid.uuid4(),
-            commission_type="BTC",
-            status="Pending",
-            date=datetime.now(),
-            action="USD",
-            amount=60
-        )
-        
-        # Commit to database
-        db.session.add(new_transaction)
-        db.session.commit()
-        return "Success"
+    result = db.session.query(Transaction).filter(Transaction.currency_type == "USD").all()
+    return to_json(result)
 
 # Delete transactions (trader cancels)
-@app.route("/transactions/<transaction_id>", methods=["DELETE", "PUT"])
-def user_transaction_sells(transaction_id):
+@app.route("/transactions/<transaction_id>", methods=["DELETE"])
+def transaction_delete(transaction_id):
+    pass
+
+# Accept transactions (trader cancels)
+@app.route("/transactions/<transaction_id>/accept", methods=["PUT"])
+def transaction_accept(transaction_id):
     pass
