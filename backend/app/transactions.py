@@ -28,18 +28,18 @@ def user_transaction_buys(user_id):
         return to_json(result)
     elif request.method == "POST":
         # Read from form
-        response = request.form
+        response = request.get_json()
         
         # Create transaction object
         new_transaction = Transaction(
             transaction_id=uuid.uuid4(),
             trader_id=uuid.uuid4(),
             client_id=uuid.uuid4(),
-            commission_type="BTC",
+            commission_type=response.get("commission_type"),
             status="Pending",
             date=datetime.now(),
-            currency_type="BTC",
-            amount=60
+            action=response.get("action"),
+            amount=response.get("amount")
         )
         
         # Commit to database
@@ -65,7 +65,7 @@ def user_transaction_sells(user_id):
             commission_type="BTC",
             status="Pending",
             date=datetime.now(),
-            currency_type="USD",
+            action="USD",
             amount=60
         )
         

@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS Transaction (
 	Client_id NOT NULL,
 	Status VARCHAR(10),
     Date DATETIME,
-    Currency_type VARCHAR(10),
+    Action VARCHAR(10),
 	Amount DOUBLE(32, 10),
 	PRIMARY KEY (Transaction_id),
 	FOREIGN KEY (Client_id) REFERENCES User(User_ID),

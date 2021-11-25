@@ -23,7 +23,7 @@ class Transaction(db.Model):
     commission_type = db.Column(db.String)
     status = db.Column(db.String)
     date = db.Column(db.DateTime)
-    currency_type = db.Column(db.String)
+    action = db.Column(db.String)
     amount = db.Column(db.Float)
 
 class Client(db.Model):

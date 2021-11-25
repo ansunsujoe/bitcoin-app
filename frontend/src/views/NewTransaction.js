@@ -52,6 +52,8 @@ function NewTransaction(props) {
   const [sellAmount, setSellAmount] = useState(0);
   const [btcRate, setBtcRate] = useState(0.0)
 
+  axios.defaults.withCredentials = true;
+
   // Get current Bitcoin price
   const getCurrentBTC = () => {
     axios.get('https://api.coindesk.com/v1/bpi/currentprice.json')
@@ -107,23 +109,20 @@ function NewTransaction(props) {
 
   // Handler function for submitting buy
   const handleBuySubmit = (e) => {
-    // const data = {
-    //   tickerId: id,
-    //   currentPrice: price,
-    //   currentShares: shares,
-    //   shareChange: currentBuy,
-    //   action: "buy"
-    // };
-    // axios.post('http://localhost:5000/users/1/transactions/buys', data, {
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   }
-    // }).then(response => {
-    //   console.log("SUCCESS", response);
-    // }).catch(error => {
-    //   console.log(error);
-    // })
-    console.log("Good")
+    const data = {
+      commission_type: buyCommissionType,
+      amount: buyAmount,
+      action: "buy"
+    };
+    axios.post('http://localhost:5000/users/1/transactions/buys', data, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(response => {
+      console.log("SUCCESS", response);
+    }).catch(error => {
+      console.log(error);
+    })
   }
 
   // Handler function for submitting sell
