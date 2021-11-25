@@ -3,3 +3,4 @@ Flask-Cors
 requests
 flask_sqlalchemy
 SQLAlchemy-Utils
+mysqlclient

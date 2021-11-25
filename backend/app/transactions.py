@@ -57,9 +57,12 @@ def user_transaction_sells(user_id):
 # Delete transactions (trader cancels)
 @app.route("/transactions/<transaction_id>", methods=["DELETE"])
 def transaction_delete(transaction_id):
-    pass
+    db.session.query(Transaction).filter(Transaction.transaction_id == transaction_id).delete()
+    db.session.commit()
 
 # Accept transactions (trader cancels)
 @app.route("/transactions/<transaction_id>/accept", methods=["PUT"])
 def transaction_accept(transaction_id):
-    pass
+    transaction = db.session.query(Transaction).filter(Transaction.transaction_id == transaction_id).first()
+    transaction.status = "Complete"
+    db.session.commit()
