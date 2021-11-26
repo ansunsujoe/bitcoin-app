@@ -27,9 +27,8 @@ def user_transaction(user_id):
         
         # Create transaction object
         new_transaction = Transaction(
-            transaction_id=uuid.uuid4(),
-            trader_id=uuid.uuid4(),
-            client_id=uuid.uuid4(),
+            trader_id=1,
+            client_id=1,
             commission_type=response.get("commission_type"),
             status="Pending",
             date=datetime.now(),

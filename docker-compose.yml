@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   database:
-    image: mysql
+    image: mysql:latest
     pull_policy: always
     environment:
       MYSQL_ROOT_PASSWORD: root
