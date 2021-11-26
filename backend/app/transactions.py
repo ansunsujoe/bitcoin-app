@@ -3,7 +3,6 @@ from app import app, db
 from app.util import to_json
 from flask import request, session
 from app.models import Transaction
-import uuid
 
 # Root endpoint
 @app.route("/")

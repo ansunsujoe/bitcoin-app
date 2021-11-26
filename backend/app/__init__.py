@@ -1,7 +1,6 @@
 from datetime import datetime
 from flask import Flask
 from flask_cors import CORS
-from flask import request, session
 from flask_sqlalchemy import SQLAlchemy
 import os
 
@@ -24,53 +23,53 @@ from app.models import *
 db.create_all()
 db.session.commit()
 
-# Create default user
-default_client = User(
-    name="Jason Wozniak",
-    phone_number="888-555-3232",
-    cell="354-252-4545",
-    email="jason.wozniak@bt.com",
-    street_address="7474 Hawthorne Drive",
-    city="West Smithville",
-    state="AZ",
-    zip="63433",
-    password="money",
-    is_trader=False,
-    is_manager=False
-)
+# Check if DB is empty
+if db.session.query(User).first() is None:
+    
+    # Create default user
+    default_client = User(
+        name="Jason Wozniak",
+        phone_number="888-555-3232",
+        cell="354-252-4545",
+        email="jason.wozniak@bt.com",
+        street_address="7474 Hawthorne Drive",
+        city="West Smithville",
+        state="AZ",
+        zip="63433",
+        password="money",
+        is_trader=False,
+        is_manager=False
+    )
 
-# Commit to database
-db.session.add(default_client)
-db.session.commit()
+    # Commit to database
+    db.session.add(default_client)
+    db.session.commit()
 
-# Create default client
-default_client_account = Client(
-    user_id=1,
-    fiat_balance=20000,
-    btc_balance=0,
-    user_classification="silver",
-    last_classification_update=datetime.now()
-)
+    # Create default client
+    default_client_account = Client(
+        user_id=1,
+        fiat_balance=20000,
+        btc_balance=0,
+        user_classification="silver",
+        last_classification_update=datetime.now()
+    )
 
-# Create default trader
-default_trader = User(
-    name="Amit Hassan",
-    phone_number="868-383-4545",
-    cell="354-252-4545",
-    email="amit.hassan@bt.com",
-    street_address="420 Peach Street",
-    city="West Smithville",
-    state="AZ",
-    zip="63433",
-    password="money",
-    is_trader=True,
-    is_manager=False
-)
+    # Create default trader
+    default_trader = User(
+        name="Amit Hassan",
+        phone_number="868-383-4545",
+        cell="354-252-4545",
+        email="amit.hassan@bt.com",
+        street_address="420 Peach Street",
+        city="West Smithville",
+        state="AZ",
+        zip="63433",
+        password="money",
+        is_trader=True,
+        is_manager=False
+    )
 
-# Commit to database
-db.session.add(default_client_account)
-db.session.add(default_trader)
-db.session.commit()
-
-# Session variables
-session["userid"] = 1
+    # Commit to database
+    db.session.add(default_client_account)
+    db.session.add(default_trader)
+    db.session.commit()

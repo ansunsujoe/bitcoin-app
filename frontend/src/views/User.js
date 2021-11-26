@@ -16,7 +16,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React, {useState, useEffect} from "react";
 
 // reactstrap components
 import {
@@ -34,8 +34,29 @@ import {
 } from "reactstrap";
 
 import Switch from '@mui/material/Switch';
+import axios from 'axios';
 
 function User(props) {
+  const [userData, setUserData] = useState({});
+
+  // Get User Information
+  axios.defaults.withCredentials = true;
+  // Get current Bitcoin price
+  const getUserData = () => {
+    axios.get('http://localhost:5000/clients/' + props.userId)
+      .then(response => {
+        console.log(response.data);
+        setUserData(response.data);
+      }).catch(error => {
+        console.log(error);
+      })
+  }
+
+  // Get user data on start
+  useEffect(() => {
+    getUserData();
+  }, []);
+
   return (
     <>
       <div className="content">
