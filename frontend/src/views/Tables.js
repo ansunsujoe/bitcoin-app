@@ -43,6 +43,14 @@ function Tables(props) {
     })
   }, []);
 
+  const acceptTransaction = (tid) => {
+    console.log(tid);
+  }
+
+  const cancelTransaction = (tid) => {
+    console.log(tid);
+  }
+
   return (
     <>
       <div className="content">

@@ -3,6 +3,8 @@ version: '3.7'
 services:
   database:
     image: mysql:latest
+    cap_add:
+      - SYS_NICE
     pull_policy: always
     environment:
       MYSQL_ROOT_PASSWORD: root

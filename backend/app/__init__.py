@@ -12,6 +12,7 @@ CORS(app, supports_credentials=True)
 
 # Flask Database
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:root@host.docker.internal:3307/bitcoin'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 from app import transactions, users
