@@ -1,8 +1,8 @@
 from datetime import datetime
 from app import app, db
-from app.util import to_json
+from app.util import to_response
 from flask import request, session
-from app.models import Transaction
+from app.models import Transaction, User
 
 # Root endpoint
 @app.route("/")
@@ -19,7 +19,7 @@ def get_transactions():
 def user_transaction(user_id):
     if request.method == "GET":
         result = db.session.query(Transaction).all()
-        return to_json(result)
+        return "Success"
     elif request.method == "POST":
         # Read from form
         response = request.get_json()
@@ -43,14 +43,48 @@ def user_transaction(user_id):
 # Buy transactions for user
 @app.route("/users/<user_id>/transactions/buys", methods=["GET"])
 def user_transaction_buys(user_id):
-    result = db.session.query(Transaction).filter(Transaction.action == "buy").all()
-    return to_json(result)
+    result = db.session.query(
+        Transaction, User
+        ).filter(
+            Transaction.action == "buy"
+        ).filter(
+            Transaction.client_id == user_id
+        ).filter(
+            User.user_id == Transaction.client_id
+        ).all()
+    transactions = []
+    for t in result:
+        transactions.append({
+            "time": t.transaction.date,
+            "client": t.user.name,
+            "commission": t.transaction.commission_type,
+            "status": t.transaction.status,
+            "value": t.transaction.amount
+        })
+    return to_response(transactions)
 
 # Sell transactions for user
 @app.route("/users/<user_id>/transactions/sells", methods=["GET"])
 def user_transaction_sells(user_id):
-    result = db.session.query(Transaction).filter(Transaction.action == "sell").all()
-    return to_json(result)
+    result = db.session.query(
+        Transaction, User
+        ).filter(
+            Transaction.action == "sell"
+        ).filter(
+            Transaction.client_id == user_id
+        ).filter(
+            User.user_id == Transaction.client_id
+        ).all()
+    transactions = []
+    for t in result:
+        transactions.append({
+            "time": t.transaction.date,
+            "client": t.user.name,
+            "commission": t.transaction.commission_type,
+            "status": t.transaction.status,
+            "value": t.transaction.amount
+        })
+    return to_response(transactions)
 
 # Delete transactions (trader cancels)
 @app.route("/transactions/<transaction_id>", methods=["DELETE"])
