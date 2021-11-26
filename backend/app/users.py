@@ -5,7 +5,10 @@ from app.models import User
 # List all users
 @app.route("/users", methods=["GET", "POST"])
 def get_users():
-    pass
+    if request.method == "GET":
+        pass
+    elif request.method == "POST":
+        pass
 
 # Modify/delete user
 @app.route("/users/<user_id>", methods=["PUT", "DELETE"])

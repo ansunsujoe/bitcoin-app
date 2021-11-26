@@ -27,7 +27,7 @@ def user_transaction(user_id):
         
         # Create transaction object
         new_transaction = Transaction(
-            trader_id=1,
+            trader_id=2,
             client_id=1,
             commission_type=response.get("commission_type"),
             status="Pending",
@@ -44,13 +44,13 @@ def user_transaction(user_id):
 # Buy transactions for user
 @app.route("/users/<user_id>/transactions/buys", methods=["GET"])
 def user_transaction_buys(user_id):
-    result = db.session.query(Transaction).filter(Transaction.currency_type == "BTC").all()
+    result = db.session.query(Transaction).filter(Transaction.action == "buy").all()
     return to_json(result)
 
 # Sell transactions for user
 @app.route("/users/<user_id>/transactions/sells", methods=["GET"])
 def user_transaction_sells(user_id):
-    result = db.session.query(Transaction).filter(Transaction.currency_type == "USD").all()
+    result = db.session.query(Transaction).filter(Transaction.action == "sell").all()
     return to_json(result)
 
 # Delete transactions (trader cancels)
