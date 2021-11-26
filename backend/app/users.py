@@ -21,19 +21,8 @@ def user_info(user_id):
         pass
     elif request.method == "DELETE":
         pass
-
-# Modify/delete user
-@app.route("/users/<user_id>", methods=["GET", "PUT", "DELETE"])
-def user_info(user_id):
-    if request.method == "GET":
-        user = db.session.query(User).filter(User.user_id == user_id).first()
-        return to_json(user)
-    elif request.method == "PUT":
-        pass
-    elif request.method == "DELETE":
-        pass
     
-@app.route("/client/<client_id>", methods=["GET"])
+@app.route("/users/clients/<client_id>", methods=["GET"])
 def client_info(client_id):
     result = db.session.query(
             User, Client
@@ -43,3 +32,10 @@ def client_info(client_id):
             User.user_id == Client.user_id
         ).all()
     return to_json(result)
+
+@app.route("/users/traders", methods=["GET"])
+def trader_list():
+    result = db.session.query(User).filter(User.is_trader)
+    return {
+        "results": [{"id": trader.user_id, "name": trader.name} for trader in result]
+    }
