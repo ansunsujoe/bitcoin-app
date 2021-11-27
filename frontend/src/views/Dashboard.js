@@ -97,8 +97,7 @@ function Dashboard(props) {
 
 //testing
   console.log(userData);
-  console.log(userData[btcBalance]);
-  console.log(userData.btcBalance);
+  console.log(userData['btcBalance']);
 
   return (
     <>
