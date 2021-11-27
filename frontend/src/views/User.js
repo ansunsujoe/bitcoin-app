@@ -50,6 +50,21 @@ function User(props) {
       })
   }
 
+  // User title
+  const userTitle = () => {
+    var titleArr = [];
+    if (userData.isClient) {
+      titleArr.push("Client");
+    }
+    if (userData.isTrader) {
+      titleArr.push("Trader");
+    }
+    if (userData.isManager) {
+      titleArr.push("Manager");
+    }
+    return titleArr.join("/");
+  }
+
   // Get user data on start
   useEffect(() => {
     getUserData();
@@ -81,10 +96,12 @@ function User(props) {
                       src={require("assets/img/default-avatar.png").default}
                     />
                     <h5 className="title">{userData.name}</h5>
+                    <small>{userTitle()}</small>
                   </p>
                 </div>
               </CardBody>
-              <CardFooter>
+              {userData.isClient ? (
+                <CardFooter>
                 <hr />
                 <div className="button-container">
                   <Row>
@@ -103,6 +120,7 @@ function User(props) {
                   </Row>
                 </div>
               </CardFooter>
+              ) : null}
             </Card>
           </Col>
           <Col md="8">

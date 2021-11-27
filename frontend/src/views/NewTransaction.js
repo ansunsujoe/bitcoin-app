@@ -206,7 +206,7 @@ function NewTransaction(props) {
                         <label htmlFor="exampleInputEmail1">
                           Commission
                         </label>
-                        <Input placeholder={buyCommission} disabled />
+                        <Input placeholder={buyCommissionType === "BTC" ? buyCommission + " \u20BF" : "$" + buyCommission} disabled />
                       </FormGroup>
                     </Col>
                     <Col className="pl-1" md="3">
@@ -214,7 +214,7 @@ function NewTransaction(props) {
                         <label htmlFor="exampleInputEmail1">
                           Current Cost
                         </label>
-                        <Input placeholder={buyCost} disabled />
+                        <Input placeholder={"$" + buyCost} disabled />
                       </FormGroup>
                     </Col> 
                   </Row>
@@ -288,7 +288,7 @@ function NewTransaction(props) {
                         <label htmlFor="exampleInputEmail1">
                           Commission
                         </label>
-                        <Input placeholder={sellCommission} disabled />
+                        <Input placeholder={sellCommissionType === "BTC" ? sellCommission + " \u20BF" : "$" + sellCommission} disabled />
                       </FormGroup>
                     </Col>
                     <Col className="pl-1" md="3">
