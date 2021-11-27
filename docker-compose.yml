@@ -26,7 +26,7 @@ services:
     restart: unless-stopped
   
   backend:
-    image: mansoonseason77/btc-backend:main
+    image: mansoonseason77/btc-backend:dashboardFrontEnd
     pull_policy: always
     depends_on:
       - database
@@ -35,7 +35,7 @@ services:
     restart: unless-stopped
 
   frontend:
-    image: mansoonseason77/bitcoinapp:main
+    image: mansoonseason77/bitcoinapp:dashboardFrontEnd
     pull_policy: always
     depends_on:
       - backend

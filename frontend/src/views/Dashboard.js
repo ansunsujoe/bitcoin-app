@@ -46,7 +46,7 @@ function Dashboard(props) {
 
   // Get User Information
   axios.defaults.withCredentials = true;
-  // Get current Bitcoin price
+
   const getUserData = () => {
     axios.get('http://localhost:5000/users/clients/' + props.userId)
       .then(response => {
@@ -95,7 +95,7 @@ function Dashboard(props) {
     setLoading(false);
   }
 
-  //console.log(userData);
+  console.log(userData);
 
   return (
     <>
