@@ -3,11 +3,21 @@ from app import app, db
 from app.util import to_response
 from flask import request, session
 from app.models import Transaction, User
+import requests
 
 # Root endpoint
 @app.route("/")
 def index():
     return "Hello World!"
+
+@app.route("/btc-rate")
+def btc_balance():
+    r = requests.get("https://api.coindesk.com/v1/bpi/currentprice.json")
+    try:
+        data = r.json()
+        return data.get("bpi").get("USD").get("rate_float")
+    except Exception:
+        return "Could not reach CoinDesk API to get BTC price", 500
 
 # Add transaction
 @app.route("/transactions", methods=["GET"])
@@ -27,7 +37,7 @@ def user_transaction(user_id):
         # Create transaction object
         new_transaction = Transaction(
             trader_id=2,
-            client_id=1,
+            client_id=user_id,
             commission_type=response.get("commission_type"),
             status="Pending",
             date=datetime.now(),

@@ -32,7 +32,7 @@ import {
   Col,
 } from "reactstrap";
 import Slider from '@mui/material/Slider';
-import { getCommission } from '../utilities/transaction';
+import { getCommission, roundDecimal } from '../utilities/transaction';
 import axios from 'axios';
 
 function NewTransaction(props) {
@@ -56,7 +56,7 @@ function NewTransaction(props) {
 
   // Get current Bitcoin price
   const getCurrentBTC = () => {
-    axios.get('https://api.coindesk.com/v1/bpi/currentprice.json')
+    axios.get('http://localhost:5000/btc-rate')
       .then(response => {
         setBtcRate(response.data.bpi.USD.rate_float)
       }).catch(error => {
@@ -89,6 +89,7 @@ function NewTransaction(props) {
   useEffect(() => {
     getCurrentBTC();
     getTraderList();
+    getUserData();
   }, []);
 
   // Get current bitcoin price every 10 seconds
@@ -131,7 +132,7 @@ function NewTransaction(props) {
 
   // Buy/Sell Axios Request
   const transactionSubmit = (data) => {
-    axios.post('http://localhost:5000/users/1/transactions', data, {
+    axios.post('http://localhost:5000/users/' + props.userId + '/transactions', data, {
       headers: {
         'Content-Type': 'application/json'
       }
@@ -223,7 +224,7 @@ function NewTransaction(props) {
                             step={0.1}
                             marks
                             min={0}
-                            max={30}
+                            max={roundDecimal(clientProperties.fiatBalance / btcRate, 1, truncate = true)}
                             valueLabelDisplay="on"
                             color="success"
                             onChange={handleBuyChange}
@@ -305,7 +306,7 @@ function NewTransaction(props) {
                           step={0.1}
                           marks
                           min={0}
-                          max={30}
+                          max={clientProperties.btcBalance}
                           valueLabelDisplay="on"
                           color="error"
                           onChange={handleSellChange}
