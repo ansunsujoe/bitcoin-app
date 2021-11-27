@@ -17,8 +17,7 @@
 
 */
 import { React, useState, useEffect } from "react";
-// react plugin used to create charts
-import { Line } from "react-chartjs-2";
+
 import Chart from "react-apexcharts";
 // reactstrap components
 import {
@@ -29,10 +28,7 @@ import {
   Row,
   Col,
 } from "reactstrap";
-// core components
-import {
-  dashboard24HoursPerformanceChart,
-} from "variables/charts.js";
+
 import axios from 'axios';
 
 function Dashboard(props) {
@@ -49,18 +45,6 @@ function Dashboard(props) {
 
   // Get User Information
   axios.defaults.withCredentials = true;
-
-  /*
-  const getUserData = () => {
-    axios.get('http://localhost:5000/users/clients/' + props.userId)
-      .then(response => {
-        console.log(response.data);
-        setUserData(response.data.json());
-      }).catch(error => {
-        console.log(error);
-      })
-  }
-*/
 
   const options = [
     { value: 'USD', text: 'USD' },
@@ -106,7 +90,6 @@ function Dashboard(props) {
     ])
     setLoading(false);
   }
-
 
   return (
     <>
