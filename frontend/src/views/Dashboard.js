@@ -140,7 +140,7 @@ function Dashboard(props) {
                   <Col md="8" xs="7">
                     <div className="numbers">
                       <p className="card-category">BTC Balance</p>
-                      <CardTitle tag="p">&#8383; {userData.btcBalance}</CardTitle>
+                      <CardTitle tag="p">&#8383; 3</CardTitle>
                       <p />
                     </div>
                   </Col>
