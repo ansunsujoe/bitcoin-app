@@ -140,7 +140,7 @@ function Dashboard(props) {
                   <Col md="8" xs="7">
                     <div className="numbers">
                       <p className="card-category">BTC Balance</p>
-                      <CardTitle tag="p">${(userData.btcBalance).substring(0, 9)}</CardTitle>
+                      <CardTitle tag="p">&#8383; {userData.btcBalance}</CardTitle>
                       <p />
                     </div>
                   </Col>
@@ -160,7 +160,7 @@ function Dashboard(props) {
                   <Col md="8" xs="7">
                     <div className="numbers">
                       <p className="card-category">USD Balance</p>
-                      <CardTitle tag="p">${(userData.fiatBalance).substring(0, 9)}</CardTitle>
+                      <CardTitle tag="p">${(userData.fiatBalance).substring(0, 2)},{(userData.fiatBalance).substring(2, 8)}</CardTitle>
                       <p />
                     </div>
                   </Col>
@@ -180,7 +180,7 @@ function Dashboard(props) {
                   <Col md="8" xs="7">
                     <div className="numbers">
                       <p className="card-category">Account Status</p>
-                      <CardTitle tag="p">{(userData.classification)}</CardTitle>
+                      <CardTitle tag="p">{(userData.classification).charAt(0).toUpperCase()}{(userData.classification).slice(1)}</CardTitle>
                       <p />
                     </div>
                   </Col>
