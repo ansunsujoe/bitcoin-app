@@ -43,10 +43,14 @@ function Dashboard(props) {
   const [userData, setUserData] = useState(null);
   const [chartData, setChartData] = useState(null);
   const [series, setSeries] = useState(null);
+  const [btcBal, setBtcBal] = useState(null);
+  const [usdBal, setUsdBal] = useState(null);
+  const [status, setStatus] = useState(null);
 
   // Get User Information
   axios.defaults.withCredentials = true;
 
+  /*
   const getUserData = () => {
     axios.get('http://localhost:5000/users/clients/' + props.userId)
       .then(response => {
@@ -56,6 +60,7 @@ function Dashboard(props) {
         console.log(error);
       })
   }
+*/
 
   const options = [
     { value: 'USD', text: 'USD' },
@@ -69,11 +74,18 @@ function Dashboard(props) {
       const data = await res.json();
       setCurrency(data.bpi.USD.code);
       setPriceData(data.bpi);
-      //setLoading(false);
       getChartData();
-      getUserData();
     }
     fetchPrices();
+    async function fetchBalances() {
+      const res2 = await fetch('http://localhost:5000/users/clients/' + props.userId)
+      const data2 = await res2.json();
+      setUserData(data2);
+      setBtcBal(data2.btcBalance);
+      setUsdBal(data2.fiatBalance);
+      setStatus(data2.classification);
+    }
+    fetchBalances();
   }, []);
 
   const getChartData = async () => {
@@ -95,9 +107,6 @@ function Dashboard(props) {
     setLoading(false);
   }
 
-//testing
-  console.log(userData);
-  //console.log(userData['btcBalance']);
 
   return (
     <>
@@ -140,7 +149,7 @@ function Dashboard(props) {
                   <Col md="8" xs="7">
                     <div className="numbers">
                       <p className="card-category">BTC Balance</p>
-                      <CardTitle tag="p">&#8383; 3</CardTitle>
+                      <CardTitle tag="p">&#8383; {btcBal}</CardTitle>
                       <p />
                     </div>
                   </Col>
@@ -160,7 +169,7 @@ function Dashboard(props) {
                   <Col md="8" xs="7">
                     <div className="numbers">
                       <p className="card-category">USD Balance</p>
-                      <CardTitle tag="p">${(userData.fiatBalance).substring(0, 2)},{(userData.fiatBalance).substring(2, 8)}</CardTitle>
+                      <CardTitle tag="p">${(usdBal).substring(0, 2)},{(usdBal).substring(2, 8)}</CardTitle>
                       <p />
                     </div>
                   </Col>
@@ -180,7 +189,7 @@ function Dashboard(props) {
                   <Col md="8" xs="7">
                     <div className="numbers">
                       <p className="card-category">Account Status</p>
-                      <CardTitle tag="p">{(userData.classification).charAt(0).toUpperCase()}{(userData.classification).slice(1)}</CardTitle>
+                      <CardTitle tag="p">{(status).charAt(0).toUpperCase()}{(status).slice(1)}</CardTitle>
                       <p />
                     </div>
                   </Col>
