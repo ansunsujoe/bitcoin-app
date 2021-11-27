@@ -58,7 +58,7 @@ function NewTransaction(props) {
   const getCurrentBTC = () => {
     axios.get('http://localhost:5000/btc-rate')
       .then(response => {
-        setBtcRate(response.data.bpi.USD.rate_float)
+        setBtcRate(response.data)
       }).catch(error => {
         console.log(error);
       })
@@ -68,7 +68,9 @@ function NewTransaction(props) {
   const getTraderList = () => {
     axios.get('http://localhost:5000/users/traders')
     .then(response => {
-      setTraderList(response.data.results)
+      setTraderList(response.data.results);
+      setBuyTrader(response.data.results[0].id);
+      setSellTrader(response.data.results[0].id);
     }).catch(error => {
       console.log(error);
     })
@@ -148,6 +150,7 @@ function NewTransaction(props) {
     const data = {
       commission_type: buyCommissionType,
       amount: buyAmount,
+      traderId: buyTrader,
       action: "buy"
     };
     transactionSubmit(data);
@@ -158,6 +161,7 @@ function NewTransaction(props) {
     const data = {
       commission_type: sellCommissionType,
       amount: sellAmount,
+      traderId: sellTrader,
       action: "sell"
     };
     transactionSubmit(data);
@@ -224,7 +228,7 @@ function NewTransaction(props) {
                             step={0.1}
                             marks
                             min={0}
-                            max={roundDecimal(clientProperties.fiatBalance / btcRate, 1, truncate = true)}
+                            max={roundDecimal(clientProperties.fiatBalance / btcRate, 1, true)}
                             valueLabelDisplay="on"
                             color="success"
                             onChange={handleBuyChange}
