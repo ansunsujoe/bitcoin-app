@@ -138,7 +138,7 @@ function Dashboard(props) {
                   <Col md="8" xs="7">
                     <div className="numbers">
                       <p className="card-category">BTC Balance</p>
-                      <CardTitle tag="p">${(userData.btc_balance).substring(0, 9)}</CardTitle>
+                      <CardTitle tag="p">${(userData.btcBalance).substring(0, 9)}</CardTitle>
                       <p />
                     </div>
                   </Col>
@@ -158,7 +158,7 @@ function Dashboard(props) {
                   <Col md="8" xs="7">
                     <div className="numbers">
                       <p className="card-category">USD Balance</p>
-                      <CardTitle tag="p">${(userData.fiat_balance).substring(0, 9)}</CardTitle>
+                      <CardTitle tag="p">${(userData.fiatBalance).substring(0, 9)}</CardTitle>
                       <p />
                     </div>
                   </Col>
