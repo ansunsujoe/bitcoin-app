@@ -33,14 +33,30 @@ import {
 } from "reactstrap";
 
 function Tables(props) {
+  const [userBuys, setUserBuys] = useState([]);
+  const [userSells, setUserSells] = useState([]);
   axios.defaults.withCredentials = true;
 
-  useEffect(() => {
-    axios.get('http://localhost:5000/users/1/transactions/buys').then(response => {
-      console.log(response)
+  const getUserBuys = (userId) => {
+    axios.get('http://localhost:5000/users/' + userId + '/transactions/buys').then(response => {
+      setUserBuys(response.data.results);
     }).catch(error => {
       console.log(error);
     })
+  }
+
+  const getUserSells = (userId) => {
+    axios.get('http://localhost:5000/users/' + userId + '/transactions/sells').then(response => {
+      setUserSells(response.data.results);
+    }).catch(error => {
+      console.log(error);
+    })
+  }
+
+  // Get User Buys
+  useEffect(() => {
+    getUserBuys(props.userId);
+    getUserSells(props.userId);
   }, []);
 
   const acceptTransaction = (tid) => {
@@ -86,7 +102,7 @@ function Tables(props) {
                     
                   </thead>
                   <tbody>
-                    {transactionData.map((t) => (
+                    {userBuys.map((t) => (
                       props.isTrader ? (
                       <tr>
                         <td>{t.time}</td>
@@ -148,7 +164,7 @@ function Tables(props) {
                     }
                   </thead>
                   <tbody>
-                    {transactionData.map((t) => (
+                    {userSells.map((t) => (
                       props.isTrader ? (
                       <tr>
                         <td>{t.time}</td>

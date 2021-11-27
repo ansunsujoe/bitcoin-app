@@ -1,6 +1,4 @@
 from app import db
-from sqlalchemy_utils import UUIDType
-import uuid
 
 class User(db.Model):
     user_id = db.Column(db.Integer, primary_key=True)

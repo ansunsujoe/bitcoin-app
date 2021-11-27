@@ -39,7 +39,14 @@ def client_info(client_id):
         "fiatBalance": client.fiat_balance,
         "classification": client.user_classification,
         "isTrader": user.is_trader,
-        "isManager": user.is_manager
+        "isManager": user.is_manager,
+        "phoneNumber": user.phone_number,
+        "cell": user.cell,
+        "email": user.email,
+        "streetAddress": user.street_address,
+        "city": user.city,
+        "state": user.state,
+        "zip": user.zip
     }
     return client_json
 

@@ -49,6 +49,8 @@ function NewTransaction(props) {
   const [buyAmount, setBuyAmount] = useState(0);
   const [sellAmount, setSellAmount] = useState(0);
   const [btcRate, setBtcRate] = useState(0.0)
+  const [traderList, setTraderList] = useState([]);
+  const [clientProperties, setClientProperties] = useState({});
 
   axios.defaults.withCredentials = true;
 
@@ -62,9 +64,31 @@ function NewTransaction(props) {
       })
   }
 
+  // Get trader list
+  const getTraderList = () => {
+    axios.get('http://localhost:5000/users/traders')
+    .then(response => {
+      setTraderList(response.data.results)
+    }).catch(error => {
+      console.log(error);
+    })
+  }
+
+  // Get Client Data
+  const getUserData = () => {
+    axios.get('http://localhost:5000/users/clients/' + props.userId)
+    .then(response => {
+      console.log(response.data);
+      setClientProperties(response.data);
+    }).catch(error => {
+      console.log(error);
+    })
+  }
+
   // Get current bitcoin price immediately
   useEffect(() => {
     getCurrentBTC();
+    getTraderList();
   }, []);
 
   // Get current bitcoin price every 10 seconds
@@ -165,10 +189,9 @@ function NewTransaction(props) {
                         <label>Assign Trader</label>
                         <Input type="select" name="transactionType" id="transactionType"
                         value={buyTrader} onChange={e => setBuyTrader(e.currentTarget.value)}>
-                          <option key="trader-1" value="trader-1">Rick Carney</option>
-                          <option key="trader-2" value="trader-2">Bill Keane</option>
-                          <option key="trader-3" value="trader-3">Stuart Foley</option>
-                          <option key="trader-4" value="trader-4">Manohar Gaspar</option>
+                          {traderList.map((t) => (
+                            <option key={t.id} value={t.id}>{t.name}</option>
+                          ))}
                         </Input>
                       </FormGroup>
                     </Col>
@@ -197,7 +220,7 @@ function NewTransaction(props) {
                             disabled={false}
                             defaultValue={0}
                             aria-labelledby="discrete-slider-always"
-                            step={1}
+                            step={0.1}
                             marks
                             min={0}
                             max={30}
@@ -248,9 +271,9 @@ function NewTransaction(props) {
                         <label>Assign Trader</label>
                         <Input type="select" name="transactionType" id="transactionType" 
                         value={sellTrader} onChange={e => setSellTrader(e.currentTarget.value)}>
-                          <option key="trader-1" value="trader-1">Rick Carney</option>
-                          <option key="trader-2" value="trader-2">Bill Keane</option>
-                          <option key="trader-3" value="trader-3">Stuart Foley</option>
+                          {traderList.map((t) => (
+                            <option key={t.id} value={t.id}>{t.name}</option>
+                          ))}
                         </Input>
                       </FormGroup>
                     </Col>
@@ -279,7 +302,7 @@ function NewTransaction(props) {
                           disabled={false}
                           defaultValue={0}
                           aria-labelledby="discrete-slider-always"
-                          step={1}
+                          step={0.1}
                           marks
                           min={0}
                           max={30}
