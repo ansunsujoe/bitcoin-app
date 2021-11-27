@@ -48,7 +48,7 @@ function NewTransaction(props) {
   const [sellDisabled, setSellDisabled] = useState(true);
   const [buyAmount, setBuyAmount] = useState(0);
   const [sellAmount, setSellAmount] = useState(0);
-  const [btcRate, setBtcRate] = useState(0.0)
+  const [btcRate, setBtcRate] = useState(50000.0);
   const [traderList, setTraderList] = useState([]);
   const [clientProperties, setClientProperties] = useState({});
 

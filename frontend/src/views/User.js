@@ -70,6 +70,10 @@ function User(props) {
     getUserData();
   }, []);
 
+  useEffect(() => {
+    getUserData();
+  }, [props.userId]);
+
   // Handle trader switch
   const handleTraderSwitch = (e) => {
     props.handleUserIdChange(2);
