@@ -53,13 +53,13 @@ def user_transaction_buys(user_id):
             User.user_id == Transaction.client_id
         ).all()
     transactions = []
-    for t in result:
+    for t, u in result:
         transactions.append({
-            "time": t.transaction.date,
-            "client": t.user.name,
-            "commission": t.transaction.commission_type,
-            "status": t.transaction.status,
-            "value": t.transaction.amount
+            "time": t.date,
+            "client": u.name,
+            "commission": t.commission_type,
+            "status": t.status,
+            "value": t.amount
         })
     return to_response(transactions)
 
@@ -76,13 +76,13 @@ def user_transaction_sells(user_id):
             User.user_id == Transaction.client_id
         ).all()
     transactions = []
-    for t in result:
+    for t, u in result:
         transactions.append({
-            "time": t.transaction.date,
-            "client": t.user.name,
-            "commission": t.transaction.commission_type,
-            "status": t.transaction.status,
-            "value": t.transaction.amount
+            "time": t.date,
+            "client": u.name,
+            "commission": t.commission_type,
+            "status": t.status,
+            "value": t.amount
         })
     return to_response(transactions)
 
