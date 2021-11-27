@@ -59,7 +59,7 @@ function NewTransaction(props) {
     axios.get('http://localhost:5000/btc-rate')
       .then(response => {
         console.log(response.data);
-        setBtcRate(response.data);
+        setBtcRate(response.data.results);
       }).catch(error => {
         console.log(error);
       })

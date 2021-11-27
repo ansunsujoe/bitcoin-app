@@ -15,7 +15,7 @@ def btc_balance():
     r = requests.get("https://api.coindesk.com/v1/bpi/currentprice.json")
     try:
         data = r.json()
-        return data.get("bpi").get("USD").get("rate_float")
+        return to_response(data.get("bpi").get("USD").get("rate_float"))
     except Exception:
         return "Could not reach CoinDesk API to get BTC price", 500
 

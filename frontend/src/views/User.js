@@ -57,7 +57,7 @@ function User(props) {
 
   // Handle trader switch
   const handleTraderSwitch = (e) => {
-    props.userIdChange(2);
+    props.handleUserIdChange(2);
   }
 
   return (
