@@ -55,6 +55,11 @@ function User(props) {
     getUserData();
   }, []);
 
+  // Handle trader switch
+  const handleTraderSwitch = (e) => {
+    props.userIdChange(2);
+  }
+
   return (
     <>
       <div className="content">
@@ -198,6 +203,16 @@ function User(props) {
                         type="submit"
                       >
                         Update Profile
+                      </Button>
+                    </div>
+                  </Row>
+                  <Row>
+                    <div className="update ml-auto mr-auto">
+                      <Button
+                        color="info"
+                        onClick={handleTraderSwitch}
+                      >
+                        Switch To Trader
                       </Button>
                     </div>
                   </Row>

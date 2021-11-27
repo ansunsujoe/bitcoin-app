@@ -58,7 +58,8 @@ function NewTransaction(props) {
   const getCurrentBTC = () => {
     axios.get('http://localhost:5000/btc-rate')
       .then(response => {
-        setBtcRate(response.data)
+        console.log(response.data);
+        setBtcRate(response.data);
       }).catch(error => {
         console.log(error);
       })
@@ -228,8 +229,7 @@ function NewTransaction(props) {
                             step={0.1}
                             marks
                             min={0}
-                            max={0}
-                            // max={roundDecimal(clientProperties.fiatBalance / btcRate, 1, true)}
+                            max={btcRate > 0 ? roundDecimal(clientProperties.fiatBalance / btcRate, 1, true) : 0.0}
                             valueLabelDisplay="on"
                             color="success"
                             onChange={handleBuyChange}
@@ -311,7 +311,7 @@ function NewTransaction(props) {
                           step={0.1}
                           marks
                           min={0}
-                          max={0}
+                          max={clientProperties.btcBalance}
                           valueLabelDisplay="on"
                           color="error"
                           onChange={handleSellChange}
