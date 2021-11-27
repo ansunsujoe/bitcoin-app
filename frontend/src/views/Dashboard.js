@@ -25,7 +25,6 @@ import {
   Card,
   CardHeader,
   CardBody,
-  CardFooter,
   CardTitle,
   Row,
   Col,
@@ -34,8 +33,9 @@ import {
 import {
   dashboard24HoursPerformanceChart,
 } from "variables/charts.js";
+import axios from 'axios';
 
-function Dashboard() {
+function Dashboard(props) {
 
   const [loading, setLoading] = useState(true);
   const [priceData, setPriceData] = useState(null);
@@ -43,6 +43,19 @@ function Dashboard() {
   const [userData, setUserData] = useState(null);
   const [chartData, setChartData] = useState(null);
   const [series, setSeries] = useState(null);
+
+  // Get User Information
+  axios.defaults.withCredentials = true;
+  // Get current Bitcoin price
+  const getUserData = () => {
+    axios.get('http://localhost:5000/users/clients/' + props.userId)
+      .then(response => {
+        console.log(response.data);
+        setUserData(response.data);
+      }).catch(error => {
+        console.log(error);
+      })
+  }
 
   const options = [
     { value: 'USD', text: 'USD' },
@@ -58,6 +71,7 @@ function Dashboard() {
       setPriceData(data.bpi);
       //setLoading(false);
       getChartData();
+      getUserData();
     }
     fetchPrices();
   }, []);
@@ -81,6 +95,8 @@ function Dashboard() {
     setLoading(false);
   }
 
+  //console.log(userData);
+
   return (
     <>
       <div className="content">
@@ -94,12 +110,12 @@ function Dashboard() {
             <Card className="card-stats">
               <CardBody>
                 <Row>
-                  <Col md="4" xs="5">
+                  <Col md="3" xs="4">
                     <div className="icon-big text-center icon-warning">
                       <i className="nc-icon nc-globe text-warning" />
                     </div>
                   </Col>
-                  <Col md="8" xs="7">
+                  <Col md="9" xs="8">
                     <div className="numbers">
                       <p className="card-category">BTC to USD</p>
                       <CardTitle>${(priceData[currency].rate).substring(0, 9)} </CardTitle>
@@ -122,7 +138,7 @@ function Dashboard() {
                   <Col md="8" xs="7">
                     <div className="numbers">
                       <p className="card-category">BTC Balance</p>
-                      <CardTitle tag="p">$31,345.46</CardTitle>
+                      <CardTitle tag="p">${(userData.btc_balance).substring(0, 9)}</CardTitle>
                       <p />
                     </div>
                   </Col>
@@ -142,7 +158,7 @@ function Dashboard() {
                   <Col md="8" xs="7">
                     <div className="numbers">
                       <p className="card-category">USD Balance</p>
-                      <CardTitle tag="p">$2,332.12</CardTitle>
+                      <CardTitle tag="p">${(userData.fiat_balance).substring(0, 9)}</CardTitle>
                       <p />
                     </div>
                   </Col>
@@ -162,7 +178,7 @@ function Dashboard() {
                   <Col md="8" xs="7">
                     <div className="numbers">
                       <p className="card-category">Account Status</p>
-                      <CardTitle tag="p">Gold</CardTitle>
+                      <CardTitle tag="p">{(userData.classification)}</CardTitle>
                       <p />
                     </div>
                   </Col>
@@ -195,7 +211,7 @@ function Dashboard() {
             <Card>
               <CardHeader>
                 <CardTitle tag="h5">BTC Price Over Time</CardTitle>
-                <p className="card-category">Monthly performance</p>
+                <p className="card-category">Past Month</p>
               </CardHeader>
               <CardBody>
 
