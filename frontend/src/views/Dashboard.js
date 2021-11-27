@@ -97,7 +97,7 @@ function Dashboard(props) {
 
 //testing
   console.log(userData);
-  console.log(userData['btcBalance']);
+  //console.log(userData['btcBalance']);
 
   return (
     <>
@@ -140,7 +140,7 @@ function Dashboard(props) {
                   <Col md="8" xs="7">
                     <div className="numbers">
                       <p className="card-category">BTC Balance</p>
-                      <CardTitle tag="p">${userData[btcBalance]}</CardTitle>
+                      <CardTitle tag="p">$3</CardTitle>
                       <p />
                     </div>
                   </Col>
