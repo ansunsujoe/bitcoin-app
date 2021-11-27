@@ -35,8 +35,8 @@ def client_info(client_id):
     client_json = {
         "id": user.user_id,
         "name": user.name,
-        "btcBalance": client.btc_balance,
-        "fiatBalance": client.fiat_balance,
+        "btcBalance": round(client.btc_balance, 1),
+        "fiatBalance": round(client.fiat_balance, 2),
         "classification": client.user_classification,
         "isTrader": user.is_trader,
         "isManager": user.is_manager,
