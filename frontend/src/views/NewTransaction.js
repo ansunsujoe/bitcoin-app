@@ -228,7 +228,8 @@ function NewTransaction(props) {
                             step={0.1}
                             marks
                             min={0}
-                            max={roundDecimal(clientProperties.fiatBalance / btcRate, 1, true)}
+                            max={0}
+                            // max={roundDecimal(clientProperties.fiatBalance / btcRate, 1, true)}
                             valueLabelDisplay="on"
                             color="success"
                             onChange={handleBuyChange}
@@ -310,7 +311,7 @@ function NewTransaction(props) {
                           step={0.1}
                           marks
                           min={0}
-                          max={clientProperties.btcBalance}
+                          max={0}
                           valueLabelDisplay="on"
                           color="error"
                           onChange={handleSellChange}
