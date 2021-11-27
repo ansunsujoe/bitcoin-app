@@ -141,12 +141,12 @@ function Dashboard(props) {
             <Card className="card-stats">
               <CardBody>
                 <Row>
-                  <Col md="4" xs="5">
+                  <Col md="2" xs="5">
                     <div className="icon-big text-center icon-warning">
                       <i className="nc-icon nc-bold text-success" />
                     </div>
                   </Col>
-                  <Col md="8" xs="7">
+                  <Col md="10" xs="7">
                     <div className="numbers">
                       <p className="card-category">BTC Balance</p>
                       <CardTitle tag="p">&#8383; {btcBal}</CardTitle>
