@@ -53,14 +53,6 @@ function Tables(props) {
       })
   }
 
-  const getUserBuys = (userId) => {
-    axios.get('http://localhost:5000/users/' + userId + '/transactions/buys').then(response => {
-      setUserBuys(response.data.results);
-    }).catch(error => {
-      console.log(error);
-    })
-  }
-
   const getUserBuys = () => {
     if (viewMode === "client") {
       axios.get('http://localhost:5000/users/' + props.userId + '/transactions/buys').then(response => {
