@@ -35,6 +35,7 @@ function Dashboard(props) {
   const [activeColor, setActiveColor] = React.useState("info");
   const [isTrader, setIsTrader] = React.useState(false);
   const [isManager, setIsManager] = React.useState(false);
+  const [userId, setUserId] = React.useState(1);
   const mainPanel = React.useRef();
   const location = useLocation();
 
@@ -63,6 +64,9 @@ function Dashboard(props) {
   const handleManagerClick = (event) => {
     setIsManager(event.target.checked);
   }
+  const userIdChange = (id) => {
+    setUserId(id);
+  }
 
   return (
     <div className="wrapper">
@@ -70,6 +74,7 @@ function Dashboard(props) {
         {...props}
         isTrader={isTrader}
         isManager={isManager}
+        userId={userId}
         routes={routes}
         bgColor={backgroundColor}
         activeColor={activeColor}
@@ -85,7 +90,9 @@ function Dashboard(props) {
                 render={() => <prop.component isTrader={isTrader} 
                 handleTraderClick={handleTraderClick}
                 isManager={isManager} 
-                handleManagerClick={handleManagerClick} />}
+                handleManagerClick={handleManagerClick}
+                userId={userId}
+                handleUserIdChange={userIdChange} />}
               />)
           })}
         </Switch>

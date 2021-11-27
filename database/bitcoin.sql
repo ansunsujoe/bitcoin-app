@@ -1,6 +1,6 @@
 -- User Table
 CREATE TABLE IF NOT EXISTS User (
-    User_ID VARCHAR(50) NOT NULL,
+    User_ID INT NOT NULL AUTO_INCREMENT,
     Name VARCHAR(50) NOT NULL,
     Phone_number VARCHAR(15) NOT NULL,
     Cell VARCHAR(15) NOT NULL,
@@ -17,14 +17,14 @@ CREATE TABLE IF NOT EXISTS User (
 
 -- Transaction Table
 CREATE TABLE IF NOT EXISTS Transaction (
-	Transaction_id VARCHAR(50) NOT NULL,
-    Trader_id VARCHAR(50) NOT NULL,
-	Commission_type VARCHAR(3),
-	Client_id NOT NULL,
-	Status VARCHAR(10),
-    Date DATETIME,
-    Action VARCHAR(10),
-	Amount DOUBLE(32, 10),
+	Transaction_id INT NOT NULL AUTO_INCREMENT,
+    Trader_id INT NOT NULL,
+	Commission_type VARCHAR(3) NOT NULL,
+	Client_id INT NOT NULL,
+	Status VARCHAR(10) NOT NULL,
+    Date DATETIME NOT NULL,
+    Action VARCHAR(10) NOT NULL,
+	Amount DOUBLE(32, 10) NOT NULL,
 	PRIMARY KEY (Transaction_id),
 	FOREIGN KEY (Client_id) REFERENCES User(User_ID),
     FOREIGN KEY (Trader_id) REFERENCES User(User_ID)
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS Transaction (
 
 -- Client table
 CREATE TABLE IF NOT EXISTS Client (
-    User_ID VARCHAR(50) NOT NULL,
+    User_ID INT NOT NULL,
     Fiat_balance DOUBLE(32, 2) NOT NULL,
     BTC_balance DOUBLE(32, 10) NOT NULL,
     User_classification VARCHAR(10) NOT NULL,
@@ -43,10 +43,11 @@ CREATE TABLE IF NOT EXISTS Client (
 
 -- Processed table
 CREATE TABLE IF NOT EXISTS Processed (
-	Trader_id VARCHAR(50) NOT NULL,
-    Transaction_id VARCHAR(50) NOT NULL,
-	Order_id VARCHAR(50) NOT NULL,
+	Trader_id INT NOT NULL,
+    Transaction_id INT NOT NULL,
+	Order_id INT NOT NULL AUTO_INCREMENT,
 	Commission_paid DOUBLE(32, 10) NOT NULL,
+    Date DATETIME NOT NULL,
     PRIMARY KEY (Order_id),
     FOREIGN KEY (Trader_id) REFERENCES User(User_ID),
     FOREIGN KEY (Transaction_id) REFERENCES Transaction(Transaction_id)
@@ -54,9 +55,9 @@ CREATE TABLE IF NOT EXISTS Processed (
 
 -- Issues table
 CREATE TABLE IF NOT EXISTS IssuesTransaction (
-    Transaction_id VARCHAR(50) NOT NULL,
-	Trader_id VARCHAR(50) NOT NULL,
-	Client_id VARCHAR(50) NOT NULL,
-	PRIMARY KEY(Transaction_id)
-	Foreign key (Client_id, Trader_id) REFERENCES User
+    Transaction_id INT NOT NULL,
+	Trader_id INT NOT NULL,
+	Client_id INT NOT NULL,
+	PRIMARY KEY (Transaction_id),
+	FOREIGN KEY (Client_id, Trader_id) REFERENCES User
 );

@@ -2,7 +2,9 @@ version: '3.7'
 
 services:
   database:
-    image: mysql
+    image: mysql:latest
+    cap_add:
+      - SYS_NICE
     pull_policy: always
     environment:
       MYSQL_ROOT_PASSWORD: root
@@ -17,7 +19,7 @@ services:
       restart_policy:
         condition: on-failure
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
       - ./database/bitcoin.sql:/bitcoin.sql
       - ./mysql_data:/var/lib/mysql/:rw
