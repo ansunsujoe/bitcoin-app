@@ -24,7 +24,6 @@ services:
       - ./database/bitcoin.sql:/bitcoin.sql
       - ./mysql_data:/var/lib/mysql/:rw
     restart: unless-stopped
-  
   backend:
     image: mansoonseason77/btc-backend:main
     pull_policy: always
@@ -33,7 +32,6 @@ services:
     ports:
       - "5000:5000"
     restart: unless-stopped
-
   frontend:
     image: mansoonseason77/bitcoinapp:main
     pull_policy: always
