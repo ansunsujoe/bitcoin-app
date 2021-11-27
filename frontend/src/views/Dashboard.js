@@ -51,7 +51,7 @@ function Dashboard(props) {
     axios.get('http://localhost:5000/users/clients/' + props.userId)
       .then(response => {
         console.log(response.data);
-        setUserData(response.data);
+        setUserData(response.data.json());
       }).catch(error => {
         console.log(error);
       })
@@ -140,7 +140,7 @@ function Dashboard(props) {
                   <Col md="8" xs="7">
                     <div className="numbers">
                       <p className="card-category">BTC Balance</p>
-                      <CardTitle tag="p">$3</CardTitle>
+                      <CardTitle tag="p">${(userData.btcBalance).substring(0, 9)}</CardTitle>
                       <p />
                     </div>
                   </Col>
