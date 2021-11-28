@@ -38,10 +38,8 @@ def user_transfer(user_id):
         new_transfer = Transfer(
             trader_id=response.get("traderId"),
             client_id=user_id,
-            commission_type=response.get("commission_type"),
             status="Pending",
             date=datetime.now(),
-            action=response.get("action"),
             amount=response.get("amount")
         )
         
