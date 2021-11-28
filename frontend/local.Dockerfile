@@ -4,5 +4,6 @@ WORKDIR /usr/src/app
 
 EXPOSE 3000
 COPY frontend/package.json .
+RUN npm install -g react-scripts
 RUN npm install --force
 CMD ["npm", "start"]
