@@ -93,6 +93,9 @@ function Dashboard(props) {
     setLoading(false);
   }
 
+  console.log(props.userId);
+  console.log(userData);
+
   if (props.isManager || props.isTrader){
     return (
       <>
