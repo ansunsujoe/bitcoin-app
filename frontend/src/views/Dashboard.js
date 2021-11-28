@@ -61,15 +61,17 @@ function Dashboard(props) {
       getChartData();
     }
     fetchPrices();
-    async function fetchBalances() {
-      const res2 = await fetch('http://localhost:5000/users/clients/' + props.userId)
-      const data2 = await res2.json();
-      setUserData(data2);
-      setBtcBal(data2.btcBalance);
-      setUsdBal(data2.fiatBalance);
-      setStatus(data2.classification);
+    if (!(props.isManager || props.isTrader)){
+      async function fetchBalances() {
+        const res2 = await fetch('http://localhost:5000/users/clients/' + props.userId)
+        const data2 = await res2.json();
+        setUserData(data2);
+        setBtcBal(data2.btcBalance);
+        setUsdBal(data2.fiatBalance);
+        setStatus(data2.classification);
+      }
+      fetchBalances();
     }
-    fetchBalances();
   }, []);
 
   const getChartData = async () => {
