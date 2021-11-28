@@ -60,6 +60,7 @@ function Dashboard(props) {
         setBtcBal(userData.btcBalance);
         setUsdBal(userData.fiatBalance);
         setStatus(userData.classification);
+        setLoading(false);
       }).catch(error => {
         console.log(error);
       })
@@ -104,7 +105,7 @@ function Dashboard(props) {
         data: series
       }
     ])
-    setLoading(false);
+    //setLoading(false);
   }
 
   console.log(props.userId);
