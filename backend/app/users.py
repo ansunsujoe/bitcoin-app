@@ -1,4 +1,4 @@
-from app import app, db
+from app import app, db, bcrypt
 from flask import request, session
 from app.models import User, Client
 from app.util import to_json, to_response
@@ -58,20 +58,53 @@ def trader_list():
 @app.route("/users/login", methods=["POST"])
 def login():
     request_data = request.get_json()
-    username = request_data.get("name")
+    print(request_data)
+
+    username = request_data.get("username")
     password = request_data.get("password")
-    print(username, password)
-    user = db.session.query(User).filter(User.user_name == username).first()
-    print(user)
-    if(user and user.password == password):
+    user = db.session.query(User).filter(User.user_name == username).first()   
+    if(user):
+      content = bcrypt.check_password_hash(user.password, password)  
+      print(content) 
+      if(content):
         return { "success" : True, "content" : {
             "username" : user.name,
             "user_id" : user.user_id
-        }}
-    
+      }}
+      return {"success" : False}
     return {"success" : False}
 
 
 @app.route("/users/register", methods=["POST"])
 def register():
-    return
+    request_data = request.get_json()
+    username = request_data.get("username")
+    user = db.session.query(User).filter(User.user_name == username).first()   
+    if(user):
+      return {"success" : False, "message" : "User Exists"}
+    is_trader=request_data.get("trader")
+    is_manager=request_data.get("manager")
+    is_client=request_data.get("client")
+    userData = User(
+        name=request_data.get("name"),
+        phone_number=request_data.get("telephone"),
+        cell=request_data.get("cell"),
+        user_name=username,
+        email=request_data.get("email"),
+        street_address=request_data.get("address"),
+        city=request_data.get("city"),
+        state=request_data.get("state"),
+        zip=request_data.get("zip"),
+        password=bcrypt.generate_password_hash(request_data.get("password")),
+        is_trader=1 if is_trader=="yes" else 0,
+        is_manager=1 if is_manager=="yes" else 0,
+        is_client=1 if is_client=="yes" else 0
+    )
+    # Commit to database
+    db.session.add(userData)
+    db.session.commit()
+    user = db.session.query(User).filter(User.user_name == username).first() 
+    return { "success" : True, "content" : {
+            "username" : user.user_name,
+            "user_id" : user.user_id
+    }}
