@@ -74,6 +74,15 @@ var routes = [
     managerOnly: false
   },
   {
+    path: "/new-transfer",
+    name: "New Transfer",
+    icon: "nc-icon nc-cart-simple",
+    component: NewTransfer,
+    layout: "/admin",
+    traderOnly: false,
+    managerOnly: false
+  },
+  {
     path: "/clients",
     name: "Clients",
     icon: "nc-icon nc-globe",
