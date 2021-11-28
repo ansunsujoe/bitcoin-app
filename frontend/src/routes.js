@@ -34,6 +34,7 @@ var routes = [
     icon: "nc-icon nc-chart-bar-32",
     component: Dashboard,
     layout: "/admin",
+    clientOnly: true,
     traderOnly: false,
     managerOnly: false
   },
