@@ -26,6 +26,7 @@ import UserPage from "views/User.js";
 import Clients from "views/Clients.js"
 import Manager from "./views/Manager";
 import Trader_Approve from "./views/Trader_Approve";
+import NewTransfer from "views/NewTransfer";
 
 var routes = [
   {
