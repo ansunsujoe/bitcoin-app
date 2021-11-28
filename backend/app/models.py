@@ -37,3 +37,11 @@ class Processed(db.Model):
     transaction_id = db.Column(db.Integer, db.ForeignKey(Transaction.transaction_id))
     commission_paid = db.Column(db.Numeric(32, 10))
     date = db.Column(db.DateTime)
+
+class Transfer(db.Model):
+    transfer_id = db.Column(db.Integer, primary_key=True)
+    trader_id = db.Column(db.Integer, db.ForeignKey(User.user_id))
+    client_id = db.Column(db.Integer, db.ForeignKey(User.user_id))
+    status = db.Column(db.String(10))
+    date = db.Column(db.DateTime)
+    amount = db.Column(db.Numeric(32, 10))
