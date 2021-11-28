@@ -60,19 +60,18 @@ function Dashboard(props) {
         setBtcBal(userData.btcBalance);
         setUsdBal(userData.fiatBalance);
         setStatus(userData.classification);
-        setLoading(false);
       }).catch(error => {
         console.log(error);
       })
   }
 
   useEffect(() => {
+    getUserData();
     async function fetchPrices() {
       const res = await fetch('https://api.coindesk.com/v1/bpi/currentprice.json')
       const data = await res.json();
       setCurrency(data.bpi.USD.code);
       setPriceData(data.bpi);
-      getUserData();
       getChartData();
     }
     fetchPrices();
@@ -105,7 +104,7 @@ function Dashboard(props) {
         data: series
       }
     ])
-    //setLoading(false);
+    setLoading(false);
   }
 
   console.log(props.userId);
