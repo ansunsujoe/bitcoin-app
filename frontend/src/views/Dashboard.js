@@ -44,7 +44,7 @@ function Dashboard(props) {
   const [status, setStatus] = useState(null);
 
   // Get User Information
-  //axios.defaults.withCredentials = true;
+  axios.defaults.withCredentials = true;
 
   const options = [
     { value: 'USD', text: 'USD' },
@@ -52,15 +52,30 @@ function Dashboard(props) {
     { value: 'GBP', text: 'GPB' }
   ];
 
+  const getUserData = () => {
+    axios.get('http://localhost:5000/users/clients/' + props.userId)
+      .then(response => {
+        console.log(response.data);
+        setUserData(response.data);
+        setBtcBal(userData.btcBalance);
+        setUsdBal(userData.fiatBalance);
+        setStatus(userData.classification);
+      }).catch(error => {
+        console.log(error);
+      })
+  }
+
   useEffect(() => {
     async function fetchPrices() {
       const res = await fetch('https://api.coindesk.com/v1/bpi/currentprice.json')
       const data = await res.json();
       setCurrency(data.bpi.USD.code);
       setPriceData(data.bpi);
+      getUserData();
       getChartData();
     }
     fetchPrices();
+    /*
     async function fetchBalances() {
         const res2 = await fetch('http://localhost:5000/users/clients/' + props.userId)
         const data2 = await res2.json();
@@ -70,6 +85,7 @@ function Dashboard(props) {
         setStatus(data2.classification);
       }
       fetchBalances();
+      */
   }, []);
 
   const getChartData = async () => {
