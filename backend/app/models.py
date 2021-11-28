@@ -4,6 +4,7 @@ class User(db.Model):
     user_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50))
     phone_number = db.Column(db.String(15))
+    user_name = db.Column(db.String(15),unique=True)
     cell = db.Column(db.String(15))
     email = db.Column(db.String(50))
     street_address = db.Column(db.String(50))
