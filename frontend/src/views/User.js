@@ -38,7 +38,7 @@ import axios from 'axios';
 function User(props) {
   const [userData, setUserData] = useState({});
 
-  // Get User Information
+  // Get User Information - Important
   axios.defaults.withCredentials = true;
   const getUserData = () => {
     axios.get('http://localhost:5000/users/clients/' + props.userId)
