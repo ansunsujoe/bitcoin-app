@@ -90,7 +90,7 @@ function Dashboard(props) {
     ])
     setLoading(false);
   }
-  
+
   if (props.isManager || props.isTrader){
     return (
       <>
@@ -152,130 +152,131 @@ function Dashboard(props) {
         </div>
       </>
     );
-  }
-
-  return (
-    <>
-      <div className="content">
-      {loading ? (
-        <div>
+  }else{
+    return (
+      <>
+        <div className="content">
+        {loading ? (
+          <div>
+          </div>
+        ) : (
+            <>
+              <Row>
+            <Col lg="3" md="6" sm="6">
+              <Card className="card-stats">
+                <CardBody>
+                  <Row>
+                    <Col md="2" xs="4">
+                      <div className="icon-big text-center icon-warning">
+                        <i className="nc-icon nc-globe text-warning" />
+                      </div>
+                    </Col>
+                    <Col md="10" xs="8">
+                      <div className="numbers">
+                        <p className="card-category">BTC to USD</p>
+                        <CardTitle>${(priceData[currency].rate).substring(0, 9)} </CardTitle>
+                        <p />
+                      </div>
+                    </Col>
+                  </Row>
+                </CardBody>
+              </Card>
+            </Col>
+            <Col lg="3" md="6" sm="6">
+              <Card className="card-stats">
+                <CardBody>
+                  <Row>
+                    <Col md="2" xs="5">
+                      <div className="icon-big text-center icon-warning">
+                        <i className="nc-icon nc-bold text-success" />
+                      </div>
+                    </Col>
+                    <Col md="10" xs="7">
+                      <div className="numbers">
+                        <p className="card-category">BTC Balance</p>
+                        <CardTitle tag="p">&#8383; {btcBal}</CardTitle>
+                        <p />
+                      </div>
+                    </Col>
+                  </Row>
+                </CardBody>
+              </Card>
+            </Col>
+            <Col lg="3" md="6" sm="6">
+              <Card className="card-stats">
+                <CardBody>
+                  <Row>
+                    <Col md="2" xs="5">
+                      <div className="icon-big text-center icon-warning">
+                      <i className="nc-icon nc-money-coins text-success" />
+                      </div>
+                    </Col>
+                    <Col md="10" xs="7">
+                      <div className="numbers">
+                        <p className="card-category">USD Balance</p>
+                        <CardTitle tag="p">${(usdBal).substring(0, 2)},{(usdBal).substring(2, 8)}</CardTitle>
+                        <p />
+                      </div>
+                    </Col>
+                  </Row>
+                </CardBody>
+              </Card>
+            </Col>
+            <Col lg="3" md="6" sm="6">
+              <Card className="card-stats">
+                <CardBody>
+                  <Row>
+                    <Col md="4" xs="5">
+                      <div className="icon-big text-center icon-warning">
+                        <i className="nc-icon nc-single-02 text-primary" />
+                      </div>
+                    </Col>
+                    <Col md="8" xs="7">
+                      <div className="numbers">
+                        <p className="card-category">Account Status</p>
+                        <CardTitle tag="p">{(status).charAt(0).toUpperCase()}{(status).slice(1)}</CardTitle>
+                        <p />
+                      </div>
+                    </Col>
+                  </Row>
+                </CardBody>
+              </Card>
+            </Col>
+          </Row>
+          <Row>
+            
+          </Row>
+  
+          <Row>
+            <Col md="12">
+              <Card>
+                <CardHeader>
+                  <CardTitle tag="h5">BTC Price Over Time</CardTitle>
+                  <p className="card-category">Past Month</p>
+                </CardHeader>
+                <CardBody>
+  
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <Chart
+                  options={chartData}
+                  series={series}
+                  type="line"
+                  width="1100"
+                  height="300"
+                />
+              </div>
+  
+                </CardBody>
+              </Card>
+            </Col>
+          </Row>
+            </>
+          )}
         </div>
-      ) : (
-          <>
-            <Row>
-          <Col lg="3" md="6" sm="6">
-            <Card className="card-stats">
-              <CardBody>
-                <Row>
-                  <Col md="2" xs="4">
-                    <div className="icon-big text-center icon-warning">
-                      <i className="nc-icon nc-globe text-warning" />
-                    </div>
-                  </Col>
-                  <Col md="10" xs="8">
-                    <div className="numbers">
-                      <p className="card-category">BTC to USD</p>
-                      <CardTitle>${(priceData[currency].rate).substring(0, 9)} </CardTitle>
-                      <p />
-                    </div>
-                  </Col>
-                </Row>
-              </CardBody>
-            </Card>
-          </Col>
-          <Col lg="3" md="6" sm="6">
-            <Card className="card-stats">
-              <CardBody>
-                <Row>
-                  <Col md="2" xs="5">
-                    <div className="icon-big text-center icon-warning">
-                      <i className="nc-icon nc-bold text-success" />
-                    </div>
-                  </Col>
-                  <Col md="10" xs="7">
-                    <div className="numbers">
-                      <p className="card-category">BTC Balance</p>
-                      <CardTitle tag="p">&#8383; {btcBal}</CardTitle>
-                      <p />
-                    </div>
-                  </Col>
-                </Row>
-              </CardBody>
-            </Card>
-          </Col>
-          <Col lg="3" md="6" sm="6">
-            <Card className="card-stats">
-              <CardBody>
-                <Row>
-                  <Col md="2" xs="5">
-                    <div className="icon-big text-center icon-warning">
-                    <i className="nc-icon nc-money-coins text-success" />
-                    </div>
-                  </Col>
-                  <Col md="10" xs="7">
-                    <div className="numbers">
-                      <p className="card-category">USD Balance</p>
-                      <CardTitle tag="p">${(usdBal).substring(0, 2)},{(usdBal).substring(2, 8)}</CardTitle>
-                      <p />
-                    </div>
-                  </Col>
-                </Row>
-              </CardBody>
-            </Card>
-          </Col>
-          <Col lg="3" md="6" sm="6">
-            <Card className="card-stats">
-              <CardBody>
-                <Row>
-                  <Col md="4" xs="5">
-                    <div className="icon-big text-center icon-warning">
-                      <i className="nc-icon nc-single-02 text-primary" />
-                    </div>
-                  </Col>
-                  <Col md="8" xs="7">
-                    <div className="numbers">
-                      <p className="card-category">Account Status</p>
-                      <CardTitle tag="p">{(status).charAt(0).toUpperCase()}{(status).slice(1)}</CardTitle>
-                      <p />
-                    </div>
-                  </Col>
-                </Row>
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
-        <Row>
-          
-        </Row>
+      </>
+    );
 
-        <Row>
-          <Col md="12">
-            <Card>
-              <CardHeader>
-                <CardTitle tag="h5">BTC Price Over Time</CardTitle>
-                <p className="card-category">Past Month</p>
-              </CardHeader>
-              <CardBody>
-
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <Chart
-                options={chartData}
-                series={series}
-                type="line"
-                width="1100"
-                height="300"
-              />
-            </div>
-
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
-          </>
-        )}
-      </div>
-    </>
-  );
+  } 
 }
 
 export default Dashboard;
