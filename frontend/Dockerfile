@@ -6,5 +6,3 @@ WORKDIR /usr/src/app
 EXPOSE 3000
 COPY frontend .
 RUN npm install --force
-
-CMD ["/usr/src/app/entrypoint.sh"]
