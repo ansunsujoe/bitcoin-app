@@ -90,6 +90,69 @@ function Dashboard(props) {
     ])
     setLoading(false);
   }
+  
+  if (props.isManager || props.isTrader){
+    return (
+      <>
+        <div className="content">
+        {loading ? (
+          <div>
+          </div>
+        ) : (
+            <>
+              <Row>
+            <Col lg="3" md="6" sm="6">
+              <Card className="card-stats">
+                <CardBody>
+                  <Row>
+                    <Col md="2" xs="4">
+                      <div className="icon-big text-center icon-warning">
+                        <i className="nc-icon nc-globe text-warning" />
+                      </div>
+                    </Col>
+                    <Col md="10" xs="8">
+                      <div className="numbers">
+                        <p className="card-category">BTC to USD</p>
+                        <CardTitle>${(priceData[currency].rate).substring(0, 9)} </CardTitle>
+                        <p />
+                      </div>
+                    </Col>
+                  </Row>
+                </CardBody>
+              </Card>
+            </Col>
+          </Row>
+          <Row> 
+          </Row>
+          <Row>
+            <Col md="12">
+              <Card>
+                <CardHeader>
+                  <CardTitle tag="h5">BTC Price Over Time</CardTitle>
+                  <p className="card-category">Past Month</p>
+                </CardHeader>
+                <CardBody>
+  
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <Chart
+                  options={chartData}
+                  series={series}
+                  type="line"
+                  width="1100"
+                  height="300"
+                />
+              </div>
+  
+                </CardBody>
+              </Card>
+            </Col>
+          </Row>
+            </>
+          )}
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
