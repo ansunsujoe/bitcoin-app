@@ -7,4 +7,4 @@ EXPOSE 3000
 COPY frontend .
 RUN npm install --force
 
-CMD ["npm", "start"]
+CMD ["/usr/src/app/entrypoint.sh"]
