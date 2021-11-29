@@ -111,6 +111,7 @@ def trader_transaction_buys(trader_id):
     transactions = []
     for t, u in result:
         transactions.append({
+            "tid": t.transaction_id,
             "time": t.date,
             "name": u.name,
             "commission": t.commission_type,
@@ -134,6 +135,7 @@ def trader_transaction_sells(trader_id):
     transactions = []
     for t, u in result:
         transactions.append({
+            "tid": t.transaction_id,
             "time": t.date,
             "name": u.name,
             "commission": t.commission_type,
@@ -147,6 +149,7 @@ def trader_transaction_sells(trader_id):
 def transaction_delete(transaction_id):
     db.session.query(Transaction).filter(Transaction.transaction_id == transaction_id).delete()
     db.session.commit()
+    return "Success"
 
 # Accept transactions (trader cancels)
 @app.route("/transactions/<transaction_id>/accept", methods=["PUT"])
@@ -154,3 +157,4 @@ def transaction_accept(transaction_id):
     transaction = db.session.query(Transaction).filter(Transaction.transaction_id == transaction_id).first()
     transaction.status = "Complete"
     db.session.commit()
+    return "Success"

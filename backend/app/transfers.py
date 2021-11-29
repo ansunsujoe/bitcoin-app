@@ -5,11 +5,6 @@ from flask import request, session
 from app.models import Transfer, User
 import requests
 
-# Root endpoint
-@app.route("/")
-def index():
-    return "Hello World!"
-
 # Add transfer
 @app.route("/transfers", methods=["GET"])
 def get_transfers():

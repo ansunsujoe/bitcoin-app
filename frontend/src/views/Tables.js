@@ -70,6 +70,7 @@ function Tables(props) {
 
   const getTraderBuys = () => {
     axios.get('http://localhost:5000/users/traders/' + props.userId + '/transactions/buys').then(response => {
+      console.log(response.data.results);
       setTraderBuys(response.data.results);
     }).catch(error => {
       console.log(error);
@@ -105,10 +106,28 @@ function Tables(props) {
     console.log(tid);
   }
 
-  const cancelTransaction = (tid) => {
+  const cancelTransaction = (tid, action, viewMode) => {
     console.log(tid);
+    axios.delete('http://localhost:5000/transactions/' + tid).then(response => {
+      if (viewMode === "trader") {
+        if (action === "buy") {
+          getTraderBuys();
+        }
+        else {
+          getTraderSells();
+        }
+      }
+      else {
+        if (action === "buy") {
+          getClientBuys();
+        }
+        else {
+          getClientSells();
+        }
+      }
+    });
   }
-
+  
   return (
     <>
       <div className="content">
@@ -176,11 +195,11 @@ function Tables(props) {
                         <td className="text-right">{t.value} &#8383;</td>
                         <td className="text-right">
                           <Button color="success" type="submit" size="sm" disabled={t.status === "Complete"}
-                          onClick={() => acceptTransaction(t.transactionId)}>Complete</Button>
+                          onClick={() => acceptTransaction(t.tid, "buy", viewMode)}>Complete</Button>
                         </td>
                         <td className="text-right">
                           <Button color="danger" type="submit" size="sm" disabled={t.status === "Complete"}
-                          onClick={() => cancelTransaction(t.transactionId)}>Cancel</Button>
+                          onClick={() => cancelTransaction(t.tid, "buy", viewMode)}>Cancel</Button>
                         </td>
                       </tr>
                       ) : (
@@ -238,11 +257,11 @@ function Tables(props) {
                         <td className="text-right">{t.value} &#8383;</td>
                         <td className="text-right">
                           <Button color="success" type="submit" size="sm" disabled={t.status === "Complete"}
-                          onClick={() => acceptTransaction(t.transactionId)}>Complete</Button>
+                          onClick={() => acceptTransaction(t, "sell", viewMode)}>Complete</Button>
                         </td>
                         <td className="text-right">
                           <Button color="danger" type="submit" size="sm" disabled={t.status === "Complete"}
-                          onClick={() => cancelTransaction(t.transactionId)}>Cancel</Button>
+                          onClick={() => cancelTransaction(t, "sell", viewMode)}>Cancel</Button>
                         </td>
                       </tr>
                       ) : (
