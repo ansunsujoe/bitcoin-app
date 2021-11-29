@@ -34,12 +34,12 @@ function Dashboard(props) {
   const [loading, setLoading] = useState(true);
   const [priceData, setPriceData] = useState(null);
   const [currency, setCurrency] = useState(null);
-  const [userData, setUserData] = useState(null);
+  //const [userData, setUserData] = useState(null);
   const [chartData, setChartData] = useState(null);
   const [series, setSeries] = useState(null);
-  const [btcBal, setBtcBal] = useState(null);
-  const [usdBal, setUsdBal] = useState(null);
-  const [status, setStatus] = useState(null);
+  const [btcBal, setBtcBal] = useState([]);
+  const [usdBal, setUsdBal] = useState([]);
+  const [status, setStatus] = useState([]);
 
   /*
   const options = [
@@ -49,12 +49,13 @@ function Dashboard(props) {
   ];
   */
 
+  /*
   useEffect(() => {
     async function fetchBalances() {
       const res2 = await fetch('http://localhost:5000/users/clients/' + props.userId)
       const data2 = await res2.json();
       if (data2 != null){
-        setUserData(data2);
+        //setUserData(data2);
         setBtcBal(data2.btcBalance);
         setUsdBal(data2.fiatBalance);
         setStatus(data2.classification);
@@ -62,8 +63,23 @@ function Dashboard(props) {
     }
     fetchBalances();
   }, []);
+  */
+
+  const getUserData = () => {
+    axios.get('http://localhost:5000/users/' + props.userId)
+      .then(response => {
+        if (response.data.isClient) {
+          setBtcBal(response.data.btcBalance);
+          setUsdBal(response.data.fiatBalance);
+          setStatus(response.data.classification);
+        }
+      }).catch(error => {
+        console.log(error);
+      })
+  }
 
   useEffect(() => {
+    getUserData();
     async function fetchPrices() {
       const res = await fetch('https://api.coindesk.com/v1/bpi/currentprice.json')
       const data = await res.json();
