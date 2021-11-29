@@ -98,8 +98,6 @@ def trader_transfer_buys(trader_id):
     result = db.session.query(
         Transfer, User
         ).filter(
-            Transfer.action == "buy"
-        ).filter(
             Transfer.trader_id == trader_id
         ).filter(
             User.user_id == Transfer.client_id
@@ -115,28 +113,28 @@ def trader_transfer_buys(trader_id):
         })
     return to_response(transfers)
 
-# Sell transfers for trader
-@app.route("/users/traders/<trader_id>/transfers/sells", methods=["GET"])
-def trader_transfer_sells(trader_id):
-    result = db.session.query(
-        Transfer, User
-        ).filter(
-            Transfer.action == "sell"
-        ).filter(
-            Transfer.trader_id == trader_id
-        ).filter(
-            User.user_id == Transfer.client_id
-        ).all()
-    transfers = []
-    for t, u in result:
-        transfers.append({
-            "time": t.date,
-            "name": u.name,
-            "commission": t.commission_type,
-            "status": t.status,
-            "value": t.amount
-        })
-    return to_response(transfers)
+# # Sell transfers for trader
+# @app.route("/users/traders/<trader_id>/transfers/sells", methods=["GET"])
+# def trader_transfer_sells(trader_id):
+#     result = db.session.query(
+#         Transfer, User
+#         ).filter(
+#             Transfer.action == "sell"
+#         ).filter(
+#             Transfer.trader_id == trader_id
+#         ).filter(
+#             User.user_id == Transfer.client_id
+#         ).all()
+#     transfers = []
+#     for t, u in result:
+#         transfers.append({
+#             "time": t.date,
+#             "name": u.name,
+#             "commission": t.commission_type,
+#             "status": t.status,
+#             "value": t.amount
+#         })
+#     return to_response(transfers)
 
 # Delete transfers (trader cancels)
 @app.route("/transfers/<transfer_id>", methods=["DELETE"])
