@@ -98,7 +98,7 @@ function Manager(props) {
                                                 color="info"
                                                 type="submit"
                                             >
-                                                Get Data For Selected Rangesas
+                                                Get Data For Selected Ranges
                                             </Button>
                                         </div>
                                     </Row>
