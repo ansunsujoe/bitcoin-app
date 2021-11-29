@@ -34,18 +34,20 @@ function Dashboard(props) {
   const [loading, setLoading] = useState(true);
   const [priceData, setPriceData] = useState(null);
   const [currency, setCurrency] = useState(null);
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState();
   const [chartData, setChartData] = useState(null);
   const [series, setSeries] = useState(null);
   const [btcBal, setBtcBal] = useState();
   const [usdBal, setUsdBal] = useState();
   const [status, setStatus] = useState();
 
+  /*
   const options = [
     { value: 'USD', text: 'USD' },
     { value: 'EUR', text: 'EUR' },
     { value: 'GBP', text: 'GPB' }
   ];
+  */
 
   useEffect(() => {
     async function fetchBalances() {
@@ -57,6 +59,7 @@ function Dashboard(props) {
       setStatus(data2.classification);
     }
     fetchBalances();
+
     async function fetchPrices() {
       const res = await fetch('https://api.coindesk.com/v1/bpi/currentprice.json')
       const data = await res.json();
