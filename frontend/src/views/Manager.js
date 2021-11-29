@@ -38,6 +38,15 @@ import {dashboard24HoursPerformanceChart} from "../variables/charts";
 function Manager(props) {
     const [startDate, handleStartDateChange] = useState(new Date());
     const [endDate, handleEndDateChange] = useState(new Date());
+
+    const [shouldRedirect, setShouldRedirect] = useState(false);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log(startDate + " " + endDate);
+        setShouldRedirect(!shouldRedirect);
+    };
+
     return (
         <>
             <div className="content">
@@ -48,7 +57,7 @@ function Manager(props) {
                                 <CardTitle tag="h5">Search</CardTitle>
                             </CardHeader>
                             <CardBody>
-                                <Form>
+                                <Form onSubmit={handleSubmit}>
                                     <div className="d-flex justify-content-center">
                                         <Row>
                                             <Col tag="h6">
@@ -76,7 +85,7 @@ function Manager(props) {
                                                 color="info"
                                                 type="submit"
                                             >
-                                                Get Data For Selected Range
+                                                Get Data For Selected Rangesas
                                             </Button>
                                         </div>
                                     </Row>
