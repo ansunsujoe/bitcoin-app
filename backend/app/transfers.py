@@ -48,49 +48,49 @@ def user_transfer(user_id):
         db.session.commit()
         return "Success"
 
-# Buy transfers for user
-@app.route("/users/<user_id>/transfers/buys", methods=["GET"])
-def user_transfer_buys(user_id):
-    result = db.session.query(
-        Transfer, User
-        ).filter(
-            Transfer.client_id == user_id
-        ).filter(
-            User.user_id == Transfer.trader_id
-        ).all()
-    transfers = []
-    for t, u in result:
-        transfers.append({
-            "time": t.date,
-            "name": u.name,
-            #"commission": t.commission_type,
-            "status": t.status,
-            "value": t.amount
-        })
-    return to_response(transfers)
+# # Buy transfers for user
+# @app.route("/users/<user_id>/transfers/buys", methods=["GET"])
+# def user_transfer_buys(user_id):
+#     result = db.session.query(
+#         Transfer, User
+#         ).filter(
+#             Transfer.client_id == user_id
+#         ).filter(
+#             User.user_id == Transfer.trader_id
+#         ).all()
+#     transfers = []
+#     for t, u in result:
+#         transfers.append({
+#             "time": t.date,
+#             "name": u.name,
+#             #"commission": t.commission_type,
+#             "status": t.status,
+#             "value": t.amount
+#         })
+#     return to_response(transfers)
 
-# Sell transfers for user
-@app.route("/users/<user_id>/transfers/sells", methods=["GET"])
-def user_transfer_sells(user_id):
-    result = db.session.query(
-        Transfer, User
-        ).filter(
-            Transfer.action == "sell"
-        ).filter(
-            Transfer.client_id == user_id
-        ).filter(
-            User.user_id == Transfer.trader_id
-        ).all()
-    transfers = []
-    for t, u in result:
-        transfers.append({
-            "time": t.date,
-            "name": u.name,
-            "commission": t.commission_type,
-            "status": t.status,
-            "value": t.amount
-        })
-    return to_response(transfers)
+# # Sell transfers for user
+# @app.route("/users/<user_id>/transfers/sells", methods=["GET"])
+# def user_transfer_sells(user_id):
+#     result = db.session.query(
+#         Transfer, User
+#         ).filter(
+#             Transfer.action == "sell"
+#         ).filter(
+#             Transfer.client_id == user_id
+#         ).filter(
+#             User.user_id == Transfer.trader_id
+#         ).all()
+#     transfers = []
+#     for t, u in result:
+#         transfers.append({
+#             "time": t.date,
+#             "name": u.name,
+#             "commission": t.commission_type,
+#             "status": t.status,
+#             "value": t.amount
+#         })
+#     return to_response(transfers)
 
 # Buy transfers for trader
 @app.route("/users/traders/<trader_id>/transfers/buys", methods=["GET"])
