@@ -27,79 +27,21 @@ import {
   CardHeader,
   CardBody,
   CardTitle,
-  FormGroup,
-  Form,
-  Input,
   Table,
   Row,
   Col,
 } from "reactstrap";
 
 function Tables(props) {
-  const [userBuys, setUserBuys] = useState([]);
-  const [userSells, setUserSells] = useState([]);
-  const [viewMode, setViewMode] = useState("client");
-  const [userData, setUserData] = useState({});
   axios.defaults.withCredentials = true;
 
-  // Get User Information
-  const getUserData = () => {
-    axios.get('http://localhost:5000/users/' + props.userId)
-      .then(response => {
-        setUserData(response.data);
-        if (!response.data.isClient) {
-          setViewMode("trader");
-        }
-        getUserBuys();
-        getUserSells();
-      }).catch(error => {
-        console.log(error);
-      })
-  }
-
-  const getUserBuys = () => {
-    if (viewMode === "client") {
-      axios.get('http://localhost:5000/users/' + props.userId + '/transactions/buys').then(response => {
-        setUserBuys(response.data.results);
-      }).catch(error => {
-        console.log(error);
-      })
-    }
-    else {
-      axios.get('http://localhost:5000/users/traders/' + props.userId + '/transactions/buys').then(response => {
-        setUserBuys(response.data.results);
-      }).catch(error => {
-        console.log(error);
-      })
-    }
-  }
-
-  const getUserSells = () => {
-    if (viewMode === "client") {
-      axios.get('http://localhost:5000/users/' + props.userId + '/transactions/sells').then(response => {
-        setUserSells(response.data.results);
-      }).catch(error => {
-        console.log(error);
-      })
-    }
-    else {
-      axios.get('http://localhost:5000/users/traders/' + props.userId + '/transactions/sells').then(response => {
-        setUserSells(response.data.results);
-      }).catch(error => {
-        console.log(error);
-      })
-    }
-  }
-
-  // Get User Data
   useEffect(() => {
-    getUserData();
+    axios.get('http://localhost:5000/users/1/transactions/buys').then(response => {
+      console.log(response)
+    }).catch(error => {
+      console.log(error);
+    })
   }, []);
-
-  // useEffect(() => {
-  //   getUserBuys();
-  //   getUserSells();
-  // }, [userData, viewMode])
 
   const acceptTransaction = (tid) => {
     console.log(tid);
@@ -113,40 +55,18 @@ function Tables(props) {
     <>
       <div className="content">
         <Row>
-          <Col>
-          </Col>
-        </Row>
-        <Row>
           <Col md="12">
             <Card>
               <CardHeader>
-                <Row>
-                  <Col md={9}>
-                    <CardTitle tag="h4">BTC Buys</CardTitle>
-                  </Col>
-                  <Col md={3}>
-                  <FormGroup>
-                    <label>View Mode</label>
-                    <Input type="select" name="viewMode" id="viewMode"
-                    value={viewMode} onChange={e => setViewMode(e.currentTarget.value)}>
-                      {userData.isClient ? (
-                        <option key="client" value="client">Client</option>
-                      ): null}
-                      {userData.isTrader ? (
-                        <option key="trader" value="trader">Trader</option>
-                      ): null}
-                    </Input>
-                  </FormGroup>
-                  </Col>
-                </Row>
+                <CardTitle tag="h4">BTC Buys</CardTitle>
               </CardHeader>
               <CardBody>
                 <Table responsive>
                   <thead className="text-primary">
-                    {viewMode === "trader" ? (
+                    {props.isTrader ? (
                       <tr className="text-success">
                         <th>Time</th>
-                        <th>{viewMode === "client" ? "Trader" : "Client"}</th>
+                        <th>Client</th>
                         <th>Commission</th>
                         <th>Status</th>
                         <th className="text-right">Value</th>
@@ -156,7 +76,7 @@ function Tables(props) {
                       ) : (
                         <tr className="text-success">
                           <th>Time</th>
-                          <th>{viewMode === "client" ? "Trader" : "Client"}</th>
+                          <th>Client</th>
                           <th>Commission</th>
                           <th>Status</th>
                           <th className="text-right">Value</th>
@@ -166,8 +86,8 @@ function Tables(props) {
                     
                   </thead>
                   <tbody>
-                    {userBuys.map((t) => (
-                      viewMode === "trader" ? (
+                    {transactionData.map((t) => (
+                      props.isTrader ? (
                       <tr>
                         <td>{t.time}</td>
                         <td>{t.client}</td>
@@ -206,10 +126,10 @@ function Tables(props) {
               <CardBody>
                 <Table responsive>
                   <thead className="text-primary">
-                  {viewMode === "trader" ? (
+                  {props.isTrader ? (
                       <tr className="text-danger">
                         <th>Time</th>
-                        <th>{viewMode === "client" ? "Trader" : "Client"}</th>
+                        <th>Client</th>
                         <th>Commission</th>
                         <th>Status</th>
                         <th className="text-right">Value</th>
@@ -219,7 +139,7 @@ function Tables(props) {
                       ) : (
                         <tr className="text-danger">
                           <th>Time</th>
-                          <th>{viewMode === "client" ? "Trader" : "Client"}</th>
+                          <th>Client</th>
                           <th>Commission</th>
                           <th>Status</th>
                           <th className="text-right">Value</th>
@@ -228,8 +148,8 @@ function Tables(props) {
                     }
                   </thead>
                   <tbody>
-                    {userSells.map((t) => (
-                      viewMode === "trader" ? (
+                    {transactionData.map((t) => (
+                      props.isTrader ? (
                       <tr>
                         <td>{t.time}</td>
                         <td>{t.client}</td>

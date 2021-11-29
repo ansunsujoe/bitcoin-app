@@ -3,21 +3,11 @@ from app import app, db
 from app.util import to_response
 from flask import request, session
 from app.models import Transaction, User
-import requests
 
 # Root endpoint
 @app.route("/")
 def index():
     return "Hello World!"
-
-@app.route("/btc-rate")
-def btc_balance():
-    r = requests.get("https://api.coindesk.com/v1/bpi/currentprice.json")
-    try:
-        data = r.json()
-        return to_response(data.get("bpi").get("USD").get("rate_float"))
-    except Exception:
-        return "Could not reach CoinDesk API to get BTC price", 500
 
 # Add transaction
 @app.route("/transactions", methods=["GET"])
@@ -36,8 +26,8 @@ def user_transaction(user_id):
         
         # Create transaction object
         new_transaction = Transaction(
-            trader_id=response.get("traderId"),
-            client_id=user_id,
+            trader_id=2,
+            client_id=1,
             commission_type=response.get("commission_type"),
             status="Pending",
             date=datetime.now(),
@@ -60,13 +50,13 @@ def user_transaction_buys(user_id):
         ).filter(
             Transaction.client_id == user_id
         ).filter(
-            User.user_id == Transaction.trader_id
+            User.user_id == Transaction.client_id
         ).all()
     transactions = []
     for t, u in result:
         transactions.append({
             "time": t.date,
-            "name": u.name,
+            "client": u.name,
             "commission": t.commission_type,
             "status": t.status,
             "value": t.amount
@@ -83,59 +73,13 @@ def user_transaction_sells(user_id):
         ).filter(
             Transaction.client_id == user_id
         ).filter(
-            User.user_id == Transaction.trader_id
-        ).all()
-    transactions = []
-    for t, u in result:
-        transactions.append({
-            "time": t.date,
-            "name": u.name,
-            "commission": t.commission_type,
-            "status": t.status,
-            "value": t.amount
-        })
-    return to_response(transactions)
-
-# Buy transactions for trader
-@app.route("/users/traders/<trader_id>/transactions/buys", methods=["GET"])
-def trader_transaction_buys(trader_id):
-    result = db.session.query(
-        Transaction, User
-        ).filter(
-            Transaction.action == "buy"
-        ).filter(
-            Transaction.trader_id == trader_id
-        ).filter(
             User.user_id == Transaction.client_id
         ).all()
     transactions = []
     for t, u in result:
         transactions.append({
             "time": t.date,
-            "name": u.name,
-            "commission": t.commission_type,
-            "status": t.status,
-            "value": t.amount
-        })
-    return to_response(transactions)
-
-# Sell transactions for trader
-@app.route("/users/traders/<trader_id>/transactions/sells", methods=["GET"])
-def trader_transaction_sells(trader_id):
-    result = db.session.query(
-        Transaction, User
-        ).filter(
-            Transaction.action == "sell"
-        ).filter(
-            Transaction.trader_id == trader_id
-        ).filter(
-            User.user_id == Transaction.client_id
-        ).all()
-    transactions = []
-    for t, u in result:
-        transactions.append({
-            "time": t.date,
-            "name": u.name,
+            "client": u.name,
             "commission": t.commission_type,
             "status": t.status,
             "value": t.amount

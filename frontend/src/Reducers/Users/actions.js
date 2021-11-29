@@ -1,21 +1,14 @@
-import { LOGIN, LOGINF, LOGOUT, CREATE, START, CREATEF, STARTC} from './constants';
+import { LOGIN, LOGINF, LOGOUT, CREATE, START, CREATEF, STARTC, FORGOT, FORGOTF, FORGOTC } from './constants';
 import  { login, create, forget } from "../../authenticate"
 
 
 export const loginUser = (data) => {
     return dispatch => {
-        console.log(data)
         dispatch(loginStarted())
         login(data).then(res => {
-            const { success } = res
-            if(success){
-                dispatch(loginU(res))
-            } else{
-                dispatch(loginF("Please try again after sometime"))
-            }
-            
+            dispatch(loginU(res))
         }).catch(err => {
-            dispatch(loginF("Please try again after sometime"))
+            dispatch(loginF("UH OH, Please try later"))
         })  
     };
   };
@@ -23,17 +16,23 @@ export const loginUser = (data) => {
 
   export const createUser = (data) => {
     return dispatch => {
-        console.log(data)
         dispatch(createStarted())
         create(data).then(res => {
-            const { success, message } = res
-            if(success){
-                dispatch(createU(res))
-            } else{
-                dispatch(createF(message))
-            }
+            dispatch(createU(res))
         }).catch(err => {
-            dispatch(createF("Please try later"))
+            dispatch(createF("UH OH, Please try later"))
+        })  
+    };
+  }
+
+
+  export const forgetPass = (data) => {
+    return dispatch => {
+        dispatch(forgotStarted())
+        forget(data).then(res => {
+            dispatch(forgot(res))
+        }).catch(err => {
+            dispatch(forgotFailed("UH OH, Please try later"))
         })  
     };
   }
@@ -103,3 +102,22 @@ const createStarted = () => {
 
 };
 
+const forgot = (data) => {
+    return {
+        type : FORGOT,
+        payload : data
+    }
+}
+
+const forgotFailed = (data) => {
+    return {
+        type : FORGOTF,
+        payload : data
+    }
+}
+
+const forgotStarted = () => {
+    return {
+        type : FORGOTC
+    }
+}

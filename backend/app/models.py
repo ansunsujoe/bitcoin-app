@@ -1,20 +1,20 @@
 from app import db
+from sqlalchemy_utils import UUIDType
+import uuid
 
 class User(db.Model):
     user_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50))
     phone_number = db.Column(db.String(15))
-    user_name = db.Column(db.String(50),unique=True)
     cell = db.Column(db.String(15))
     email = db.Column(db.String(50))
     street_address = db.Column(db.String(50))
     city = db.Column(db.String(50))
     state = db.Column(db.String(20))
     zip = db.Column(db.String(5))
-    password = db.Column(db.String(200))
+    password = db.Column(db.String(50))
     is_trader = db.Column(db.Boolean)
     is_manager = db.Column(db.Boolean)
-    is_client = db.Column(db.Boolean)
 
 class Transaction(db.Model):
     transaction_id = db.Column(db.Integer, primary_key=True)

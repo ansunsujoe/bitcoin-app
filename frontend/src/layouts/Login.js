@@ -8,13 +8,23 @@ import {
 } from "reactstrap";
 
 
+import Footer from "components/Footer/Footer.js";
+
+
+import Switch from '@mui/material/Switch';
+
 import SignIn from "views/Signin"
 import Create from "views/Create";
+import ForgotPassword  from "views/ForgotPassword";
 
 
 function Login() {
 
   const [view, updateView] =  useState("signin")
+  const [signInStates, updateSignIn] = useState({
+      username : "",
+      password : ""
+  })
 
 
   return (
@@ -31,6 +41,7 @@ function Login() {
               </div>
               {view == "create" && <Create updateView = {updateView} />}
               {view == "signin" && <SignIn updateView = {updateView} />}
+              {view == "forgot" && <ForgotPassword updateView = {updateView} />}
             </Card>
           </Col>
         </Row>

@@ -24,6 +24,7 @@ services:
       - ./database/bitcoin.sql:/bitcoin.sql
       - ./mysql_data:/var/lib/mysql/:rw
     restart: unless-stopped
+  
   backend:
     image: mansoonseason77/btc-backend:dashboardFrontEnd
     pull_policy: always
@@ -32,6 +33,7 @@ services:
     ports:
       - "5000:5000"
     restart: unless-stopped
+
   frontend:
     image: mansoonseason77/bitcoinapp:dashboardFrontEnd
     pull_policy: always
@@ -40,4 +42,3 @@ services:
     ports:
       - "3000:3000"
     restart: unless-stopped
-    command: /usr/src/app/entrypoint.sh

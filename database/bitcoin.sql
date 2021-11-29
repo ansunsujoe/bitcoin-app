@@ -1,19 +1,17 @@
 -- User Table
 CREATE TABLE IF NOT EXISTS User (
-    user_ID INT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(50) NOT NULL,
-    phone_number VARCHAR(15) NOT NULL,
-    cell VARCHAR(15) NOT NULL,
-    user_name VARCHAR(50) NOT NULL UNIQUE,
-    email VARCHAR(50) NOT NULL,
-    street_Address VARCHAR(50) NOT NULL,
-    city VARCHAR(50) NOT NULL,
-    state VARCHAR(20) NOT NULL,
-    zip VARCHAR(5) NOT NULL,
-    password VARCHAR(200) NOT NULL,
-    is_Trader BOOLEAN NOT NULL,
-    is_Manager BOOLEAN NOT NULL,
-    is_Client BOOLEAN NOT NULL,
+    User_ID INT NOT NULL AUTO_INCREMENT,
+    Name VARCHAR(50) NOT NULL,
+    Phone_number VARCHAR(15) NOT NULL,
+    Cell VARCHAR(15) NOT NULL,
+    Email VARCHAR(50) NOT NULL,
+    Street_Address VARCHAR(50) NOT NULL,
+    City VARCHAR(50) NOT NULL,
+    State VARCHAR(20) NOT NULL,
+    Zip VARCHAR(5) NOT NULL,
+    Password VARCHAR(50) NOT NULL,
+    Is_Trader BOOLEAN NOT NULL,
+    Is_Manager BOOLEAN NOT NULL,
     PRIMARY KEY (User_ID)
 );
 

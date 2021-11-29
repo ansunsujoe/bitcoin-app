@@ -33,17 +33,17 @@ import {
   Col,
 } from "reactstrap";
 
+import Switch from '@mui/material/Switch';
 import axios from 'axios';
-
-axios.defaults.withCredentials = true;
 
 function User(props) {
   const [userData, setUserData] = useState({});
 
-  // Get User Information - Important
-  
+  // Get User Information
+  axios.defaults.withCredentials = true;
+  // Get current Bitcoin price
   const getUserData = () => {
-    axios.get('http://localhost:5000/users/' + props.userId)
+    axios.get('http://localhost:5000/users/clients/' + props.userId)
       .then(response => {
         console.log(response.data);
         setUserData(response.data);
@@ -52,34 +52,10 @@ function User(props) {
       })
   }
 
-  // User title
-  const userTitle = () => {
-    var titleArr = [];
-    if (userData.isClient) {
-      titleArr.push("Client");
-    }
-    if (userData.isTrader) {
-      titleArr.push("Trader");
-    }
-    if (userData.isManager) {
-      titleArr.push("Manager");
-    }
-    return titleArr.join("/");
-  }
-
   // Get user data on start
   useEffect(() => {
     getUserData();
   }, []);
-
-  useEffect(() => {
-    getUserData();
-  }, [props.userId]);
-
-  // Handle trader switch
-  const handleTraderSwitch = (e) => {
-    props.handleUserIdChange(2);
-  }
 
   return (
     <>
@@ -101,32 +77,52 @@ function User(props) {
                       className="avatar border-gray"
                       src={require("assets/img/default-avatar.png").default}
                     />
-                    <h5 className="title">{userData.name}</h5>
-                    <small>{userTitle()}</small>
+                    <h5 className="title">Jason Wozniak</h5>
                   </p>
                 </div>
               </CardBody>
-              {userData.isClient ? (
-                <CardFooter>
+              <CardFooter>
                 <hr />
                 <div className="button-container">
                   <Row>
                     <Col className="ml-auto mr-auto" lg="6" md="6" xs="6">
                       <h5>
-                        {userData.btcBalance} &#8383;<br />
+                        12 &#8383;<br />
                         <small>Bitcoin</small>
                       </h5>
                     </Col>
                     <Col className="ml-auto mr-auto" lg="6" md="6" xs="6">
                       <h5>
-                        ${userData.fiatBalance} <br />
+                        $20000 <br />
                         <small>USD</small>
                       </h5>
                     </Col>
                   </Row>
                 </div>
               </CardFooter>
-              ) : null}
+            </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle tag="h4">Permissions</CardTitle>
+              </CardHeader>
+              <CardBody>
+                <FormGroup>
+                  <label>Trader</label>
+                  <Switch
+                  checked={props.isTrader}
+                  onChange={props.handleTraderClick}
+                  inputProps={{ 'aria-label': 'controlled' }}
+                />
+                </FormGroup>
+                <FormGroup>
+                  <label>Manager</label>
+                  <Switch
+                  checked={props.isManager}
+                  onChange={props.handleManagerClick}
+                  inputProps={{ 'aria-label': 'controlled' }}
+                />
+                </FormGroup>
+              </CardBody>
             </Card>
           </Col>
           <Col md="8">
@@ -141,7 +137,7 @@ function User(props) {
                       <FormGroup>
                         <label>Full Name</label>
                         <Input
-                          defaultValue={userData.name}
+                          defaultValue="Jason"
                           placeholder="Company"
                           type="text"
                         />
@@ -153,7 +149,7 @@ function User(props) {
                       <FormGroup>
                         <label>Telephone</label>
                         <Input
-                          defaultValue={userData.phoneNumber}
+                          defaultValue="Creative Code Inc."
                           placeholder="Company"
                           type="text"
                         />
@@ -163,7 +159,7 @@ function User(props) {
                       <FormGroup>
                         <label>Cell</label>
                         <Input
-                          defaultValue={userData.cell}
+                          defaultValue="Cell"
                           placeholder="Username"
                           type="text"
                         />
@@ -174,8 +170,7 @@ function User(props) {
                         <label htmlFor="exampleInputEmail1">
                           Email address
                         </label>
-                        <Input placeholder="Email" type="email"
-                        defaultValue={userData.email} />
+                        <Input placeholder="Email" type="email" />
                       </FormGroup>
                     </Col>
                   </Row>
@@ -184,7 +179,7 @@ function User(props) {
                       <FormGroup>
                         <label>Address</label>
                         <Input
-                          defaultValue={userData.streetAddress}
+                          defaultValue="Melbourne, Australia"
                           placeholder="Home Address"
                           type="text"
                         />
@@ -196,7 +191,7 @@ function User(props) {
                       <FormGroup>
                         <label>City</label>
                         <Input
-                          defaultValue={userData.city}
+                          defaultValue="Melbourne"
                           placeholder="City"
                           type="text"
                         />
@@ -206,7 +201,7 @@ function User(props) {
                       <FormGroup>
                         <label>State</label>
                         <Input
-                          defaultValue={userData.state}
+                          defaultValue="Texas"
                           placeholder="State"
                           type="text"
                         />
@@ -215,8 +210,7 @@ function User(props) {
                     <Col className="pl-1" md="4">
                       <FormGroup>
                         <label>Postal Code</label>
-                        <Input placeholder="ZIP Code" type="number"
-                        defaultValue={userData.zip} />
+                        <Input placeholder="ZIP Code" type="number" />
                       </FormGroup>
                     </Col>
                   </Row>
@@ -227,16 +221,6 @@ function User(props) {
                         type="submit"
                       >
                         Update Profile
-                      </Button>
-                    </div>
-                  </Row>
-                  <Row>
-                    <div className="update ml-auto mr-auto">
-                      <Button
-                        color="info"
-                        onClick={handleTraderSwitch}
-                      >
-                        Switch To Trader
                       </Button>
                     </div>
                   </Row>

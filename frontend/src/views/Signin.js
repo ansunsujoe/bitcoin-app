@@ -121,6 +121,9 @@ const Signin = ({ updateView, error, loginInit, path = "/", loading }) => {
       </Form>
       <CreateDiv>
         Don't have an account yet ? <span onClick={() => { updateView("create") }}>Create account</span>
+        <div>
+          <span onClick={() => { updateView("forgot") }}>Forgot Password ?</span>
+        </div>
       </CreateDiv>
     </div>
   )
