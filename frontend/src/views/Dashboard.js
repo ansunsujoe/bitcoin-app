@@ -16,217 +16,270 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
-// react plugin used to create charts
-import { Line, Pie } from "react-chartjs-2";
+import { React, useState, useEffect } from "react";
+import axios from 'axios';
+import Chart from "react-apexcharts";
 // reactstrap components
 import {
   Card,
   CardHeader,
   CardBody,
-  CardFooter,
   CardTitle,
   Row,
   Col,
 } from "reactstrap";
-// core components
-import {
-  dashboard24HoursPerformanceChart,
-  dashboardEmailStatisticsChart,
-  dashboardNASDAQChart,
-} from "variables/charts.js";
 
-function Dashboard() {
-  return (
-    <>
-      <div className="content">
-        <Row>
-          <Col lg="3" md="6" sm="6">
-            <Card className="card-stats">
-              <CardBody>
-                <Row>
-                  <Col md="4" xs="5">
-                    <div className="icon-big text-center icon-warning">
-                      <i className="nc-icon nc-globe text-warning" />
-                    </div>
-                  </Col>
-                  <Col md="8" xs="7">
-                    <div className="numbers">
-                      <p className="card-category">Capacity</p>
-                      <CardTitle tag="p">150GB</CardTitle>
-                      <p />
-                    </div>
-                  </Col>
-                </Row>
-              </CardBody>
-              <CardFooter>
-                <hr />
-                <div className="stats">
-                  <i className="fas fa-sync-alt" /> Update Now
-                </div>
-              </CardFooter>
-            </Card>
-          </Col>
-          <Col lg="3" md="6" sm="6">
-            <Card className="card-stats">
-              <CardBody>
-                <Row>
-                  <Col md="4" xs="5">
-                    <div className="icon-big text-center icon-warning">
+axios.defaults.withCredentials = true;
+
+function Dashboard(props) {
+
+  const [loading, setLoading] = useState(true);
+  const [priceData, setPriceData] = useState(null);
+  const [currency, setCurrency] = useState(null);
+  //const [userData, setUserData] = useState(null);
+  const [chartData, setChartData] = useState(null);
+  const [series, setSeries] = useState(null);
+  const [btcBal, setBtcBal] = useState("");
+  const [usdBal, setUsdBal] = useState("");
+  const [status, setStatus] = useState("");
+
+  const getUserData = () => {
+    axios.get('http://localhost:5000/users/' + props.userId)
+      .then(response => {
+        if (response.data.isClient) {
+          setBtcBal(response.data.btcBalance.toString());
+          setUsdBal(response.data.fiatBalance.toString());
+          setStatus(response.data.classification.toString());
+        }
+      }).catch(error => {
+        console.log(error);
+      })
+  }
+
+  useEffect(() => {
+    getUserData();
+    async function fetchPrices() {
+      const res = await fetch('https://api.coindesk.com/v1/bpi/currentprice.json')
+      const data = await res.json();
+      setCurrency(data.bpi.USD.code);
+      setPriceData(data.bpi);
+      getChartData();
+    }
+    fetchPrices();
+  }, []);
+
+  const getChartData = async () => {
+    const res = await fetch(`https://api.coindesk.com/v1/bpi/historical/close.json?`)
+    const data = await res.json();
+    const categories = Object.keys(data.bpi);
+    const series = Object.values(data.bpi);
+    setChartData({
+      xaxis: {
+        categories: categories
+      }
+    })
+    setSeries([
+      {
+        name: "Bitcoin Price",
+        data: series
+      }
+    ])
+    setLoading(false);
+  }
+
+  console.log(props.userId);
+  console.log(props.userData);
+  //console.log(userData);
+  console.log(btcBal);
+  console.log(usdBal);
+  console.log(status);
+
+  if (props.isManager || props.isTrader){
+    return (
+      <>
+        <div className="content">
+        {loading ? (
+          <div>
+          </div>
+        ) : (
+            <>
+              <Row>
+            <Col lg="3" md="6" sm="6">
+              <Card className="card-stats">
+                <CardBody>
+                  <Row>
+                    <Col md="2" xs="4">
+                      <div className="icon-big text-center icon-warning">
+                        <i className="nc-icon nc-globe text-warning" />
+                      </div>
+                    </Col>
+                    <Col md="10" xs="8">
+                      <div className="numbers">
+                        <p className="card-category">BTC to USD</p>
+                        <CardTitle>${(priceData[currency].rate).substring(0, 9)} </CardTitle>
+                        <p />
+                      </div>
+                    </Col>
+                  </Row>
+                </CardBody>
+              </Card>
+            </Col>
+          </Row>
+          <Row> 
+          </Row>
+          <Row>
+            <Col md="12">
+              <Card>
+                <CardHeader>
+                  <CardTitle tag="h5">BTC Price Over Time</CardTitle>
+                  <p className="card-category">Past Month</p>
+                </CardHeader>
+                <CardBody>
+  
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <Chart
+                  options={chartData}
+                  series={series}
+                  type="line"
+                  width="1100"
+                  height="300"
+                />
+              </div>
+  
+                </CardBody>
+              </Card>
+            </Col>
+          </Row>
+            </>
+          )}
+        </div>
+      </>
+    );
+  }else{
+    return (
+      <>
+        <div className="content">
+        {((btcBal === undefined)||(usdBal === undefined)||(status === undefined)||loading) ? (
+          <div>
+          </div>
+        ) : (
+            <>
+              <Row>
+            <Col lg="3" md="6" sm="6">
+              <Card className="card-stats">
+                <CardBody>
+                  <Row>
+                    <Col md="2" xs="4">
+                      <div className="icon-big text-center icon-warning">
+                        <i className="nc-icon nc-globe text-warning" />
+                      </div>
+                    </Col>
+                    <Col md="10" xs="8">
+                      <div className="numbers">
+                        <p className="card-category">BTC to USD</p>
+                        <CardTitle>${(priceData[currency].rate).substring(0, 9)} </CardTitle>
+                        <p />
+                      </div>
+                    </Col>
+                  </Row>
+                </CardBody>
+              </Card>
+            </Col>
+            <Col lg="3" md="6" sm="6">
+              <Card className="card-stats">
+                <CardBody>
+                  <Row>
+                    <Col md="2" xs="5">
+                      <div className="icon-big text-center icon-warning">
+                        <i className="nc-icon nc-bold text-success" />
+                      </div>
+                    </Col>
+                    <Col md="10" xs="7">
+                      <div className="numbers">
+                        <p className="card-category">BTC Balance</p>
+                        <CardTitle tag="p">&#8383; {btcBal}</CardTitle>
+                        <p />
+                      </div>
+                    </Col>
+                  </Row>
+                </CardBody>
+              </Card>
+            </Col>
+            <Col lg="3" md="6" sm="6">
+              <Card className="card-stats">
+                <CardBody>
+                  <Row>
+                    <Col md="2" xs="5">
+                      <div className="icon-big text-center icon-warning">
                       <i className="nc-icon nc-money-coins text-success" />
-                    </div>
-                  </Col>
-                  <Col md="8" xs="7">
-                    <div className="numbers">
-                      <p className="card-category">Revenue</p>
-                      <CardTitle tag="p">$ 1,345</CardTitle>
-                      <p />
-                    </div>
-                  </Col>
-                </Row>
-              </CardBody>
-              <CardFooter>
-                <hr />
-                <div className="stats">
-                  <i className="far fa-calendar" /> Last day
-                </div>
-              </CardFooter>
-            </Card>
-          </Col>
-          <Col lg="3" md="6" sm="6">
-            <Card className="card-stats">
-              <CardBody>
-                <Row>
-                  <Col md="4" xs="5">
-                    <div className="icon-big text-center icon-warning">
-                      <i className="nc-icon nc-vector text-danger" />
-                    </div>
-                  </Col>
-                  <Col md="8" xs="7">
-                    <div className="numbers">
-                      <p className="card-category">Errors</p>
-                      <CardTitle tag="p">23</CardTitle>
-                      <p />
-                    </div>
-                  </Col>
-                </Row>
-              </CardBody>
-              <CardFooter>
-                <hr />
-                <div className="stats">
-                  <i className="far fa-clock" /> In the last hour
-                </div>
-              </CardFooter>
-            </Card>
-          </Col>
-          <Col lg="3" md="6" sm="6">
-            <Card className="card-stats">
-              <CardBody>
-                <Row>
-                  <Col md="4" xs="5">
-                    <div className="icon-big text-center icon-warning">
-                      <i className="nc-icon nc-favourite-28 text-primary" />
-                    </div>
-                  </Col>
-                  <Col md="8" xs="7">
-                    <div className="numbers">
-                      <p className="card-category">Followers</p>
-                      <CardTitle tag="p">+45K</CardTitle>
-                      <p />
-                    </div>
-                  </Col>
-                </Row>
-              </CardBody>
-              <CardFooter>
-                <hr />
-                <div className="stats">
-                  <i className="fas fa-sync-alt" /> Update now
-                </div>
-              </CardFooter>
-            </Card>
-          </Col>
-        </Row>
-        <Row>
-          <Col md="12">
-            <Card>
-              <CardHeader>
-                <CardTitle tag="h5">Users Behavior</CardTitle>
-                <p className="card-category">24 Hours performance</p>
-              </CardHeader>
-              <CardBody>
-                <Line
-                  data={dashboard24HoursPerformanceChart.data}
-                  options={dashboard24HoursPerformanceChart.options}
-                  width={400}
-                  height={100}
+                      </div>
+                    </Col>
+                    <Col md="10" xs="7">
+                      <div className="numbers">
+                        <p className="card-category">USD Balance</p>
+                        <CardTitle tag="p">${(usdBal).substring(0, 2)},{(usdBal).substring(2, 8)}</CardTitle>
+                        <p />
+                      </div>
+                    </Col>
+                  </Row>
+                </CardBody>
+              </Card>
+            </Col>
+            <Col lg="3" md="6" sm="6">
+              <Card className="card-stats">
+                <CardBody>
+                  <Row>
+                    <Col md="4" xs="5">
+                      <div className="icon-big text-center icon-warning">
+                        <i className="nc-icon nc-single-02 text-primary" />
+                      </div>
+                    </Col>
+                    <Col md="8" xs="7">
+                      <div className="numbers">
+                        <p className="card-category">Account Status</p>
+                        <CardTitle tag="p">{(status).charAt(0).toUpperCase()}{(status).slice(1)}</CardTitle>
+                        <p />
+                      </div>
+                    </Col>
+                  </Row>
+                </CardBody>
+              </Card>
+            </Col>
+          </Row>
+          <Row>
+            
+          </Row>
+  
+          <Row>
+            <Col md="12">
+              <Card>
+                <CardHeader>
+                  <CardTitle tag="h5">BTC Price Over Time</CardTitle>
+                  <p className="card-category">Past Month</p>
+                </CardHeader>
+                <CardBody>
+  
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <Chart
+                  options={chartData}
+                  series={series}
+                  type="line"
+                  width="1100"
+                  height="300"
                 />
-              </CardBody>
-              <CardFooter>
-                <hr />
-                <div className="stats">
-                  <i className="fa fa-history" /> Updated 3 minutes ago
-                </div>
-              </CardFooter>
-            </Card>
-          </Col>
-        </Row>
-        <Row>
-          <Col md="4">
-            <Card>
-              <CardHeader>
-                <CardTitle tag="h5">Email Statistics</CardTitle>
-                <p className="card-category">Last Campaign Performance</p>
-              </CardHeader>
-              <CardBody style={{ height: "266px" }}>
-                <Pie
-                  data={dashboardEmailStatisticsChart.data}
-                  options={dashboardEmailStatisticsChart.options}
-                />
-              </CardBody>
-              <CardFooter>
-                <div className="legend">
-                  <i className="fa fa-circle text-primary" /> Opened{" "}
-                  <i className="fa fa-circle text-warning" /> Read{" "}
-                  <i className="fa fa-circle text-danger" /> Deleted{" "}
-                  <i className="fa fa-circle text-gray" /> Unopened
-                </div>
-                <hr />
-                <div className="stats">
-                  <i className="fa fa-calendar" /> Number of emails sent
-                </div>
-              </CardFooter>
-            </Card>
-          </Col>
-          <Col md="8">
-            <Card className="card-chart">
-              <CardHeader>
-                <CardTitle tag="h5">NASDAQ: AAPL</CardTitle>
-                <p className="card-category">Line Chart with Points</p>
-              </CardHeader>
-              <CardBody>
-                <Line
-                  data={dashboardNASDAQChart.data}
-                  options={dashboardNASDAQChart.options}
-                  width={400}
-                  height={100}
-                />
-              </CardBody>
-              <CardFooter>
-                <div className="chart-legend">
-                  <i className="fa fa-circle text-info" /> Tesla Model S{" "}
-                  <i className="fa fa-circle text-warning" /> BMW 5 Series
-                </div>
-                <hr />
-                <div className="card-stats">
-                  <i className="fa fa-check" /> Data information certified
-                </div>
-              </CardFooter>
-            </Card>
-          </Col>
-        </Row>
-      </div>
-    </>
-  );
+              </div>
+  
+                </CardBody>
+              </Card>
+            </Col>
+          </Row>
+            </>
+          )}
+        </div>
+      </>
+    );
+
+  } 
 }
 
 export default Dashboard;
