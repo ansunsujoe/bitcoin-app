@@ -42,6 +42,7 @@ function Dashboard(props) {
   const [btcBal, setBtcBal] = useState("");
   const [usdBal, setUsdBal] = useState("");
   const [status, setStatus] = useState("");
+  const [isClient, setIsClient] = useState(true);
 
   const getUserData = () => {
     axios.get('http://localhost:5000/users/' + props.userId)
@@ -50,6 +51,8 @@ function Dashboard(props) {
           setBtcBal(response.data.btcBalance.toString());
           setUsdBal(response.data.fiatBalance.toString());
           setStatus(response.data.classification.toString());
+        }else{
+          setIsClient(false);
         }
       }).catch(error => {
         console.log(error);
@@ -94,7 +97,7 @@ function Dashboard(props) {
   console.log(usdBal);
   console.log(status);
 
-  if (props.isManager || props.isTrader){
+  if (!isClient){
     return (
       <>
         <div className="content">
