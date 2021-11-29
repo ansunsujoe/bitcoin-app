@@ -62,6 +62,19 @@ function NewTransaction(props) {
       })
   }
 
+  // Get Client Data
+  const getUserData = () => {
+    axios.get('http://localhost:5000/users/' + props.userId)
+    .then(response => {
+      console.log(response.data);
+      setClientProperties(response.data);
+      getCurrentBTC();
+      getTraderList();
+    }).catch(error => {
+      console.log(error);
+    })
+  }
+
   // Get current bitcoin price immediately
   useEffect(() => {
     getUserData();
