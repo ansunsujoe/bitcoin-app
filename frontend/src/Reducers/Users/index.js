@@ -1,5 +1,5 @@
 
-import { LOGIN, LOGOUT, CREATE, START, LOGINF, CREATEF, STARTC, FORGOTC, FORGOT, FORGOTF } from './constants';
+import { LOGIN, LOGOUT, CREATE, START, LOGINF, CREATEF, STARTC } from './constants';
 
 
 const INITIAL_STATE = {
@@ -19,7 +19,8 @@ const INITIAL_STATE = {
 const reducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case LOGIN:
-            localStorage.setItem("user", JSON.stringify(action.payload))
+            const { content } = action.payload
+            localStorage.setItem("user", JSON.stringify(content))
             return {
 
                 ...state, userId: action.payload.userId, loading: false, error: "",
@@ -32,13 +33,14 @@ const reducer = (state = INITIAL_STATE, action) => {
             };
 
         case LOGOUT:
-            localStorage.removeItem('key');
+            localStorage.removeItem("user");
             return {
                 ...state, userId: -1,
 
             };
         case CREATE:
-            localStorage.setItem("user", JSON.stringify(action.payload))
+            const val = action.payload.content
+            localStorage.setItem("user", JSON.stringify(val))
             return {
                 ...state, userId: action.payload.userId, createloading: false, createError: "",
 
@@ -59,23 +61,6 @@ const reducer = (state = INITIAL_STATE, action) => {
         case STARTC:
             return {
                 ...state, createloading: true,
-
-            };
-        case FORGOTC:
-            return {
-                ...state, forgotLoading: true,
-
-            };
-
-        case FORGOT:
-            return {
-
-                ...state, forgotSuccess : true, forgotLoading : false,
-
-            };
-        case FORGOTF:
-            return {
-                ...state, forgotError: action.payload, forgotLoading: false,
 
             };
         default: return state;

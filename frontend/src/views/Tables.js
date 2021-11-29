@@ -44,13 +44,14 @@ function Tables(props) {
 
   // Get User Information
   const getUserData = () => {
-    axios.get('http://localhost:5000/users/clients/' + props.userId)
+    axios.get('http://localhost:5000/users/' + props.userId)
       .then(response => {
-        console.log(response.data);
         setUserData(response.data);
-        if (!userData.isClient) {
+        if (!response.data.isClient) {
           setViewMode("trader");
         }
+        getUserBuys();
+        getUserSells();
       }).catch(error => {
         console.log(error);
       })
@@ -76,7 +77,7 @@ function Tables(props) {
   const getUserSells = () => {
     if (viewMode === "client") {
       axios.get('http://localhost:5000/users/' + props.userId + '/transactions/sells').then(response => {
-        setUserBuys(response.data.results);
+        setUserSells(response.data.results);
       }).catch(error => {
         console.log(error);
       })
@@ -95,10 +96,10 @@ function Tables(props) {
     getUserData();
   }, []);
 
-  useEffect(() => {
-    getUserBuys();
-    getUserSells();
-  }, [userData, viewMode])
+  // useEffect(() => {
+  //   getUserBuys();
+  //   getUserSells();
+  // }, [userData, viewMode])
 
   const acceptTransaction = (tid) => {
     console.log(tid);
@@ -113,25 +114,31 @@ function Tables(props) {
       <div className="content">
         <Row>
           <Col>
-          <FormGroup>
-            <label>View Mode</label>
-            <Input type="select" name="viewMode" id="viewMode"
-            value={viewMode} onChange={e => setViewMode(e.currentTarget.value)}>
-              {userData.isClient ? (
-                <option key="client" value="client">Client</option>
-              ): null}
-              {userData.isTrader ? (
-                <option key="trader" value="trader">Trader</option>
-              ): null}
-            </Input>
-          </FormGroup>
           </Col>
         </Row>
         <Row>
           <Col md="12">
             <Card>
               <CardHeader>
-                <CardTitle tag="h4">BTC Buys</CardTitle>
+                <Row>
+                  <Col md={9}>
+                    <CardTitle tag="h4">BTC Buys</CardTitle>
+                  </Col>
+                  <Col md={3}>
+                  <FormGroup>
+                    <label>View Mode</label>
+                    <Input type="select" name="viewMode" id="viewMode"
+                    value={viewMode} onChange={e => setViewMode(e.currentTarget.value)}>
+                      {userData.isClient ? (
+                        <option key="client" value="client">Client</option>
+                      ): null}
+                      {userData.isTrader ? (
+                        <option key="trader" value="trader">Trader</option>
+                      ): null}
+                    </Input>
+                  </FormGroup>
+                  </Col>
+                </Row>
               </CardHeader>
               <CardBody>
                 <Table responsive>

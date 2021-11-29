@@ -25,19 +25,23 @@ services:
       - ./mysql_data:/var/lib/mysql/:rw
     restart: unless-stopped
   backend:
-    image: mansoonseason77/btc-backend:main
+    image: mansoonseason77/btc-backend-local:main
     pull_policy: always
     depends_on:
       - database
     ports:
       - "5000:5000"
     restart: unless-stopped
+    volumes:
+      - ./backend:/usr/src/backend:rw
   frontend:
-    image: mansoonseason77/bitcoinapp:main
+    image: mansoonseason77/bitcoinapp-local:main
     pull_policy: always
     depends_on:
       - backend
     ports:
       - "3000:3000"
     restart: unless-stopped
+    volumes:
+      - ./frontend:/usr/src/app:rw
     command: /usr/src/app/entrypoint.sh

@@ -31,11 +31,13 @@ const Create = ({ updateView, createInit, loading, error }) => {
         address: "",
         city: "",
         state: "",
-        zip: ""
+        zip: "",
+        trader: "no",
+        client: "no",
+        manager: "no"
     })
 
     const history = useHistory()
-
 
     const [errorStates, updateErrors] = useState({
         username: false,
@@ -51,18 +53,17 @@ const Create = ({ updateView, createInit, loading, error }) => {
         zip: false
 
     })
-    
 
-    useEffect(()=>{
-        if(!loading && localStorage.getItem("user"))
-        {
-          history.push("/admin")
+
+    useEffect(() => {
+        if (!loading && localStorage.getItem("user")) {
+            history.push("/admin")
         }
-      },[loading])
-    
+    }, [loading])
+
     const createUser = async () => {
         createInit(createStates)
-      }
+    }
 
     const updateForm = (e) => {
         updateSignIn({
@@ -87,62 +88,62 @@ const Create = ({ updateView, createInit, loading, error }) => {
             zip: false
         }
         let errorPresent = false
-        if(createStates.name.length == 0){
+        if (createStates.name.length == 0) {
             errors.name = true
             errorPresent = true
         }
-        if(createStates.telephone.length == 0){
+        if (createStates.telephone.length == 0) {
             errors.telephone = true
             errorPresent = true
         }
-        if(createStates.cell.length == 0){
+        if (createStates.cell.length == 0) {
             errors.cell = true
             errorPresent = true
 
         }
-        if(createStates.email.length == 0){
+        if (createStates.email.length == 0) {
             errors.email = true
             errorPresent = true
 
         }
-        if(createStates.address.length == 0){
+        if (createStates.address.length == 0) {
             errors.address = true
             errorPresent = true
 
         }
-        if(createStates.city.length == 0){
+        if (createStates.city.length == 0) {
             errors.city = true
             errorPresent = true
 
         }
-        if(createStates.state.length == 0){
+        if (createStates.state.length == 0) {
             errors.state = true
             errorPresent = true
 
         }
-        
-        if(createStates.zip.length == 0){
+
+        if (createStates.zip.length == 0) {
             errors.zip = true
             errorPresent = true
 
         }
-        if(createStates.password.length == 0){
+        if (createStates.password.length == 0) {
             errors.password = true
             errorPresent = true
 
         }
-        if(createStates.confirm.length == 0){
+        if (createStates.confirm.length == 0) {
             errors.confirm = true
             errorPresent = true
 
         }
-        if(createStates.password !== createStates.confirm){
+        if (createStates.password !== createStates.confirm) {
             errors.password = true
             errors.confirm = true
             errorPresent = true
 
         }
-        if(errorPresent){
+        if (errorPresent) {
             updateErrors({
                 ...errors
             })
@@ -194,7 +195,7 @@ const Create = ({ updateView, createInit, loading, error }) => {
                             <FormGroup>
                                 <label>Cell</label>
                                 <Input
-                                    placeholder="Username"
+                                    placeholder="Cell"
                                     type="text"
                                     name="cell"
                                     onChange={updateForm}
@@ -261,9 +262,41 @@ const Create = ({ updateView, createInit, loading, error }) => {
                             <FormGroup>
                                 <label>Postal Code</label>
                                 <Input placeholder="ZIP Code" type="text" name="zip" onChange={updateForm}
-                                required
+                                    required
                                     className={(errorStates && errorStates.zip) ? "is-invalid" : ""}
                                 />
+                            </FormGroup>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col className="pr-1" md="4">
+                            <FormGroup>
+                                <label>Client</label>
+                                <select name="client" value = {createStates.client} id="client" name="client" onChange={updateForm}>
+                                    <option value="yes">Yes</option>
+                                    <option value="no">No</option>
+
+                                </select>
+                            </FormGroup>
+                        </Col>
+                        <Col className="px-1" md="4">
+                        <FormGroup>
+                                <label>Trader</label>
+                                <select name="trader" id="trader" value = {createStates.trader} name="trader" onChange={updateForm}>
+                                    <option value="yes">Yes</option>
+                                    <option value="no">No</option>
+
+                                </select>
+                            </FormGroup>
+                        </Col>
+                        <Col className="pl-1" md="4">
+                        <FormGroup>
+                                <label>Manager</label>
+                                <select name="manager" id="manager" value = {createStates.manager} name="manager" onChange={updateForm}>
+                                    <option value="yes">Yes</option>
+                                    <option value="no">No</option>
+
+                                </select>
                             </FormGroup>
                         </Col>
                     </Row>
@@ -313,16 +346,13 @@ const Create = ({ updateView, createInit, loading, error }) => {
                         </Col>
                     </Row>
                     <div className="button-container">
-                        <button type="submit" className="btn btn-lg btn-success text-capitalize" disabled = {loading}>Create Account</button>
-                        {error && <div style = {{color : "red"}}>{error}</div>}
+                        <button type="submit" className="btn btn-lg btn-success text-capitalize" disabled={loading}>Create Account</button>
+                        {error && <div style={{ color: "red" }}>{error}</div>}
                     </div>
                 </CardBody>
             </Form>
             <CreateDiv>
                 Have an account? <span onClick={() => { updateView("signin") }}>Sign In</span>
-                <div>
-                    <span onClick={() => { updateView("forgot") }}>Forgot Password ?</span>
-                </div>
             </CreateDiv>
         </div>
     )
@@ -330,18 +360,18 @@ const Create = ({ updateView, createInit, loading, error }) => {
 
 const mapStateToProps = state => {
     return {
-      loading : state.user.createloading,
-      error : state.user.createError
+        loading: state.user.createloading,
+        error: state.user.createError
     }
-  }
-  
-  const mapDispatchToProps = dispatch => {
+}
+
+const mapDispatchToProps = dispatch => {
     return {
-      createInit: data => {
-        dispatch(createUser(data));
-      }
+        createInit: data => {
+            dispatch(createUser(data));
+        }
     };
-  };
-  
-  export default connect(mapStateToProps, mapDispatchToProps)(Create)
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Create)
 
