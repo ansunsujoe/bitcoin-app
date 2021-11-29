@@ -61,3 +61,16 @@ CREATE TABLE IF NOT EXISTS IssuesTransaction (
 	PRIMARY KEY (Transaction_id),
 	FOREIGN KEY (Client_id, Trader_id) REFERENCES User
 );
+
+-- Transfer Table
+CREATE TABLE IF NOT EXISTS Transfer (
+	Transfer_id int NOT NULL AUTO_INCREMENT,
+	Client_id NOT NULL, 	
+    Trader_id int NOT NULL,
+	Amount DOUBLE(32,2),
+	Status VARCHAR(10),
+    Date DATETIME NOT NULL,
+    PRIMARY KEY (Transfer_id),
+	FOREIGN KEY (Client_id) REFERENCES User(User_ID),
+    FOREIGN KEY (Trader_id) REFERENCES User(User_ID)
+);

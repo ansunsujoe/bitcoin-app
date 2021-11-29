@@ -26,8 +26,13 @@ def user_transaction(user_id):
         
         # Create transaction object
         new_transaction = Transaction(
+<<<<<<< HEAD
             trader_id=2,
             client_id=1,
+=======
+            trader_id=int(response.get("traderId")),
+            client_id=int(user_id),
+>>>>>>> 3b6f0d992c254dfd2fe8e960842c080629964a1c
             commission_type=response.get("commission_type"),
             status="Pending",
             date=datetime.now(),

@@ -33,14 +33,69 @@ import {
 } from "reactstrap";
 
 function Tables(props) {
+  const [userBuys, setUserBuys] = useState([]);
+  const [userSells, setUserSells] = useState([]);
+  const [traderBuys, setTraderBuys] = useState([]);
+  const [traderSells, setTraderSells] = useState([]);
+  const [viewMode, setViewMode] = useState("client");
+  const [userData, setUserData] = useState({});
   axios.defaults.withCredentials = true;
 
-  useEffect(() => {
-    axios.get('http://localhost:5000/users/1/transactions/buys').then(response => {
-      console.log(response)
+  // Get User Information
+  const getUserData = () => {
+    axios.get('http://localhost:5000/users/' + props.userId)
+      .then(response => {
+        setUserData(response.data);
+        if (!response.data.isClient) {
+          setViewMode("trader");
+        }
+        else {
+          setViewMode("client");
+        }
+      }).catch(error => {
+        console.log(error);
+      })
+  }
+
+  const getClientBuys = () => {
+    axios.get('http://localhost:5000/users/' + props.userId + '/transactions/buys').then(response => {
+      setUserBuys(response.data.results);
     }).catch(error => {
       console.log(error);
     })
+  }
+
+  const getTraderBuys = () => {
+    axios.get('http://localhost:5000/users/traders/' + props.userId + '/transactions/buys').then(response => {
+      setTraderBuys(response.data.results);
+    }).catch(error => {
+      console.log(error);
+    })
+  }
+
+  const getClientSells = () => {
+    axios.get('http://localhost:5000/users/' + props.userId + '/transactions/sells').then(response => {
+      setUserSells(response.data.results);
+    }).catch(error => {
+      console.log(error);
+    })
+  }
+
+  const getTraderSells = () => {
+    axios.get('http://localhost:5000/users/traders/' + props.userId + '/transactions/sells').then(response => {
+      setTraderSells(response.data.results);
+    }).catch(error => {
+      console.log(error);
+    })
+  }
+
+  // Get User Data
+  useEffect(() => {
+    getUserData();
+    getTraderBuys();
+    getTraderSells();
+    getClientBuys();
+    getClientSells();
   }, []);
 
   const acceptTransaction = (tid) => {
@@ -86,11 +141,11 @@ function Tables(props) {
                     
                   </thead>
                   <tbody>
-                    {transactionData.map((t) => (
-                      props.isTrader ? (
+                    {(viewMode === "trader" ? traderBuys : userBuys).map((t) => (
+                      viewMode === "trader" ? (
                       <tr>
                         <td>{t.time}</td>
-                        <td>{t.client}</td>
+                        <td>{t.name}</td>
                         <td>{t.commission}</td>
                         <td>{t.status}</td>
                         <td className="text-right">{t.value} &#8383;</td>
@@ -106,7 +161,7 @@ function Tables(props) {
                       ) : (
                         <tr>
                           <td>{t.time}</td>
-                          <td>{t.client}</td>
+                          <td>{t.name}</td>
                           <td>{t.commission}</td>
                           <td>{t.status}</td>
                           <td className="text-right">{t.value} &#8383;</td>
@@ -148,11 +203,11 @@ function Tables(props) {
                     }
                   </thead>
                   <tbody>
-                    {transactionData.map((t) => (
-                      props.isTrader ? (
+                    {(viewMode === "trader" ? traderSells : userSells).map((t) => (
+                      viewMode === "trader" ? (
                       <tr>
                         <td>{t.time}</td>
-                        <td>{t.client}</td>
+                        <td>{t.name}</td>
                         <td>{t.commission}</td>
                         <td>{t.status}</td>
                         <td className="text-right">{t.value} &#8383;</td>
@@ -168,7 +223,7 @@ function Tables(props) {
                       ) : (
                         <tr>
                           <td>{t.time}</td>
-                          <td>{t.client}</td>
+                          <td>{t.name}</td>
                           <td>{t.commission}</td>
                           <td>{t.status}</td>
                           <td className="text-right">{t.value} &#8383;</td>
