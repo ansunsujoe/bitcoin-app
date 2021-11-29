@@ -20,7 +20,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:root@host.docker.i
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-from app import users, transactions
+from app import users, transactions, transfers
 from app.models import *
 
 # Create tables

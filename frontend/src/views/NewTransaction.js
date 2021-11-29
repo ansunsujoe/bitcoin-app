@@ -92,7 +92,6 @@ function NewTransaction(props) {
 
   // Get current bitcoin price immediately
   useEffect(() => {
-    console.log("Roasted")
     getUserData();
   }, []);
 
@@ -149,6 +148,7 @@ function NewTransaction(props) {
 
   // Handler function for submitting buy
   const handleBuySubmit = (e) => {
+    console.log(buyTrader);
     const data = {
       commission_type: buyCommissionType,
       amount: buyAmount,
