@@ -36,7 +36,6 @@ function Dashboard(props) {
   const [loading, setLoading] = useState(true);
   const [priceData, setPriceData] = useState(null);
   const [currency, setCurrency] = useState(null);
-  //const [userData, setUserData] = useState(null);
   const [chartData, setChartData] = useState(null);
   const [isTraderOrManager, setIsTraderOrManager] = useState(false);
   const [series, setSeries] = useState(null);
@@ -94,13 +93,6 @@ function Dashboard(props) {
     ])
     setLoading(false);
   }
-
-  console.log(props.userId);
-  console.log(props.userData);
-  //console.log(userData);
-  console.log(btcBal);
-  console.log(usdBal);
-  console.log(status);
 
   if (isTraderOrManager){
     return (
