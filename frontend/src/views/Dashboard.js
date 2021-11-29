@@ -94,6 +94,7 @@ function Dashboard(props) {
   }
 
   console.log(props.userId);
+  console.log(props.userData);
   console.log(userData);
   console.log(btcBal);
   console.log(usdBal);
@@ -164,7 +165,7 @@ function Dashboard(props) {
     return (
       <>
         <div className="content">
-        {loading ? (
+        {((btcBal === undefined)||(usdBal === undefined)||(status === undefined)||loading) ? (
           <div>
           </div>
         ) : (
