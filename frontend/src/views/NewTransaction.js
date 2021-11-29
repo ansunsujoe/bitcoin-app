@@ -79,10 +79,12 @@ function NewTransaction(props) {
 
   // Get Client Data
   const getUserData = () => {
-    axios.get('http://localhost:5000/users/clients/' + props.userId)
+    axios.get('http://localhost:5000/users/' + props.userId)
     .then(response => {
       console.log(response.data);
       setClientProperties(response.data);
+      getCurrentBTC();
+      getTraderList();
     }).catch(error => {
       console.log(error);
     })
@@ -90,8 +92,7 @@ function NewTransaction(props) {
 
   // Get current bitcoin price immediately
   useEffect(() => {
-    getCurrentBTC();
-    getTraderList();
+    console.log("Roasted")
     getUserData();
   }, []);
 
@@ -229,7 +230,7 @@ function NewTransaction(props) {
                             step={0.1}
                             marks
                             min={0}
-                            max={btcRate > 0 ? roundDecimal(clientProperties.fiatBalance / btcRate, 1, true) : 0.0}
+                            max={(btcRate && btcRate > 0 && clientProperties.fiatBalance) ? roundDecimal(clientProperties.fiatBalance / btcRate, 1, true) : 0.0}
                             valueLabelDisplay="on"
                             color="success"
                             onChange={handleBuyChange}
@@ -311,7 +312,7 @@ function NewTransaction(props) {
                           step={0.1}
                           marks
                           min={0}
-                          max={clientProperties.btcBalance}
+                          max={clientProperties.btcBalance ? clientProperties.btcBalance : 0}
                           valueLabelDisplay="on"
                           color="error"
                           onChange={handleSellChange}

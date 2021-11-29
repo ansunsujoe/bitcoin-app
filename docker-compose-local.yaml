@@ -44,3 +44,4 @@ services:
     restart: unless-stopped
     volumes:
       - ./frontend:/usr/src/app:rw
+    command: /usr/src/app/entrypoint.sh

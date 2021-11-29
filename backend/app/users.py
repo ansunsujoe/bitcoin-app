@@ -18,7 +18,7 @@ def get_users():
 def user_info(user_id):
     if request.method == "GET":
         # User client query
-        user, client = db.session.query(
+        response = db.session.query(
             User, Client
         ).filter(
             User.user_id == user_id
@@ -26,7 +26,8 @@ def user_info(user_id):
             User.user_id == Client.user_id
         ).first()
 
-        if user is not None:
+        if response is not None:
+            user, client = response
             client_json = {
                 "id": user.user_id,
                 "name": user.name,
