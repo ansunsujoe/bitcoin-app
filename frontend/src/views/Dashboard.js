@@ -57,7 +57,11 @@ function Dashboard(props) {
             timeout: 8000,
         })
         if(res.status == 200){
-            console.log(res.status)
+            console.log(res.status);
+            setUserData(res);
+            setBtcBal(userData.btcBalance);
+            setUsdBal(userData.fiatBalance);
+            setStatus(userData.classification);
         }    
         // Don't forget to return something   
         return res.data
@@ -82,11 +86,7 @@ function Dashboard(props) {
     }
     await fetchBalances();
 */
-    getData().then(res => setUserData(res));
-    setBtcBal(userData.btcBalance);
-    setUsdBal(userData.fiatBalance);
-    setStatus(userData.classification);
-
+    await getData();
     async function fetchPrices() {
       const res = await fetch('https://api.coindesk.com/v1/bpi/currentprice.json')
       const data = await res.json();
@@ -94,7 +94,6 @@ function Dashboard(props) {
       setPriceData(data.bpi);
       getChartData();
     }
-
     fetchPrices();
   }, []);
 
