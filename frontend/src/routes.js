@@ -26,6 +26,7 @@ import UserPage from "views/User.js";
 import Clients from "views/Clients.js"
 import Manager from "./views/Manager";
 import Trader_Approve from "./views/Trader_Approve";
+import NewTransfer from "views/NewTransfer";
 
 var routes = [
   {
@@ -69,6 +70,15 @@ var routes = [
     name: "New Transaction",
     icon: "nc-icon nc-cart-simple",
     component: NewTransaction,
+    layout: "/admin",
+    traderOnly: false,
+    managerOnly: false
+  },
+  {
+    path: "/new-transfer",
+    name: "New Transfer",
+    icon: "nc-icon nc-cart-simple",
+    component: NewTransfer,
     layout: "/admin",
     traderOnly: false,
     managerOnly: false
