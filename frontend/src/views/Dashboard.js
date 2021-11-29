@@ -39,9 +39,9 @@ function Dashboard(props) {
   //const [userData, setUserData] = useState(null);
   const [chartData, setChartData] = useState(null);
   const [series, setSeries] = useState(null);
-  const [btcBal, setBtcBal] = useState([]);
-  const [usdBal, setUsdBal] = useState([]);
-  const [status, setStatus] = useState([]);
+  const [btcBal, setBtcBal] = useState("");
+  const [usdBal, setUsdBal] = useState("");
+  const [status, setStatus] = useState("");
 
   /*
   const options = [
@@ -71,9 +71,9 @@ function Dashboard(props) {
     axios.get('http://localhost:5000/users/' + props.userId)
       .then(response => {
         if (response.data.isClient) {
-          setBtcBal(response.data.btcBalance);
-          setUsdBal(response.data.fiatBalance);
-          setStatus(response.data.classification);
+          setBtcBal(response.data.btcBalance.toString());
+          setUsdBal(response.data.fiatBalance.toString());
+          setStatus(response.data.classification.toString());
         }
       }).catch(error => {
         console.log(error);
