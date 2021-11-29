@@ -43,30 +43,6 @@ function Dashboard(props) {
   const [usdBal, setUsdBal] = useState("");
   const [status, setStatus] = useState("");
 
-  /*
-  const options = [
-    { value: 'USD', text: 'USD' },
-    { value: 'EUR', text: 'EUR' },
-    { value: 'GBP', text: 'GPB' }
-  ];
-  */
-
-  /*
-  useEffect(() => {
-    async function fetchBalances() {
-      const res2 = await fetch('http://localhost:5000/users/clients/' + props.userId)
-      const data2 = await res2.json();
-      if (data2 != null){
-        //setUserData(data2);
-        setBtcBal(data2.btcBalance);
-        setUsdBal(data2.fiatBalance);
-        setStatus(data2.classification);
-      } 
-    }
-    fetchBalances();
-  }, []);
-  */
-
   const getUserData = () => {
     axios.get('http://localhost:5000/users/' + props.userId)
       .then(response => {
