@@ -29,8 +29,6 @@ import {
   Col,
 } from "reactstrap";
 
-import axios from 'axios';
-
 function Dashboard(props) {
 
   const [loading, setLoading] = useState(true);
@@ -39,9 +37,9 @@ function Dashboard(props) {
   const [userData, setUserData] = useState(null);
   const [chartData, setChartData] = useState(null);
   const [series, setSeries] = useState(null);
-  const [btcBal, setBtcBal] = useState(null);
-  const [usdBal, setUsdBal] = useState(null);
-  const [status, setStatus] = useState(null);
+  const [btcBal, setBtcBal] = useState();
+  const [usdBal, setUsdBal] = useState();
+  const [status, setStatus] = useState();
 
   const options = [
     { value: 'USD', text: 'USD' },
@@ -49,45 +47,16 @@ function Dashboard(props) {
     { value: 'GBP', text: 'GPB' }
   ];
 
-  async function getData() {
-    try {
-       let res = await axios({
-            url: 'http://localhost:5000/users/clients/' + props.userId,
-            method: 'get',
-            timeout: 8000,
-        })
-        if(res.status == 200){
-            console.log(res.status);
-            setUserData(res);
-            setBtcBal(userData.btcBalance);
-            setUsdBal(userData.fiatBalance);
-            setStatus(userData.classification);
-        }    
-        // Don't forget to return something   
-        return res.data
-    }
-    catch (err) {
-        console.error(err);
-    }
-}
-
   useEffect(() => {
-    /*
     async function fetchBalances() {
       const res2 = await fetch('http://localhost:5000/users/clients/' + props.userId)
       const data2 = await res2.json();
-      const btcBalance = await data2.btcBalance;
-      const fiatBalance = await data2.fiatBalance;
-      const classification = await data2.classification;
       setUserData(data2);
-      setBtcBal(btcBalance);
-      setUsdBal(fiatBalance);
-      setStatus(classification);
+      setBtcBal(data2.btcBalance);
+      setUsdBal(data2.fiatBalance);
+      setStatus(data2.classification);
     }
-    await fetchBalances();
-*/
-    getData();
-
+    fetchBalances();
     async function fetchPrices() {
       const res = await fetch('https://api.coindesk.com/v1/bpi/currentprice.json')
       const data = await res.json();
@@ -226,7 +195,7 @@ function Dashboard(props) {
                     <Col md="10" xs="7">
                       <div className="numbers">
                         <p className="card-category">BTC Balance</p>
-                        <CardTitle tag="p">&#8383; {props.userData.btcBalance}</CardTitle>
+                        <CardTitle tag="p">&#8383; {btcBal}</CardTitle>
                         <p />
                       </div>
                     </Col>
@@ -246,7 +215,7 @@ function Dashboard(props) {
                     <Col md="10" xs="7">
                       <div className="numbers">
                         <p className="card-category">USD Balance</p>
-                        <CardTitle tag="p">${(props.userData.fiatBalance).substring(0, 2)},{(props.userData.fiatBalance).substring(2, 8)}</CardTitle>
+                        <CardTitle tag="p">${(usdBal).substring(0, 2)},{(usdBal).substring(2, 8)}</CardTitle>
                         <p />
                       </div>
                     </Col>
@@ -266,7 +235,7 @@ function Dashboard(props) {
                     <Col md="8" xs="7">
                       <div className="numbers">
                         <p className="card-category">Account Status</p>
-                        <CardTitle tag="p">{(props.userData.classification).charAt(0).toUpperCase()}{(props.userData.classification).slice(1)}</CardTitle>
+                        <CardTitle tag="p">{(status).charAt(0).toUpperCase()}{(status).slice(1)}</CardTitle>
                         <p />
                       </div>
                     </Col>
