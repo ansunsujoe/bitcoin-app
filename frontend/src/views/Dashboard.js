@@ -34,12 +34,12 @@ function Dashboard(props) {
   const [loading, setLoading] = useState(true);
   const [priceData, setPriceData] = useState(null);
   const [currency, setCurrency] = useState(null);
-  const [userData, setUserData] = useState();
+  const [userData, setUserData] = useState(null);
   const [chartData, setChartData] = useState(null);
   const [series, setSeries] = useState(null);
-  const [btcBal, setBtcBal] = useState();
-  const [usdBal, setUsdBal] = useState();
-  const [status, setStatus] = useState();
+  const [btcBal, setBtcBal] = useState(null);
+  const [usdBal, setUsdBal] = useState(null);
+  const [status, setStatus] = useState(null);
 
   /*
   const options = [
@@ -53,13 +53,17 @@ function Dashboard(props) {
     async function fetchBalances() {
       const res2 = await fetch('http://localhost:5000/users/clients/' + props.userId)
       const data2 = await res2.json();
-      setUserData(data2);
-      setBtcBal(data2.btcBalance);
-      setUsdBal(data2.fiatBalance);
-      setStatus(data2.classification);
+      if (data2 != null){
+        setUserData(data2);
+        setBtcBal(data2.btcBalance);
+        setUsdBal(data2.fiatBalance);
+        setStatus(data2.classification);
+      } 
     }
     fetchBalances();
+  }, []);
 
+  useEffect(() => {
     async function fetchPrices() {
       const res = await fetch('https://api.coindesk.com/v1/bpi/currentprice.json')
       const data = await res.json();
