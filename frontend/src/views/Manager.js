@@ -34,10 +34,32 @@ import {
 } from "reactstrap";
 import {Line} from "react-chartjs-2";
 import {dashboard24HoursPerformanceChart} from "../variables/charts";
+import axios from "axios";
 
 function Manager(props) {
     const [startDate, handleStartDateChange] = useState(new Date());
     const [endDate, handleEndDateChange] = useState(new Date());
+    const [transactions, setTransactions] = useState([]);
+    const [shouldRedirect, setShouldRedirect] = useState(false);
+
+    const convertDateToString = (date) => {
+        return date.toISOString().replace(/T/, ' ').replace(/\..+/, '');
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        getTransactions(convertDateToString(startDate), convertDateToString(endDate));
+        setShouldRedirect(!shouldRedirect);
+    };
+
+    const getTransactions = (startDatetime, endDatetime) => {
+        axios.get('http://localhost:5000/transactions/' + startDatetime + '/' + endDatetime).then(response => {
+            setTransactions(response.data.results);
+        }).catch(error => {
+            console.log(error);
+        })
+    }
+
     return (
         <>
             <div className="content">
@@ -48,7 +70,7 @@ function Manager(props) {
                                 <CardTitle tag="h5">Search</CardTitle>
                             </CardHeader>
                             <CardBody>
-                                <Form>
+                                <Form onSubmit={handleSubmit}>
                                     <div className="d-flex justify-content-center">
                                         <Row>
                                             <Col tag="h6">
@@ -76,7 +98,7 @@ function Manager(props) {
                                                 color="info"
                                                 type="submit"
                                             >
-                                                Get Data For Selected Range
+                                                Get Data For Selected Ranges
                                             </Button>
                                         </div>
                                     </Row>
@@ -84,28 +106,7 @@ function Manager(props) {
                             </CardBody>
                         </Card>
                     </Col>
-                    <Col md="12">
-                        <Card>
-                            <CardHeader>
-                                <CardTitle tag="h5">Users Behavior</CardTitle>
-                                <p className="card-category">24 Hours performance</p>
-                            </CardHeader>
-                            <CardBody>
-                                <Line
-                                    data={dashboard24HoursPerformanceChart.data}
-                                    options={dashboard24HoursPerformanceChart.options}
-                                    width={400}
-                                    height={100}
-                                />
-                            </CardBody>
-                            <CardFooter>
-                                <hr/>
-                                <div className="stats">
-                                    <i className="fa fa-history"/> Updated 3 minutes ago
-                                </div>
-                            </CardFooter>
-                        </Card>
-                    </Col>
+
                     <Col md="12">
                         <Card>
                             <CardHeader>
@@ -114,48 +115,19 @@ function Manager(props) {
                             <CardBody>
                                 <Table responsive>
                                     <thead className="text-primary">
-                                    {props.isTrader ? (
-                                        <tr className="text-success">
-                                            <th>Time</th>
-                                            <th>Client</th>
-                                            <th>Commission</th>
-                                            <th>Status</th>
-                                            <th className="text-right">Value</th>
-                                            <th className="text-right">Complete</th>
-                                            <th className="text-right">Cancel</th>
-                                        </tr>
-                                    ) : (
-                                        <tr className="text-success">
-                                            <th>Time</th>
-                                            <th>Client</th>
-                                            <th>Commission</th>
-                                            <th>Status</th>
-                                            <th className="text-right">Value</th>
-                                        </tr>
-                                    )
+                                    <tr className="text-success">
+                                        <th>Time</th>
+                                        <th>Client</th>
+                                        <th>Commission</th>
+                                        <th>Status</th>
+                                        <th className="text-right">Value</th>
+                                    </tr>
                                     }
-
                                     </thead>
                                     <tbody>
-                                    {transactionData.map((t) => (
-                                        props.isTrader ? (
-                                            <tr>
-                                                <td>{t.time}</td>
-                                                <td>{t.client}</td>
-                                                <td>{t.commission}</td>
-                                                <td>{t.status}</td>
-                                                <td className="text-right">{t.value} &#8383;</td>
-                                                <td className="text-right"><Button color="success" type="submit"
-                                                                                   size="sm"
-                                                                                   disabled={t.status === "Complete"}>Complete</Button>
-                                                </td>
-                                                <td className="text-right"><Button color="success" type="submit"
-                                                                                   size="sm"
-                                                                                   disabled={t.status === "Complete"}>Cancel</Button>
-                                                </td>
-                                            </tr>
-                                        ) : (
-                                            <tr>
+                                    {transactions.map((t) => (
+                                        (
+                                            <tr key={t.tid + " " + t.name}>
                                                 <td>{t.time}</td>
                                                 <td>{t.client}</td>
                                                 <td>{t.commission}</td>

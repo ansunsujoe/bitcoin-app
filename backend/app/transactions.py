@@ -158,3 +158,27 @@ def transaction_accept(transaction_id):
     transaction.status = "Complete"
     db.session.commit()
     return "Success"
+
+# Get transactions between datetime
+@app.route("/transactions/<start_date>/<end_date>", methods=["GET"])
+def transaction_between(start_date, end_date):
+    result = db.session.query(
+        Transaction, User
+        ).filter(
+            Transaction.date >= start_date
+        ).filter(
+            Transaction.date <= end_date
+        ).filter(
+            User.user_id == Transaction.client_id
+        ).all()
+    transactions = []
+    for t, u in result:
+        transactions.append({
+            "tid": t.transaction_id,
+            "time": t.date,
+            "name": u.name,
+            "commission": t.commission_type,
+            "status": t.status,
+            "value": t.amount
+        })
+    return to_response(transactions)
