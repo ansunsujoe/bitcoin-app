@@ -168,6 +168,8 @@ def transaction_between(start_date, end_date):
             Transaction.date >= start_date
         ).filter(
             Transaction.date <= end_date
+        ).filter(
+            User.user_id == Transaction.client_id
         ).all()
     transactions = []
     for t, u in result:
