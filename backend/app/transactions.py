@@ -26,13 +26,8 @@ def user_transaction(user_id):
         
         # Create transaction object
         new_transaction = Transaction(
-<<<<<<< HEAD
-            trader_id=2,
-            client_id=1,
-=======
             trader_id=int(response.get("traderId")),
             client_id=int(user_id),
->>>>>>> 3b6f0d992c254dfd2fe8e960842c080629964a1c
             commission_type=response.get("commission_type"),
             status="Pending",
             date=datetime.now(),
@@ -78,11 +73,59 @@ def user_transaction_sells(user_id):
         ).filter(
             Transaction.client_id == user_id
         ).filter(
+            User.user_id == Transaction.trader_id
+        ).all()
+    transactions = []
+    for t, u in result:
+        transactions.append({
+            "time": t.date,
+            "name": u.name,
+            "commission": t.commission_type,
+            "status": t.status,
+            "value": t.amount
+        })
+    return to_response(transactions)
+
+# Buy transactions for trader
+@app.route("/users/traders/<trader_id>/transactions/buys", methods=["GET"])
+def trader_transaction_buys(trader_id):
+    result = db.session.query(
+        Transaction, User
+        ).filter(
+            Transaction.action == "buy"
+        ).filter(
+            Transaction.trader_id == trader_id
+        ).filter(
             User.user_id == Transaction.client_id
         ).all()
     transactions = []
     for t, u in result:
         transactions.append({
+            "tid": t.transaction_id,
+            "time": t.date,
+            "name": u.name,
+            "commission": t.commission_type,
+            "status": t.status,
+            "value": t.amount
+        })
+    return to_response(transactions)
+
+# Sell transactions for trader
+@app.route("/users/traders/<trader_id>/transactions/sells", methods=["GET"])
+def trader_transaction_sells(trader_id):
+    result = db.session.query(
+        Transaction, User
+        ).filter(
+            Transaction.action == "sell"
+        ).filter(
+            Transaction.trader_id == trader_id
+        ).filter(
+            User.user_id == Transaction.client_id
+        ).all()
+    transactions = []
+    for t, u in result:
+        transactions.append({
+            "tid": t.transaction_id,
             "time": t.date,
             "client": u.name,
             "commission": t.commission_type,
@@ -96,6 +139,7 @@ def user_transaction_sells(user_id):
 def transaction_delete(transaction_id):
     db.session.query(Transaction).filter(Transaction.transaction_id == transaction_id).delete()
     db.session.commit()
+    return "Success"
 
 # Accept transactions (trader cancels)
 @app.route("/transactions/<transaction_id>/accept", methods=["PUT"])
@@ -103,3 +147,4 @@ def transaction_accept(transaction_id):
     transaction = db.session.query(Transaction).filter(Transaction.transaction_id == transaction_id).first()
     transaction.status = "Complete"
     db.session.commit()
+    return "Success"

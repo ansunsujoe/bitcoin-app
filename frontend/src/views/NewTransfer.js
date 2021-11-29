@@ -34,6 +34,7 @@ import {
 // import Slider from '@mui/material/Slider';
 // import { getCommission, roundDecimal } from '../utilities/transaction';
 import axios from 'axios';
+axios.defaults.withCredentials = true;
 
 function NewTransfer(props) {
     const [transferTrader, setTransferTrader] = useState("trader-1");
@@ -58,7 +59,7 @@ function NewTransfer(props) {
 
     // Get Client Data
     const getUserData = () => {
-        axios.get('http://localhost:5000/users/clients/' + props.userId)
+        axios.get('http://localhost:5000/users/' + props.userId)
             .then(response => {
                 console.log(response.data);
                 setClientProperties(response.data);
