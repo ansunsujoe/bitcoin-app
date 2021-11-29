@@ -87,12 +87,12 @@ function NewTransfer(props) {
             })
     }
 
-    // // Get current bitcoin price immediately
-    // useEffect(() => {
-    //     //getCurrentBTC();
-    //     getTraderList();
-    //     getUserData();
-    // }, []);
+    // Get trader and user list
+    useEffect(() => {
+        //getCurrentBTC();
+        getTraderList();
+        getUserData();
+    }, []);
 
     //   // Get current bitcoin price every 10 seconds
     //   useEffect(() => {
