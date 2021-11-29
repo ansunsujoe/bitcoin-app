@@ -17,7 +17,7 @@
 
 */
 import { React, useState, useEffect } from "react";
-
+import axios from 'axios';
 import Chart from "react-apexcharts";
 // reactstrap components
 import {
@@ -28,6 +28,8 @@ import {
   Row,
   Col,
 } from "reactstrap";
+
+axios.defaults.withCredentials = true;
 
 function Dashboard(props) {
 
@@ -111,7 +113,7 @@ function Dashboard(props) {
 
   console.log(props.userId);
   console.log(props.userData);
-  console.log(userData);
+  //console.log(userData);
   console.log(btcBal);
   console.log(usdBal);
   console.log(status);
