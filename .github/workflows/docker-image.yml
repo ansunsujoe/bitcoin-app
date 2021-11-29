@@ -42,14 +42,14 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: ./frontend/local.Dockerfile
+          file: ./frontend/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/bitcoinapp-local:${{ env.BRANCH_NAME }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/bitcoinapp:${{ env.BRANCH_NAME }}
       -
         name: Build and push Backend
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: ./backend/local.Dockerfile
+          file: ./backend/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/btc-backend-local:${{ env.BRANCH_NAME }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/btc-backend:${{ env.BRANCH_NAME }}
