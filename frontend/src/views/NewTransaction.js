@@ -32,7 +32,7 @@ import {
   Col,
 } from "reactstrap";
 import Slider from '@mui/material/Slider';
-import { getCommission } from '../utilities/transaction';
+import { getCommission, roundDecimal } from '../utilities/transaction';
 import axios from 'axios';
 
 function NewTransaction(props) {
@@ -48,23 +48,52 @@ function NewTransaction(props) {
   const [sellDisabled, setSellDisabled] = useState(true);
   const [buyAmount, setBuyAmount] = useState(0);
   const [sellAmount, setSellAmount] = useState(0);
-  const [btcRate, setBtcRate] = useState(0.0)
+  const [btcRate, setBtcRate] = useState(50000.0);
+  const [traderList, setTraderList] = useState([]);
+  const [clientProperties, setClientProperties] = useState({});
 
   axios.defaults.withCredentials = true;
 
   // Get current Bitcoin price
   const getCurrentBTC = () => {
-    axios.get('https://api.coindesk.com/v1/bpi/currentprice.json')
+    axios.get('http://localhost:5000/btc-rate')
       .then(response => {
-        setBtcRate(response.data.bpi.USD.rate_float)
+        console.log(response.data);
+        setBtcRate(response.data.results);
       }).catch(error => {
         console.log(error);
       })
   }
 
+  // Get trader list
+  const getTraderList = () => {
+    axios.get('http://localhost:5000/users/traders')
+    .then(response => {
+      setTraderList(response.data.results);
+      setBuyTrader(response.data.results[0].id);
+      setSellTrader(response.data.results[0].id);
+    }).catch(error => {
+      console.log(error);
+    })
+  }
+
+  // Get Client Data
+  const getUserData = () => {
+    axios.get('http://localhost:5000/users/' + props.userId)
+    .then(response => {
+      console.log(response.data);
+      setClientProperties(response.data);
+      getCurrentBTC();
+      getTraderList();
+    }).catch(error => {
+      console.log(error);
+    })
+  }
+
   // Get current bitcoin price immediately
   useEffect(() => {
-    getCurrentBTC();
+    console.log("Roasted")
+    getUserData();
   }, []);
 
   // Get current bitcoin price every 10 seconds
@@ -107,7 +136,7 @@ function NewTransaction(props) {
 
   // Buy/Sell Axios Request
   const transactionSubmit = (data) => {
-    axios.post('http://localhost:5000/users/1/transactions', data, {
+    axios.post('http://localhost:5000/users/' + props.userId + '/transactions', data, {
       headers: {
         'Content-Type': 'application/json'
       }
@@ -123,6 +152,7 @@ function NewTransaction(props) {
     const data = {
       commission_type: buyCommissionType,
       amount: buyAmount,
+      traderId: buyTrader,
       action: "buy"
     };
     transactionSubmit(data);
@@ -133,6 +163,7 @@ function NewTransaction(props) {
     const data = {
       commission_type: sellCommissionType,
       amount: sellAmount,
+      traderId: sellTrader,
       action: "sell"
     };
     transactionSubmit(data);
@@ -165,10 +196,9 @@ function NewTransaction(props) {
                         <label>Assign Trader</label>
                         <Input type="select" name="transactionType" id="transactionType"
                         value={buyTrader} onChange={e => setBuyTrader(e.currentTarget.value)}>
-                          <option key="trader-1" value="trader-1">Rick Carney</option>
-                          <option key="trader-2" value="trader-2">Bill Keane</option>
-                          <option key="trader-3" value="trader-3">Stuart Foley</option>
-                          <option key="trader-4" value="trader-4">Manohar Gaspar</option>
+                          {traderList.map((t) => (
+                            <option key={t.id} value={t.id}>{t.name}</option>
+                          ))}
                         </Input>
                       </FormGroup>
                     </Col>
@@ -177,7 +207,7 @@ function NewTransaction(props) {
                         <label htmlFor="exampleInputEmail1">
                           Commission
                         </label>
-                        <Input placeholder={buyCommission} disabled />
+                        <Input placeholder={buyCommissionType === "BTC" ? buyCommission + " \u20BF" : "$" + buyCommission} disabled />
                       </FormGroup>
                     </Col>
                     <Col className="pl-1" md="3">
@@ -185,7 +215,7 @@ function NewTransaction(props) {
                         <label htmlFor="exampleInputEmail1">
                           Current Cost
                         </label>
-                        <Input placeholder={buyCost} disabled />
+                        <Input placeholder={"$" + buyCost} disabled />
                       </FormGroup>
                     </Col> 
                   </Row>
@@ -197,10 +227,10 @@ function NewTransaction(props) {
                             disabled={false}
                             defaultValue={0}
                             aria-labelledby="discrete-slider-always"
-                            step={1}
+                            step={0.1}
                             marks
                             min={0}
-                            max={30}
+                            max={(btcRate && btcRate > 0 && clientProperties.fiatBalance) ? roundDecimal(clientProperties.fiatBalance / btcRate, 1, true) : 0.0}
                             valueLabelDisplay="on"
                             color="success"
                             onChange={handleBuyChange}
@@ -248,9 +278,9 @@ function NewTransaction(props) {
                         <label>Assign Trader</label>
                         <Input type="select" name="transactionType" id="transactionType" 
                         value={sellTrader} onChange={e => setSellTrader(e.currentTarget.value)}>
-                          <option key="trader-1" value="trader-1">Rick Carney</option>
-                          <option key="trader-2" value="trader-2">Bill Keane</option>
-                          <option key="trader-3" value="trader-3">Stuart Foley</option>
+                          {traderList.map((t) => (
+                            <option key={t.id} value={t.id}>{t.name}</option>
+                          ))}
                         </Input>
                       </FormGroup>
                     </Col>
@@ -259,7 +289,7 @@ function NewTransaction(props) {
                         <label htmlFor="exampleInputEmail1">
                           Commission
                         </label>
-                        <Input placeholder={sellCommission} disabled />
+                        <Input placeholder={sellCommissionType === "BTC" ? sellCommission + " \u20BF" : "$" + sellCommission} disabled />
                       </FormGroup>
                     </Col>
                     <Col className="pl-1" md="3">
@@ -279,10 +309,10 @@ function NewTransaction(props) {
                           disabled={false}
                           defaultValue={0}
                           aria-labelledby="discrete-slider-always"
-                          step={1}
+                          step={0.1}
                           marks
                           min={0}
-                          max={30}
+                          max={clientProperties.btcBalance ? clientProperties.btcBalance : 0}
                           valueLabelDisplay="on"
                           color="error"
                           onChange={handleSellChange}

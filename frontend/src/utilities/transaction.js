@@ -3,8 +3,14 @@ const commissionRates = {
   "gold": 0.01
 }
 
-export function roundDecimal(number, x) {
-  return Math.round(number * Math.pow(10, x)) / Math.pow(10, x)
+// Round or truncate
+export function roundDecimal(number, x, truncate = false) {
+  if (truncate) {
+    return Math.trunc(number * Math.pow(10, x)) / Math.pow(10, x)
+  }
+  else {
+    return Math.round(number * Math.pow(10, x)) / Math.pow(10, x)
+  }
 }
 
 export function getCommission(btcRate, amount, commissionType, tier) {

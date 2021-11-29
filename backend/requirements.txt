@@ -5,3 +5,4 @@ flask_sqlalchemy
 SQLAlchemy-Utils
 PyMySQL
 cryptography
+flask-bcrypt
