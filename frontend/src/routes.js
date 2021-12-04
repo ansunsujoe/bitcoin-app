@@ -27,6 +27,7 @@ import Clients from "views/Clients.js"
 import Manager from "./views/Manager";
 import Trader_Approve from "./views/Trader_Approve";
 import NewTransfer from "views/NewTransfer";
+import ClientTransaction from "./views/ClientTransaction"
 
 var routes = [
   {
@@ -70,7 +71,7 @@ var routes = [
     clientOnly: false
   },
   {
-    path: "/tables",
+    path: "/new-transaction",
     name: "New Transaction",
     icon: "nc-icon nc-credit-card",
     component: NewTransaction,
@@ -78,6 +79,16 @@ var routes = [
     traderOnly: false,
     managerOnly: false,
     clientOnly: true
+  },
+  {
+    path: "/new-client-transaction",
+    name: "Client Transaction",
+    icon: "nc-icon nc-money-coins",
+    component: ClientTransaction,
+    layout: "/admin",
+    traderOnly: true,
+    managerOnly: false,
+    clientOnly: false
   },
   {
     path: "/new-transfer",
@@ -102,7 +113,7 @@ var routes = [
   {
     path: "/approve-transactions",
     name: "Approve Transfers",
-    icon: "nc-icon nc-globe",
+    icon: "nc-icon nc-check-2",
     component: Trader_Approve,
     layout: "/admin",
     traderOnly: true,

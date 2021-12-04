@@ -6,35 +6,62 @@ from app.util import to_json, to_response
 # List all users
 @app.route("/users", methods=["GET"])
 def get_users():
-    result = db.session.query(User).all()
-    print(result)
-    return {
-        "results": [{"id": user.user_id, "name": user.name} for user in result]
-    }
-    
+    try:
+        result = db.session.query(User).all()
+        response = {
+            "results": [{"id": user.user_id, "name": user.name} for user in result]
+        }
+    except Exception:
+        return {}
+    return response
 
 # Modify/delete user
 @app.route("/users/<user_id>", methods=["GET", "PUT", "DELETE"])
 def user_info(user_id):
     if request.method == "GET":
-        # User client query
-        response = db.session.query(
-            User, Client
-        ).filter(
-            User.user_id == user_id
-        ).filter(
-            User.user_id == Client.user_id
-        ).first()
+        try:
+            # User client query
+            response = db.session.query(
+                User, Client
+            ).filter(
+                User.user_id == user_id
+            ).filter(
+                User.user_id == Client.user_id
+            ).first()
 
-        if response is not None:
-            user, client = response
-            client_json = {
+            if response is not None:
+                user, client = response
+                client_json = {
+                    "id": user.user_id,
+                    "name": user.name,
+                    "btcBalance": round(client.btc_balance, 1),
+                    "fiatBalance": round(client.fiat_balance, 2),
+                    "classification": client.user_classification,
+                    "isClient": True,
+                    "isTrader": user.is_trader,
+                    "isManager": user.is_manager,
+                    "phoneNumber": user.phone_number,
+                    "cell": user.cell,
+                    "email": user.email,
+                    "streetAddress": user.street_address,
+                    "city": user.city,
+                    "state": user.state,
+                    "zip": user.zip
+                }
+                return client_json
+            
+            # User query
+            user = db.session.query(
+                User
+            ).filter(
+                User.user_id == user_id
+            ).first()
+            
+            # User json
+            user_json = {
                 "id": user.user_id,
                 "name": user.name,
-                "btcBalance": round(client.btc_balance, 1),
-                "fiatBalance": round(client.fiat_balance, 2),
-                "classification": client.user_classification,
-                "isClient": True,
+                "isClient": False,
                 "isTrader": user.is_trader,
                 "isManager": user.is_manager,
                 "phoneNumber": user.phone_number,
@@ -45,31 +72,9 @@ def user_info(user_id):
                 "state": user.state,
                 "zip": user.zip
             }
-            return client_json
-        
-        # User query
-        user = db.session.query(
-            User
-        ).filter(
-            User.user_id == user_id
-        ).first()
-        
-        # User json
-        user_json = {
-            "id": user.user_id,
-            "name": user.name,
-            "isClient": False,
-            "isTrader": user.is_trader,
-            "isManager": user.is_manager,
-            "phoneNumber": user.phone_number,
-            "cell": user.cell,
-            "email": user.email,
-            "streetAddress": user.street_address,
-            "city": user.city,
-            "state": user.state,
-            "zip": user.zip
-        }
-        return user_json
+            return user_json
+        except Exception:
+            return {}
     
     elif request.method == "PUT":
         pass
@@ -110,6 +115,13 @@ def trader_list():
     result = db.session.query(User).filter(User.is_trader)
     return {
         "results": [{"id": trader.user_id, "name": trader.name} for trader in result]
+    }
+    
+@app.route("/users/clients", methods=["GET"])
+def client_list():
+    result = db.session.query(User).filter(User.is_client)
+    return {
+        "results": [{"id": client.user_id, "name": client.name} for client in result]
     }
 
 @app.route("/users/login", methods=["POST"])

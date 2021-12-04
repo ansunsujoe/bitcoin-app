@@ -35,9 +35,9 @@ import Slider from '@mui/material/Slider';
 import { getCommission, roundDecimal } from '../utilities/transaction';
 import axios from 'axios';
 
-function NewTransaction(props) {
-  const [buyTrader, setBuyTrader] = useState("trader-1");
-  const [sellTrader, setSellTrader] = useState("trader-2");
+function ClientTransaction(props) {
+  const [buyClient, setBuyClient] = useState("trader-1");
+  const [sellClient, setSellClient] = useState("trader-2");
   const [buyingPower, setBuyingPower] = useState(0.0);
   const [buyCommissionType, setBuyCommissionType] = useState("USD");
   const [sellCommissionType, setSellCommissionType] = useState("USD");
@@ -67,12 +67,13 @@ function NewTransaction(props) {
   }
 
   // Get trader list
-  const getTraderList = () => {
-    axios.get('http://localhost:5000/users/traders')
+  const getClientList = () => {
+    axios.get('http://localhost:5000/users/clients')
     .then(response => {
       setTraderList(response.data.results);
-      setBuyTrader(response.data.results[0].id);
-      setSellTrader(response.data.results[0].id);
+      setBuyClient(response.data.results[0].id);
+      setSellClient(response.data.results[0].id);
+      console.log(response.data.results[0].id);
     }).catch(error => {
       console.log(error);
     })
@@ -80,7 +81,7 @@ function NewTransaction(props) {
 
   // Get Buying power
   const getBuyingPower = () => {
-    axios.get('http://localhost:5000/users/clients/' + props.userId + '/buying-power')
+    axios.get('http://localhost:5000/users/clients/' + buyClient + '/buying-power')
     .then(response => {
       setBuyingPower(parseFloat(response.data.results));
       console.log(parseFloat(response.data.results));
@@ -91,13 +92,13 @@ function NewTransaction(props) {
 
   // Get Client Data
   const getUserData = () => {
-    axios.get('http://localhost:5000/users/' + props.userId)
+    axios.get('http://localhost:5000/users/' + buyClient)
     .then(response => {
       console.log(response.data);
-      getBuyingPower();
+      getClientList();
       setClientProperties(response.data);
+      getBuyingPower();
       getCurrentBTC();
-      getTraderList();
     }).catch(error => {
       console.log(error);
     })
@@ -107,6 +108,10 @@ function NewTransaction(props) {
   useEffect(() => {
     getUserData();
   }, []);
+
+  useEffect(() => {
+    getUserData();
+  }, [buyClient]);
 
   // Get current bitcoin price every 10 seconds
   useEffect(() => {
@@ -149,7 +154,7 @@ function NewTransaction(props) {
 
   // Buy/Sell Axios Request
   const transactionSubmit = (data) => {
-    axios.post('http://localhost:5000/users/' + props.userId + '/transactions', data, {
+    axios.post('http://localhost:5000/users/' + buyClient + '/transactions', data, {
       headers: {
         'Content-Type': 'application/json'
       }
@@ -162,11 +167,11 @@ function NewTransaction(props) {
 
   // Handler function for submitting buy
   const handleBuySubmit = (e) => {
-    console.log(buyTrader);
+    console.log(buyClient);
     const data = {
       commission_type: buyCommissionType,
       amount: buyAmount,
-      traderId: buyTrader,
+      traderId: buyClient,
       action: "buy"
     };
     transactionSubmit(data);
@@ -177,7 +182,7 @@ function NewTransaction(props) {
     const data = {
       commission_type: sellCommissionType,
       amount: sellAmount,
-      traderId: sellTrader,
+      traderId: sellClient,
       action: "sell"
     };
     transactionSubmit(data);
@@ -211,7 +216,7 @@ function NewTransaction(props) {
                       <FormGroup>
                         <label>Assign Trader</label>
                         <Input type="select" name="transactionType" id="transactionType"
-                        value={buyTrader} onChange={e => setBuyTrader(e.currentTarget.value)}>
+                        value={buyClient} onChange={e => setBuyClient(e.currentTarget.value)}>
                           {traderList.map((t) => (
                             <option key={t.id} value={t.id}>{t.name}</option>
                           ))}
@@ -295,7 +300,7 @@ function NewTransaction(props) {
                       <FormGroup>
                         <label>Assign Trader</label>
                         <Input type="select" name="transactionType" id="transactionType" 
-                        value={sellTrader} onChange={e => setSellTrader(e.currentTarget.value)}>
+                        value={sellClient} onChange={e => setSellClient(e.currentTarget.value)}>
                           {traderList.map((t) => (
                             <option key={t.id} value={t.id}>{t.name}</option>
                           ))}
@@ -359,4 +364,4 @@ function NewTransaction(props) {
   );
 }
 
-export default NewTransaction;
+export default ClientTransaction;
