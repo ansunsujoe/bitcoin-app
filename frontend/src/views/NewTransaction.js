@@ -38,6 +38,7 @@ import axios from 'axios';
 function NewTransaction(props) {
   const [buyTrader, setBuyTrader] = useState("trader-1");
   const [sellTrader, setSellTrader] = useState("trader-2");
+  const [buyingPower, setBuyingPower] = useState(0.0);
   const [buyCommissionType, setBuyCommissionType] = useState("USD");
   const [sellCommissionType, setSellCommissionType] = useState("USD");
   const [buyCommission, setBuyCommission] = useState("0");
@@ -77,11 +78,23 @@ function NewTransaction(props) {
     })
   }
 
+  // Get Buying power
+  const getBuyingPower = () => {
+    axios.get('http://localhost:5000/users/clients/' + props.userId + '/buying-power')
+    .then(response => {
+      setBuyingPower(parseFloat(response.data.results));
+      console.log(parseFloat(response.data.results));
+    }).catch(error => {
+      console.log(error);
+    })
+  }
+
   // Get Client Data
   const getUserData = () => {
     axios.get('http://localhost:5000/users/' + props.userId)
     .then(response => {
       console.log(response.data);
+      getBuyingPower();
       setClientProperties(response.data);
       getCurrentBTC();
       getTraderList();
@@ -99,6 +112,7 @@ function NewTransaction(props) {
   useEffect(() => {
     const interval = setInterval(() => {
       getCurrentBTC();
+      getBuyingPower();
     }, 10000);
     return () => clearInterval(interval);
   }, []);
@@ -230,7 +244,7 @@ function NewTransaction(props) {
                             step={0.1}
                             marks
                             min={0}
-                            max={(btcRate && btcRate > 0 && clientProperties.fiatBalance) ? roundDecimal(clientProperties.fiatBalance / btcRate, 1, true) : 0.0}
+                            max={(btcRate && buyingPower) ? roundDecimal(buyingPower, 1, true) : 0.0}
                             valueLabelDisplay="on"
                             color="success"
                             onChange={handleBuyChange}

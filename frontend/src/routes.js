@@ -36,7 +36,8 @@ var routes = [
     component: Dashboard,
     layout: "/admin",
     traderOnly: false,
-    managerOnly: false
+    managerOnly: false,
+    clientOnly: false
   },
   {
     path: "/user-page",
@@ -45,7 +46,8 @@ var routes = [
     component: UserPage,
     layout: "/admin",
     traderOnly: false,
-    managerOnly: false
+    managerOnly: false,
+    clientOnly: false
   },
   {
     path: "/transactions",
@@ -54,7 +56,8 @@ var routes = [
     component: TableList,
     layout: "/admin",
     traderOnly: false,
-    managerOnly: false
+    managerOnly: false,
+    clientOnly: false
   },
   {
     path: "/all-transactions",
@@ -63,7 +66,8 @@ var routes = [
     component: Manager,
     layout: "/admin",
     traderOnly: false,
-    managerOnly: true
+    managerOnly: true,
+    clientOnly: false
   },
   {
     path: "/tables",
@@ -72,7 +76,8 @@ var routes = [
     component: NewTransaction,
     layout: "/admin",
     traderOnly: false,
-    managerOnly: false
+    managerOnly: false,
+    clientOnly: true
   },
   {
     path: "/new-transfer",
@@ -81,7 +86,8 @@ var routes = [
     component: NewTransfer,
     layout: "/admin",
     traderOnly: false,
-    managerOnly: false
+    managerOnly: false,
+    clientOnly: true
   },
   {
     path: "/clients",
@@ -90,7 +96,8 @@ var routes = [
     component: Clients,
     layout: "/admin",
     traderOnly: true,
-    managerOnly: false
+    managerOnly: false,
+    clientOnly: false
   },
   {
     path: "/approve-transactions",
@@ -99,7 +106,8 @@ var routes = [
     component: Trader_Approve,
     layout: "/admin",
     traderOnly: true,
-    managerOnly: false
+    managerOnly: false,
+    clientOnly: false
   },
   {
     path: "/typography",
@@ -108,7 +116,8 @@ var routes = [
     component: Typography,
     layout: "/admin",
     traderOnly: false,
-    managerOnly: false
+    managerOnly: false,
+    clientOnly: false
   },
   {
     path: "/icons",
@@ -117,7 +126,8 @@ var routes = [
     component: Icons,
     layout: "/admin",
     traderOnly: false,
-    managerOnly: false
+    managerOnly: false,
+    clientOnly: false
   },
   {
     path: "/notifications",
@@ -126,7 +136,8 @@ var routes = [
     component: Notifications,
     layout: "/admin",
     traderOnly: false,
-    managerOnly: false
+    managerOnly: false,
+    clientOnly: false
   },
 ];
 export default routes;

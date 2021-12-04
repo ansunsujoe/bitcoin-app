@@ -71,7 +71,7 @@ function Sidebar(props) {
       <div className="sidebar-wrapper" ref={sidebar}>
         <Nav>
           {props.routes.map((prop, key) => {
-            return ((prop.traderOnly === props.isTrader || prop.traderOnly === false) && (prop.managerOnly === props.isManager || prop.managerOnly === false)) ? (
+            return ((prop.traderOnly === props.isTrader || prop.traderOnly === false) && (prop.managerOnly === props.isManager || prop.managerOnly === false) && (prop.clientOnly === props.isClient || prop.clientOnly === false)) ? (
               <li
                 className={
                   activeRoute(prop.path) + (prop.pro ? " active-pro" : "")
