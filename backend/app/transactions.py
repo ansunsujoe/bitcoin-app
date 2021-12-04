@@ -2,7 +2,7 @@ from datetime import datetime
 from app import app, db
 from app.util import to_response
 from flask import request, session
-from app.models import Transaction, User
+from app.models import Transaction, User, Client
 import requests
 
 # Root endpoint
@@ -100,23 +100,27 @@ def user_transaction_sells(user_id):
 @app.route("/users/traders/<trader_id>/transactions/buys", methods=["GET"])
 def trader_transaction_buys(trader_id):
     result = db.session.query(
-        Transaction, User
+        Transaction, User, Client
         ).filter(
             Transaction.action == "buy"
         ).filter(
             Transaction.trader_id == trader_id
         ).filter(
             User.user_id == Transaction.client_id
+        ).filter(
+            Client.user_id == Transaction.client_id
         ).all()
     transactions = []
-    for t, u in result:
+    for t, u, c in result:
         transactions.append({
             "tid": t.transaction_id,
             "time": t.date,
             "name": u.name,
             "commission": t.commission_type,
             "status": t.status,
-            "value": t.amount
+            "value": t.amount,
+            "btcBalance": c.btc_balance,
+            "fiatBalance": c.fiat_balance
         })
     return to_response(transactions)
 

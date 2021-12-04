@@ -262,13 +262,12 @@ function Dashboard(props) {
                 </CardHeader>
                 <CardBody>
   
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <div>
                 <Chart
                   options={chartData}
                   series={series}
                   type="line"
-                  width="1100"
-                  height="300"
+                  height="400"
                 />
               </div>
   

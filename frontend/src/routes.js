@@ -68,7 +68,7 @@ var routes = [
   {
     path: "/tables",
     name: "New Transaction",
-    icon: "nc-icon nc-cart-simple",
+    icon: "nc-icon nc-credit-card",
     component: NewTransaction,
     layout: "/admin",
     traderOnly: false,
