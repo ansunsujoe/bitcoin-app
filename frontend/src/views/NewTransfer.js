@@ -154,16 +154,16 @@ function NewTransfer(props) {
                             <CardHeader>
                                 <CardTitle tag="h5">Transfer Money</CardTitle>
                             </CardHeader>
-                            { !userProperties.isTrader ? (
-                            <CardBody>
-                                <Form onSubmit={handleTransferSubmit}>
+                            { userProperties.isTrader ? (
+                                <CardBody>
+                                <Form onSubmit={handleTraderTransferSubmit}>
                                     <Row>
                                         <Col className="px-3" md="5">
                                             <FormGroup>
-                                                <label>Assign Trader</label>
+                                                <label>Select Client</label>
                                                 <Input type="select" name="transactionType" id="transactionType"
-                                                    value={transferTrader} onChange={e => setTransferTrader(e.currentTarget.value)}>
-                                                    {traderList.map((t) => (
+                                                    value={transferClient} onChange={e => setTransferClient(e.currentTarget.value)}>
+                                                    {clientList.map((t) => (
                                                         <option key={t.id} value={t.id}>{t.name}</option>
                                                     ))}
                                                 </Input>
@@ -175,7 +175,6 @@ function NewTransfer(props) {
                                                 <Input
                                                     defaultValue={0}
                                                     //value={transferAmount}
-                                                    placeholder={"$" + transferAmount}
                                                     type="number"
                                                     step={0.01}
                                                     min={0}
@@ -201,14 +200,14 @@ function NewTransfer(props) {
                             ):(
                             
                             <CardBody>
-                                <Form onSubmit={handleTraderTransferSubmit}>
+                                <Form onSubmit={handleTransferSubmit}>
                                     <Row>
                                         <Col className="px-3" md="5">
                                             <FormGroup>
-                                                <label>Select Client</label>
+                                                <label>Assign Trader</label>
                                                 <Input type="select" name="transactionType" id="transactionType"
-                                                    value={transferClient} onChange={e => setTransferClient(e.currentTarget.value)}>
-                                                    {clientList.map((t) => (
+                                                    value={transferTrader} onChange={e => setTransferTrader(e.currentTarget.value)}>
+                                                    {traderList.map((t) => (
                                                         <option key={t.id} value={t.id}>{t.name}</option>
                                                     ))}
                                                 </Input>
@@ -220,6 +219,7 @@ function NewTransfer(props) {
                                                 <Input
                                                     defaultValue={0}
                                                     //value={transferAmount}
+                                                    placeholder={"$" + transferAmount}
                                                     type="number"
                                                     step={0.01}
                                                     min={0}
