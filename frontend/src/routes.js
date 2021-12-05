@@ -95,7 +95,7 @@ var routes = [
     layout: "/admin",
     traderOnly: false,
     managerOnly: false,
-    clientOnly: true
+    clientOnly: false
   },
   {
     path: "/clients",
