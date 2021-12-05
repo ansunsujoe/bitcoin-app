@@ -42,62 +42,99 @@ function Clients(props) {
   const [searchToggle, setSearchToggle] = useState(false);
   const [searchQuery, setSearchQuery] = useState();
 
+  useEffect(() => {
+    getClientsListAll();
+  }, []);
+
   const getClientsListAll = () => {
     axios.get('http://localhost:5000/users/clients/all')
-        .then(response => {
-            setClientList(response.data.results);
-        }).catch(error => {
-            console.log(error);
-        })
-}
+      .then(response => {
+        setClientList(response.data.results);
+      }).catch(error => {
+        console.log(error);
+      })
+  }
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value)
+    setSearchToggle(true);
+
+  }
+
+  const resetSearchToggle = () => {
+    setSearchToggle(false);
+  }
 
   return (
     <>
       <div className="content">
         <Row>
           <Col md="12">
-          <Card>
+            <Card>
               <CardBody>
-                    <Row>
+                <Form onSubmit={handleTraderTransferSubmit}>
+                  <Row>
+                    <Col className="px-3" md="8">
+                      <FormGroup>
+                        <label>Search Name, Address, Email or Cell Number:</label>
+                        <Input
+                          defaultValue={0}
+                          //value={transferAmount}
+                          type="text"
+                          defaultValue=""
+                          onChange={handleSearchChange}
+                        />
+                      </FormGroup>
+                    </Col>
+                    <Col className="px-3" md="74">
+                      <FormGroup>
+                      <Button color="danger" type="reset" size="sm" disabled={false}
+                          onClick={() => resetSearchToggle()}>RESET</Button>
+                      </FormGroup>
+                    </Col>
+                  </Row>
+
+                  <Row>
                     <Col md="12">
-                        <Card>
-                          <CardHeader>
-                            <CardTitle tag="h4">Clients</CardTitle>
-                          </CardHeader>
-                          <CardBody>
-                            <Table responsive>
-                              <thead className="text-primary">
-                                  <tr className="text-danger">
-                                    <th>Name</th>
-                                    <th>Address</th>
-                                    <th>Email</th>
-                                    <th>Cell</th>
-                                  </tr>                    
-                              </thead>
-                              <tbody>
-                                {clientsList.map((t) => ( searchToggle ? (
-                                  (t.name.toLowerCase === searchQuery.toLowerCase  || 
-                                    t.address.toLowerCase === searchQuery.toLowerCase ||
-                                    t.email.toLowerCase === searchQuery.toLowerCase ||
-                                    t.cell === searchQuery) &&
-                                  <tr>
-                                    <td>{t.time}</td>
-                                    <td>{t.client}</td>
-                                    <td>{t.amount}</td>
-                                  </tr>
-                                  ) : (
-                                  <tr>
-                                    <td>{t.time}</td>
-                                    <td>{t.client}</td>
-                                    <td>{t.amount}</td>
-                                  </tr>
-                                  )))}
-                              </tbody>
-                            </Table>
-                          </CardBody>
-                        </Card>
-                      </Col>
-                    </Row>
+                      <Card>
+                        <CardHeader>
+                          <CardTitle tag="h4">Clients</CardTitle>
+                        </CardHeader>
+                        <CardBody>
+                          <Table responsive>
+                            <thead className="text-primary">
+                              <tr className="text-danger">
+                                <th>Name</th>
+                                <th>Address</th>
+                                <th>Email</th>
+                                <th>Cell</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {clientsList.map((t) => (searchToggle ? (
+                                (t.name.toLowerCase === searchQuery.toLowerCase ||
+                                  t.address.toLowerCase === searchQuery.toLowerCase ||
+                                  t.email.toLowerCase === searchQuery.toLowerCase ||
+                                  t.cell === searchQuery) &&
+                                <tr>
+                                  <td>{t.time}</td>
+                                  <td>{t.client}</td>
+                                  <td>{t.amount}</td>
+                                </tr>
+                              ) : (
+                                <tr>
+                                  <td>{t.time}</td>
+                                  <td>{t.client}</td>
+                                  <td>{t.amount}</td>
+                                </tr>
+                              )))}
+                            </tbody>
+                          </Table>
+                        </CardBody>
+                      </Card>
+                    </Col>
+                  </Row>
+                </Form>
               </CardBody>
             </Card>
           </Col>
