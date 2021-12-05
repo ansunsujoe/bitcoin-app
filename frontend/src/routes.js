@@ -111,7 +111,7 @@ var routes = [
     clientOnly: false
   },
   {
-    path: "/approve-transactions",
+    path: "/approve-transfers",
     name: "Approve Transfers",
     icon: "nc-icon nc-check-2",
     component: Trader_Approve,
