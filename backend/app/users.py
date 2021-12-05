@@ -7,7 +7,6 @@ from app.util import to_json, to_response
 @app.route("/users", methods=["GET"])
 def get_users():
     result = db.session.query(User).all()
-    print(result)
     return {
         "results": [{"id": user.user_id, "name": user.name} for user in result]
     }
@@ -55,7 +54,8 @@ def user_info(user_id):
         ).first()
         
         # User json
-        user_json = {
+        if user is not None:
+         user_json = {
             "id": user.user_id,
             "name": user.name,
             "isClient": False,
@@ -68,13 +68,11 @@ def user_info(user_id):
             "city": user.city,
             "state": user.state,
             "zip": user.zip
-        }
-        return user_json
+         }
+         return user_json
+        return({})
     
-    elif request.method == "PUT":
-        pass
-    elif request.method == "DELETE":
-        pass
+    
    
     
 @app.route("/users/clients/<client_id>", methods=["GET"])
@@ -86,7 +84,6 @@ def client_info(client_id):
         ).filter(
             User.user_id == Client.user_id
         ).first()
-    
     client_json = {
         "id": user.user_id,
         "name": user.name,
@@ -102,7 +99,7 @@ def client_info(client_id):
         "city": user.city,
         "state": user.state,
         "zip": user.zip
-    }
+     }
     return client_json
 
 @app.route("/users/traders", methods=["GET"])
@@ -115,14 +112,12 @@ def trader_list():
 @app.route("/users/login", methods=["POST"])
 def login():
     request_data = request.get_json()
-    print(request_data)
 
     username = request_data.get("username")
     password = request_data.get("password")
     user = db.session.query(User).filter(User.user_name == username).first()   
     if(user):
       content = bcrypt.check_password_hash(user.password, password)  
-      print(content) 
       if(content):
         return { "success" : True, "content" : {
             "username" : user.name,
