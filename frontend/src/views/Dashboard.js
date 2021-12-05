@@ -18,6 +18,7 @@
 */
 import { React, useState, useEffect } from "react";
 import axios from 'axios';
+import { connect } from "react-redux"
 import Chart from "react-apexcharts";
 // reactstrap components
 import {
@@ -45,7 +46,7 @@ function Dashboard(props) {
   const [isClient, setIsClient] = useState(true);
 
   const getUserData = () => {
-    axios.get('http://localhost:5000/users/' + props.userId)
+    axios.get('http://localhost:5000/users/' + props.userID)
       .then(response => {
         if (response.data.isClient) {
           setBtcBal(response.data.btcBalance.toString());
@@ -277,4 +278,10 @@ function Dashboard(props) {
   } 
 }
 
-export default Dashboard;
+const mapStateToProps = state => {
+  return {
+    userID: state.user.userId,
+  }
+}
+
+export default connect(mapStateToProps,null)(Dashboard);
