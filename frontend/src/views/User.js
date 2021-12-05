@@ -17,6 +17,10 @@
 
 */
 import React, {useState, useEffect} from "react";
+import { connect } from "react-redux"
+import { loginUser } from "Reducers/Users/actions";
+
+
 
 // reactstrap components
 import {
@@ -41,11 +45,9 @@ function User(props) {
   const [userData, setUserData] = useState({});
 
   // Get User Information - Important
-  
   const getUserData = () => {
-    axios.get('http://localhost:5000/users/' + props.userId)
+    axios.get('http://localhost:5000/users/' + props.userID)
       .then(response => {
-        console.log(response.data);
         setUserData(response.data);
       }).catch(error => {
         console.log(error);
@@ -86,11 +88,12 @@ function User(props) {
 
   useEffect(() => {
     getUserData();
-  }, [props.userId]);
+  }, [props.userID]);
 
   // Handle trader switch
   const handleTraderSwitch = (e) => {
-    props.handleUserIdChange(2);
+   props.loginInit({password: "money",
+   username: "amit@has"})
   }
 
   return (
@@ -144,7 +147,7 @@ function User(props) {
           <Col md="8">
             <Card className="card-user">
               <CardHeader>
-                <CardTitle tag="h5">Edit Profile</CardTitle>
+                <CardTitle tag="h5">Profile Information</CardTitle>
               </CardHeader>
               <CardBody>
                 <Form>
@@ -156,6 +159,7 @@ function User(props) {
                           defaultValue={userData.name}
                           placeholder="Company"
                           type="text"
+                          readOnly
                         />
                       </FormGroup>
                     </Col>
@@ -168,6 +172,7 @@ function User(props) {
                           defaultValue={userData.phoneNumber}
                           placeholder="Company"
                           type="text"
+                          readOnly
                         />
                       </FormGroup>
                     </Col>
@@ -178,6 +183,7 @@ function User(props) {
                           defaultValue={userData.cell}
                           placeholder="Username"
                           type="text"
+                          readOnly
                         />
                       </FormGroup>
                     </Col>
@@ -187,7 +193,7 @@ function User(props) {
                           Email address
                         </label>
                         <Input placeholder="Email" type="email"
-                        defaultValue={userData.email} />
+                        defaultValue={userData.email} readOnly />
                       </FormGroup>
                     </Col>
                   </Row>
@@ -199,6 +205,7 @@ function User(props) {
                           defaultValue={userData.streetAddress}
                           placeholder="Home Address"
                           type="text"
+                          readOnly
                         />
                       </FormGroup>
                     </Col>
@@ -211,6 +218,7 @@ function User(props) {
                           defaultValue={userData.city}
                           placeholder="City"
                           type="text"
+                          readOnly
                         />
                       </FormGroup>
                     </Col>
@@ -221,6 +229,7 @@ function User(props) {
                           defaultValue={userData.state}
                           placeholder="State"
                           type="text"
+                          readOnly
                         />
                       </FormGroup>
                     </Col>
@@ -228,19 +237,9 @@ function User(props) {
                       <FormGroup>
                         <label>Postal Code</label>
                         <Input placeholder="ZIP Code" type="number"
-                        defaultValue={userData.zip} />
+                        defaultValue={userData.zip} readOnly/>
                       </FormGroup>
                     </Col>
-                  </Row>
-                  <Row>
-                    <div className="update ml-auto mr-auto">
-                      <Button
-                        color="info"
-                        type="submit"
-                      >
-                        Update Profile
-                      </Button>
-                    </div>
                   </Row>
                   <Row>
                     <div className="update ml-auto mr-auto">
@@ -262,4 +261,21 @@ function User(props) {
   );
 }
 
-export default User;
+const mapStateToProps = state => {
+  return {
+    userID: state.user.userId,
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    loginInit: data => {
+      dispatch(loginUser(data));
+    }
+  };
+};
+
+
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(User);

@@ -76,14 +76,11 @@ def user_info(user_id):
         except Exception:
             return {}
     
-    elif request.method == "PUT":
-        pass
-    elif request.method == "DELETE":
-        pass
    
     
 @app.route("/users/clients/<client_id>", methods=["GET"])
 def client_info(client_id):
+   try: 
     user, client = db.session.query(
         User, Client
         ).filter(
@@ -91,7 +88,6 @@ def client_info(client_id):
         ).filter(
             User.user_id == Client.user_id
         ).first()
-    
     client_json = {
         "id": user.user_id,
         "name": user.name,
@@ -107,34 +103,41 @@ def client_info(client_id):
         "city": user.city,
         "state": user.state,
         "zip": user.zip
-    }
+     }
     return client_json
+   except Exception:
+       return {} 
 
 @app.route("/users/traders", methods=["GET"])
 def trader_list():
-    result = db.session.query(User).filter(User.is_trader)
-    return {
+    try:
+     result = db.session.query(User).filter(User.is_trader)
+     return {
         "results": [{"id": trader.user_id, "name": trader.name} for trader in result]
-    }
+     }
+    except Exception:
+        return {}
     
 @app.route("/users/clients", methods=["GET"])
 def client_list():
+   try:
     result = db.session.query(User).filter(User.is_client)
     return {
         "results": [{"id": client.user_id, "name": client.name} for client in result]
     }
+   except Exception:
+       return {}
 
 @app.route("/users/login", methods=["POST"])
 def login():
+   try:
     request_data = request.get_json()
-    print(request_data)
 
     username = request_data.get("username")
     password = request_data.get("password")
     user = db.session.query(User).filter(User.user_name == username).first()   
     if(user):
       content = bcrypt.check_password_hash(user.password, password)  
-      print(content) 
       if(content):
         return { "success" : True, "content" : {
             "username" : user.name,
@@ -142,10 +145,13 @@ def login():
       }}
       return {"success" : False}
     return {"success" : False}
+   except Exception:
+     return {"success" : False}
 
 
 @app.route("/users/register", methods=["POST"])
 def register():
+   try: 
     request_data = request.get_json()
     username = request_data.get("username")
     user = db.session.query(User).filter(User.user_name == username).first()   
@@ -177,3 +183,5 @@ def register():
             "username" : user.user_name,
             "user_id" : user.user_id
     }}
+   except Exception:
+       return {"success" : False, "message" : "Unknown exception"}

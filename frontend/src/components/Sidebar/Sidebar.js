@@ -21,6 +21,10 @@ import { NavLink } from "react-router-dom";
 import { Nav } from "reactstrap";
 // javascript plugin used to create scrollbars on windows
 import PerfectScrollbar from "perfect-scrollbar";
+import { connect } from "react-redux"
+import { logout } from "Reducers/Users/actions";
+import { useHistory } from "react-router-dom";
+
 
 import logo from "logo.svg";
 
@@ -28,6 +32,8 @@ var ps;
 
 function Sidebar(props) {
   const sidebar = React.useRef();
+  const history = useHistory()
+
   // verifies if routeName is the one active (in browser input)
   const activeRoute = (routeName) => {
     return props.location.pathname.indexOf(routeName) > -1 ? "active" : "";
@@ -89,10 +95,31 @@ function Sidebar(props) {
               </li>
             ) : null
           })}
+          <li onClick = {()=>{
+            props.logout()
+            history.push("/")
+          }}>
+            <div
+              className="nav-link"
+              activeClassName="active"
+            >
+              <i className="nc-icon nc-single-02" />
+              <p style={{color:"rgba(255, 255, 255, 0.5)"}}>LOGOUT</p>
+            </div>
+          </li>
         </Nav>
       </div>
     </div>
   );
 }
 
-export default Sidebar;
+
+const mapDispatchToProps = dispatch => {
+  return {
+    logout: () => {
+      dispatch(logout());
+    }
+  };
+};
+
+export default connect(null, mapDispatchToProps)(Sidebar);
