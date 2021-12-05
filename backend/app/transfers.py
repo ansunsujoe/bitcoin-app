@@ -77,7 +77,7 @@ def trader_transfer(trader_user_id):
         
         # Commit to database
         db.session.add(new_transfer)
-        transfer_client = db.session.query(Client).filter(Client.client_id == new_transfer.client_id).first()
+        transfer_client = db.session.query(Client).filter(Client.user_id == new_transfer.client_id).first()
         transfer_client.fiat_balance+=new_transfer.amount
         db.session.commit()
         return "Success"
@@ -121,6 +121,6 @@ def transfer_delete(transfer_id):
 def transfer_accept(transfer_id):
     transfer = db.session.query(Transfer).filter(Transfer.transfer_id == transfer_id).first()
     transfer.status = "Complete"
-    transfer_client = db.session.query(Client).filter(Client.client_id == transfer.client_id).first()
+    transfer_client = db.session.query(Client).filter(Client.user_id == transfer.client_id).first()
     transfer_client.fiat_balance+=transfer.amount
     db.session.commit()
