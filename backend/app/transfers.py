@@ -94,7 +94,7 @@ def transfer_delete(transfer_id):
 @app.route("/transfers/<transfer_id>/accept", methods=["PUT"])
 def transfer_accept(transfer_id):
     transfer = db.session.query(Transfer).filter(Transfer.transfer_id == transfer_id).first()
-    transfer.status = "Complete"
+    transfer.status = "Completed"
     transfer_client = db.session.query(Client).filter(Client.user_id == transfer.client_id).first()
     transfer_client.fiat_balance=transfer_client.fiat_balance+Decimal(transfer.amount)
     db.session.commit()
