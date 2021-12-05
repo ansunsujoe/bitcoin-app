@@ -59,7 +59,7 @@ def trader_transfer(trader_user_id):
                 "time": t.date,
                 "name": u.name,
                 "status": t.status,
-                "value": t.amount
+                "amount": t.amount
             })
         return to_response(transfers)
     elif request.method == "POST":
