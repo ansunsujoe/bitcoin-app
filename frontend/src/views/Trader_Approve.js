@@ -16,8 +16,10 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
-import { transferData } from "variables/sampleTransferData";
+
+//import { transferData } from "variables/sampleTransferData";
+import React, {useState, useEffect} from "react";
+import axios from 'axios';
 
 // reactstrap components
 import {
@@ -26,12 +28,78 @@ import {
   CardHeader,
   CardBody,
   CardTitle,
+  FormGroup,
+  Form,
+  Input,
   Table,
   Row,
   Col,
 } from "reactstrap";
 
 function Trader_Approve(props) {
+  
+  const [clientTransfers, setClientTransfers] = useState([]);
+  //const [userSells, setUserSells] = useState([]);
+  const [traderTransfers, setTraderTransfers] = useState([]);
+  //const [traderSells, setTraderSells] = useState([]);
+  //const [viewMode, setViewMode] = useState("client");
+  const [userData, setUserData] = useState({});
+  axios.defaults.withCredentials = true;
+
+  // Get Trader and client Data
+  useEffect(() => {
+    getUserData();
+    //getClientTransfers();
+    getTraderTransfers();
+    //getTraderSells();
+    //getClientBuys();
+    //getClientSells();
+  }, []);
+
+  // Get User Information
+  const getUserData = () => {
+    axios.get('http://localhost:5000/users/' + props.userId)
+      .then(response => {
+        setUserData(response.data);
+      }).catch(error => {
+        console.log(error);
+      })
+  }
+
+  const getClientTransfers = () => {
+    axios.get('http://localhost:5000/users/' + props.userId + '/transfers').then(response => {
+      setClientTransfers(response.data.results);
+    }).catch(error => {
+      console.log(error);
+    })
+  }
+
+  const getTraderTransfers = () => {
+    axios.get('http://localhost:5000/users/traders/' + props.userId + '/transfers').then(response => {
+      console.log(response.data.results);
+      setTraderTransfers(response.data.results);
+    }).catch(error => {
+      console.log(error);
+    })
+  }
+
+  const acceptTransfer = (tid) => {
+    axios.put('http://localhost:5000/transfers/' + tid + '/accept').then(response => {
+      getTraderTransfers();
+    }).catch(error => {
+      console.log(error);
+    })
+    console.log(tid);
+  }
+
+  const cancelTransfer = (tid) => {
+    console.log(tid);
+    axios.put('http://localhost:5000/transfers/' + tid).then(response => {
+      getTraderTransfers();
+    });
+  }
+
+
   return (
     <>
       <div className="content">
@@ -44,111 +112,62 @@ function Trader_Approve(props) {
               <CardBody>
                 <Table responsive>
                   <thead className="text-primary">
-                    {props.isTrader ? (
-                      <tr className="text-success">
+                      <tr className="text-secondary">
                         <th>Time</th>
                         <th>Client</th>
                         <th>Amount</th>
                         <th>Status</th>
-                        <th className="text-right">Value</th>
-                        <th className="text-right">APPROVE</th>
-                        <th className="text-right">REJECT</th>
-                      </tr>
-                      ) : (
-                        <tr className="text-success">
-                          <th>Time</th>
-                          <th>Client</th>
-                          <th>Commission</th>
-                          <th>Status</th>
-                          <th className="text-right">Value</th>
-                        </tr>
-                      )
-                    }
-                    
+                        <th className="text-right">ACCEPT</th>
+                        <th className="text-right">CANCEL</th>
+                      </tr>                    
                   </thead>
                   <tbody>
-                    {transferData.map((t) => (
-                      props.isTrader ? (
+                    {traderTransfers.map((t) => ( !(t.status === "Cancelled") &&
                       <tr>
                         <td>{t.time}</td>
                         <td>{t.client}</td>
-                        <td>{t.commission}</td>
+                        <td>{t.amount}</td>
                         <td>{t.status}</td>
-                        <td className="text-right">{t.value} &#8383;</td>
-                        <td className="text-right"><Button color="success" type="submit" size="sm" disabled={t.status === "Complete"}>APPROVE</Button></td>
-                        <td className="text-right"><Button color="danger" type="submit" size="sm" disabled={t.status === "Complete"}>REJECT</Button></td>
+                        <td className="text-right"><Button color="success" type="submit" size="sm" 
+                          disabled={t.status === "Complete"} 
+                          onClick={() => acceptTransfer(t.tid)}>ACCEPT</Button></td>
+                        <td className="text-right"><Button color="danger" type="submit" size="sm" 
+                          disabled={t.status === "Complete"} 
+                          onClick={() => cancelTransfer(t.tid)}>CANCEL</Button></td>
                       </tr>
-                      ) : (
-                        <tr>
-                          <td>{t.time}</td>
-                          <td>{t.client}</td>
-                          <td>{t.commission}</td>
-                          <td>{t.status}</td>
-                          <td className="text-right">{t.value} &#8383;</td>
-                        </tr>
-                      )
-                    ))}
+                      ))}
                   </tbody>
                 </Table>
               </CardBody>
             </Card>
           </Col>
-          {/* <Col md="12">
+          <Col md="12">
             <Card>
               <CardHeader>
-                <CardTitle tag="h4">BTC Sells</CardTitle>
+                <CardTitle tag="h4">Cancelled Transfers</CardTitle>
               </CardHeader>
               <CardBody>
                 <Table responsive>
                   <thead className="text-primary">
-                  {props.isTrader ? (
                       <tr className="text-danger">
                         <th>Time</th>
                         <th>Client</th>
-                        <th>Commission</th>
-                        <th>Status</th>
-                        <th className="text-right">Value</th>
-                        <th className="text-right">Complete</th>
-                        <th className="text-right">Cancel</th>
-                      </tr>
-                      ) : (
-                        <tr className="text-danger">
-                          <th>Time</th>
-                          <th>Client</th>
-                          <th>Commission</th>
-                          <th>Status</th>
-                          <th className="text-right">Value</th>
-                        </tr>
-                      )
-                    }
+                        <th>Amount</th>
+                      </tr>                    
                   </thead>
                   <tbody>
-                    {transactionData.map((t) => (
-                      props.isTrader ? (
+                    {traderTransfers.map((t) => ( t.status === "Cancelled" &&
                       <tr>
                         <td>{t.time}</td>
                         <td>{t.client}</td>
-                        <td>{t.commission}</td>
-                        <td>{t.status}</td>
-                        <td className="text-right">{t.value} &#8383;</td>
-                        <td className="text-right"><Button color="success" type="submit" size="sm" disabled={t.status === "Complete"}>Complete</Button></td>
-                        <td className="text-right"><Button color="danger" type="submit" size="sm" disabled={t.status === "Complete"}>Cancel</Button></td>
+                        <td>{t.amount}</td>
                       </tr>
-                      ) : (
-                        <tr>
-                          <td>{t.time}</td>
-                          <td>{t.client}</td>
-                          <td>{t.commission}</td>
-                          <td>{t.status}</td>
-                          <td className="text-right">{t.value} &#8383;</td>
-                        </tr>
-                      )
-                    ))}
+                      ))}
                   </tbody>
                 </Table>
               </CardBody>
             </Card>
-          </Col> */}
+          </Col>
         </Row>
       </div>
     </>
