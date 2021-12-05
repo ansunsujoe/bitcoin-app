@@ -154,7 +154,7 @@ function NewTransfer(props) {
                             <CardHeader>
                                 <CardTitle tag="h5">Transfer Money</CardTitle>
                             </CardHeader>
-                            { clientProperties.isTrader ? (
+                            { !clientProperties.isTrader ? (
                             <CardBody>
                                 <Form onSubmit={handleTransferSubmit}>
                                     <Row>
@@ -175,6 +175,7 @@ function NewTransfer(props) {
                                                 <Input
                                                     defaultValue={0}
                                                     //value={transferAmount}
+                                                    placeholder={"$" + transferAmount}
                                                     type="number"
                                                     step={0.01}
                                                     min={0}
