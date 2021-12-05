@@ -34,7 +34,23 @@ import {
   Col,
 } from "reactstrap";
 
+
+
 function Clients(props) {
+
+  const [clientsList, setClientsList] = useState({});
+  const [searchToggle, setSearchToggle] = useState(false);
+  const [searchQuery, setSearchQuery] = useState();
+
+  const getClientsListAll = () => {
+    axios.get('http://localhost:5000/users/clients/all')
+        .then(response => {
+            setClientList(response.data.results);
+        }).catch(error => {
+            console.log(error);
+        })
+}
+
   return (
     <>
       <div className="content">
@@ -42,34 +58,46 @@ function Clients(props) {
           <Col md="12">
           <Card>
               <CardBody>
-                <ul className="list-unstyled team-members">
-                {transactionData.map((t) => (
-                                        props.isTrader ? (
-                  <li>
                     <Row>
-                      <Col md="7" xs="7">
-                        {t.client}
-                      </Col>
-                      <Col  md="7" xs="7">
-                        Status: 
-                        <span className="text-danger">
-                          <small>{t.status}</small>
-                        </span>
-                      </Col>
-                      <Col className="text-right" md="3" xs="3">
-                        <Button
-                          className="btn-round btn-icon"
-                          color="success"
-                          outline
-                          size="sm"
-                        >
-                          <i className="fa fa-envelope" />
-                        </Button>
+                    <Col md="12">
+                        <Card>
+                          <CardHeader>
+                            <CardTitle tag="h4">Clients</CardTitle>
+                          </CardHeader>
+                          <CardBody>
+                            <Table responsive>
+                              <thead className="text-primary">
+                                  <tr className="text-danger">
+                                    <th>Name</th>
+                                    <th>Address</th>
+                                    <th>Email</th>
+                                    <th>Cell</th>
+                                  </tr>                    
+                              </thead>
+                              <tbody>
+                                {clientsList.map((t) => ( searchToggle ? (
+                                  (t.name.toLowerCase === searchQuery.toLowerCase  || 
+                                    t.address.toLowerCase === searchQuery.toLowerCase ||
+                                    t.email.toLowerCase === searchQuery.toLowerCase ||
+                                    t.cell === searchQuery) &&
+                                  <tr>
+                                    <td>{t.time}</td>
+                                    <td>{t.client}</td>
+                                    <td>{t.amount}</td>
+                                  </tr>
+                                  ) : (
+                                  <tr>
+                                    <td>{t.time}</td>
+                                    <td>{t.client}</td>
+                                    <td>{t.amount}</td>
+                                  </tr>
+                                  )))}
+                              </tbody>
+                            </Table>
+                          </CardBody>
+                        </Card>
                       </Col>
                     </Row>
-                  </li>
-                                        ) :(<li><span className="text-danger"><h3>Access Denied</h3></span></li>)))}
-                </ul>
               </CardBody>
             </Card>
           </Col>
