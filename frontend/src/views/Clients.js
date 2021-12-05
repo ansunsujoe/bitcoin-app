@@ -113,10 +113,10 @@ function Clients(props) {
                             </thead>
                             <tbody>
                               {clientsList.map((t) => (searchToggle ? (
-                                (t.name.toLowerCase.indexOf(searchQuery.toLowerCase) ||
-                                  t.address.toLowerCase.indexOf(searchQuery.toLowerCase) ||
-                                  t.email.toLowerCase.indexOf(searchQuery.toLowerCase) ||
-                                  t.cell.indexOf(searchQuery)) &&
+                                (t.name.toLowerCase.indexOf(searchQuery.toLowerCase)!=-1 ||
+                                  t.address.toLowerCase.indexOf(searchQuery.toLowerCase)!=-1 ||
+                                  t.email.toLowerCase.indexOf(searchQuery.toLowerCase)!=-1 ||
+                                  t.cell.replaceAll('-','').indexOf(searchQuery))!=-1 &&
                                 <tr>
                                   <td>{t.time}</td>
                                   <td>{t.client}</td>
