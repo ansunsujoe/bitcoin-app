@@ -80,7 +80,6 @@ function Clients(props) {
                       <FormGroup>
                         <label>Search Name, Address, Email or Cell Number:</label>
                         <Input
-                          defaultValue={0}
                           //value={transferAmount}
                           type="text"
                           defaultValue=""
