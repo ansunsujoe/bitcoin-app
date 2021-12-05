@@ -154,32 +154,6 @@ def client_list_search(search_query):
             } for client in result]
         }
 
-@app.route("/users/clients/all", methods=["GET"])
-def client_list_all():
-    result = db.session.query(User).filter(User.is_client)
-    return {
-            "results": [{"id": client.user_id, 
-            "name": client.name, 
-            "address": client.street_address+", "+client.city+", "+client.state+", "+client.zip, 
-            "email": client.email, 
-            "cell": client.cell 
-            } for client in result]
-        }
-
-@app.route("/users/clients/<search_query>", methods=["GET"])
-def client_list_search(search_query):
-    result = db.session.query(User
-                ).filter(User.is_client
-                ).filter((User.name.like("%{}%".format(search_query))) | (User.street_address.like("%{}%".format(search_query))) | (User.email.like("%{}%".format(search_query))) | (User.cell.like("%{}%".format(search_query))))
-    return {
-            "results": [{"id": client.user_id, 
-            "name": client.name, 
-            "address": client.street_address+", "+client.city+", "+client.state+", "+client.zip, 
-            "email": client.email, 
-            "cell": client.cell 
-            } for client in result]
-        }
-
 @app.route("/users/login", methods=["POST"])
 def login():
    try:
