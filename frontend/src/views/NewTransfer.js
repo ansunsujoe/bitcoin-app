@@ -43,7 +43,7 @@ function NewTransfer(props) {
     const [transferAmount, setTransferAmount] = useState(0);
     const [traderList, setTraderList] = useState([]);
     const [clientList, setClientList] = useState([]);
-    const [clientProperties, setClientProperties] = useState({});
+    const [userProperties, setUserProperties] = useState({});
 
     axios.defaults.withCredentials = true;
 
@@ -76,7 +76,7 @@ function NewTransfer(props) {
         axios.get('http://localhost:5000/users/' + props.userId)
             .then(response => {
                 console.log(response.data);
-                setClientProperties(response.data);
+                setUserProperties(response.data);
             }).catch(error => {
                 console.log(error);
             })
@@ -154,7 +154,7 @@ function NewTransfer(props) {
                             <CardHeader>
                                 <CardTitle tag="h5">Transfer Money</CardTitle>
                             </CardHeader>
-                            { !clientProperties.isTrader ? (
+                            { !userProperties.isTrader ? (
                             <CardBody>
                                 <Form onSubmit={handleTransferSubmit}>
                                     <Row>
