@@ -48,6 +48,7 @@ function Dashboard(props) {
   const getUserData = () => {
     axios.get('http://localhost:5000/users/' + props.userID)
       .then(response => {
+        console.log(response);
         if (response.data.isClient) {
           setBtcBal(response.data.btcBalance.toString());
           setUsdBal(response.data.fiatBalance.toString());
