@@ -77,6 +77,8 @@ def trader_transfer(trader_user_id):
         
         # Commit to database
         db.session.add(new_transfer)
+        transfer_client = db.session.query(Client).filter(Client.client_id == new_transfer.client_id).first()
+        transfer_client.fiat_balance+=new_transfer.amount
         db.session.commit()
         return "Success"
 
