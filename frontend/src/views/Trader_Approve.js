@@ -125,7 +125,7 @@ function Trader_Approve(props) {
                     {traderTransfers.map((t) => ( !(t.status === "Cancelled") &&
                       <tr>
                         <td>{t.time}</td>
-                        <td>{t.client}</td>
+                        <td>{t.name}</td>
                         <td>{t.amount}</td>
                         <td>{t.status}</td>
                         <td className="text-right"><Button color="success" type="submit" size="sm" 
