@@ -209,6 +209,7 @@ function Tables(props) {
                         <th>Commission</th>
                         <th>Status</th>
                         <th className="text-right">Value</th>
+                        <th className="text-right">Fiat Value</th>
                         <th className="text-right">Complete</th>
                         <th className="text-right">Cancel</th>
                       </tr>
@@ -219,6 +220,7 @@ function Tables(props) {
                           <th>Commission</th>
                           <th>Status</th>
                           <th className="text-right">Value</th>
+                          <th className="text-right">Fiat Value</th>
                         </tr>
                       )
                     }
@@ -233,12 +235,13 @@ function Tables(props) {
                         <td>{t.commission}</td>
                         <td>{t.status}</td>
                         <td className="text-right">{t.value} &#8383;</td>
+                        <td className="text-right">${t.fiatValue}</td>
                         <td className="text-right">
-                          <Button color="success" type="submit" size="sm" disabled={t.status === "Complete" || t.fiatBalance < (t.value * btcRate)}
+                          <Button color="success" type="submit" size="sm" disabled={!t.isValid}
                           onClick={() => acceptTransaction(t.tid, "buy", viewMode)}>Complete</Button>
                         </td>
                         <td className="text-right">
-                          <Button color="danger" type="submit" size="sm" disabled={t.status === "Complete"|| t.btcBalance < t.value}
+                          <Button color="danger" type="submit" size="sm" disabled={false}
                           onClick={() => cancelTransaction(t.tid, "buy", viewMode)}>Cancel</Button>
                         </td>
                       </tr>
@@ -249,6 +252,7 @@ function Tables(props) {
                           <td>{t.commission}</td>
                           <td>{t.status}</td>
                           <td className="text-right">{t.value} &#8383;</td>
+                          <td className="text-right">${t.fiatValue}</td>
                         </tr>
                       )
                     ))}
@@ -272,6 +276,7 @@ function Tables(props) {
                         <th>Commission</th>
                         <th>Status</th>
                         <th className="text-right">Value</th>
+                        <th className="text-right">Fiat Value</th>
                         <th className="text-right">Complete</th>
                         <th className="text-right">Cancel</th>
                       </tr>
@@ -282,6 +287,7 @@ function Tables(props) {
                           <th>Commission</th>
                           <th>Status</th>
                           <th className="text-right">Value</th>
+                          <th className="text-right">Fiat Value</th>
                         </tr>
                       )
                     }
@@ -295,12 +301,13 @@ function Tables(props) {
                         <td>{t.commission}</td>
                         <td>{t.status}</td>
                         <td className="text-right">{t.value} &#8383;</td>
+                        <td className="text-right">${t.fiatValue}</td>
                         <td className="text-right">
-                          <Button color="success" type="submit" size="sm" disabled={t.status === "Complete"}
+                          <Button color="success" type="submit" size="sm" disabled={!t.isValid}
                           onClick={() => acceptTransaction(t.tid, "sell", viewMode)}>Complete</Button>
                         </td>
                         <td className="text-right">
-                          <Button color="danger" type="submit" size="sm" disabled={t.status === "Complete"}
+                          <Button color="danger" type="submit" size="sm" disabled={false}
                           onClick={() => cancelTransaction(t.tid, "sell", viewMode)}>Cancel</Button>
                         </td>
                       </tr>
@@ -311,6 +318,7 @@ function Tables(props) {
                           <td>{t.commission}</td>
                           <td>{t.status}</td>
                           <td className="text-right">{t.value} &#8383;</td>
+                          <td className="text-right">${t.fiatValue}</td>
                         </tr>
                       )
                     ))}

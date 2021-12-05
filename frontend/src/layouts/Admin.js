@@ -94,6 +94,9 @@ function Dashboard(props) {
                 key={key}
                 render={() => <prop.component isTrader={isTrader} 
                 handleTraderClick={handleTraderClick}
+                setIsTrader={setIsTrader}
+                setIsManager={setIsManager}
+                setIsClient={setIsClient}
                 isManager={isManager}
                 isClient={isClient}
                 handleClientClick={handleClientClick}

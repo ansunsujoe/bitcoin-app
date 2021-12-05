@@ -6,6 +6,11 @@ from app.models import Transaction, User, Client
 import requests
 from decimal import Decimal
 
+class_prices = {
+    "silver": 0.03,
+    "gold": 0.01
+}
+
 def btc_rate():
     r = requests.get("https://api.coindesk.com/v1/bpi/currentprice.json")
     data = r.json()
@@ -48,7 +53,8 @@ def user_transaction(user_id):
             status="Pending",
             date=datetime.now(),
             action=response.get("action"),
-            amount=response.get("amount")
+            amount=response.get("amount"),
+            fiat_amount=None
         )
         
         # Commit to database
@@ -75,7 +81,8 @@ def user_transaction_buys(user_id):
             "name": u.name,
             "commission": t.commission_type,
             "status": t.status,
-            "value": t.amount
+            "value": t.amount,
+            "fiatValue": t.fiat_amount
         })
     return to_response(transactions)
 
@@ -98,7 +105,8 @@ def user_transaction_sells(user_id):
             "name": u.name,
             "commission": t.commission_type,
             "status": t.status,
-            "value": t.amount
+            "value": t.amount,
+            "fiatValue": t.fiat_amount
         })
     return to_response(transactions)
 
@@ -120,6 +128,19 @@ def trader_transaction_buys(trader_id):
         ).all()
     transactions = []
     for t, u, c in result:
+        if c.fiat_balance < t.amount * Decimal(btc_rate()):
+            is_valid = False
+        else:
+            if t.commission_type == "BTC":
+                if c.btc_balance < t.amount * Decimal(class_prices.get(c.user_classification)):
+                    is_valid = False
+                else:
+                    is_valid = True
+            else:
+                if c.fiat_balance < t.amount * Decimal(btc_rate() * (1 + class_prices.get(c.user_classification))):
+                    is_valid = False
+                else:
+                    is_valid = True
         transactions.append({
             "tid": t.transaction_id,
             "time": t.date,
@@ -127,8 +148,10 @@ def trader_transaction_buys(trader_id):
             "commission": t.commission_type,
             "status": t.status,
             "value": t.amount,
+            "fiatValue": t.fiat_amount,
             "btcBalance": c.btc_balance,
-            "fiatBalance": c.fiat_balance
+            "fiatBalance": c.fiat_balance,
+            "isValid": is_valid
         })
     return to_response(transactions)
 
@@ -150,6 +173,19 @@ def trader_transaction_sells(trader_id):
         ).all()
     transactions = []
     for t, u, c in result:
+        if c.btc_balance < t.amount:
+            is_valid = False
+        else:
+            if t.commission_type == "BTC":
+                if c.btc_balance < t.amount * Decimal(1 + class_prices.get(c.user_classification)):
+                    is_valid = False
+                else:
+                    is_valid = True
+            else:
+                if c.fiat_balance < t.amount * Decimal(btc_rate() * class_prices.get(c.user_classification)):
+                    is_valid = False
+                else:
+                    is_valid = True
         transactions.append({
             "tid": t.transaction_id,
             "time": t.date,
@@ -157,8 +193,10 @@ def trader_transaction_sells(trader_id):
             "commission": t.commission_type,
             "status": t.status,
             "value": t.amount,
+            "fiatValue": t.fiat_amount,
             "btcBalance": c.btc_balance,
-            "fiatBalance": c.fiat_balance
+            "fiatBalance": c.fiat_balance,
+            "isValid": is_valid
         })
     return to_response(transactions)
 
@@ -187,6 +225,7 @@ def transaction_accept(transaction_id):
     
     # Set transaction to complete
     transaction.status = "Complete"
+    # transaction.fiat_amount = 
     db.session.commit()
     return "Success"
 
@@ -210,7 +249,8 @@ def transaction_between(start_date, end_date):
             "name": u.name,
             "commission": t.commission_type,
             "status": t.status,
-            "value": t.amount
+            "value": t.amount,
+            "fiatValue": t.fiat_amount
         })
     return to_response(transactions)
 
@@ -234,14 +274,17 @@ def buying_power(client_id):
         num_bitcoin += float(b.amount)
         
     # Get user total balance so far
-    client_info = db.session.query(
-        User, Client
-        ).filter(
-            Client.user_id == User.user_id
-        ).filter(
-            User.user_id == client_id
-        ).first()
-    u, c = client_info
+    try:
+        client_info = db.session.query(
+            User, Client
+            ).filter(
+                Client.user_id == User.user_id
+            ).filter(
+                User.user_id == client_id
+            ).first()
+        u, c = client_info
+    except Exception:
+        return to_response(0.0)
     
     # Btc Rate
     return to_response(float(c.fiat_balance) / btc_rate() - num_bitcoin)

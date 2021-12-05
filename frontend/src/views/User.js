@@ -59,12 +59,24 @@ function User({userId, userID, handleUserIdChange, loginInit}) {
     var titleArr = [];
     if (userData.isClient) {
       titleArr.push("Client");
+      props.setIsClient(true);
+    }
+    else {
+      props.setIsClient(false);
     }
     if (userData.isTrader) {
       titleArr.push("Trader");
+      props.setIsTrader(true);
+    }
+    else {
+      props.setIsTrader(false);
     }
     if (userData.isManager) {
       titleArr.push("Manager");
+      props.setIsManager(true);
+    }
+    else {
+      props.setIsManager(false);
     }
     return titleArr.join("/");
   }
