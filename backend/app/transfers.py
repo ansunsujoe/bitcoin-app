@@ -2,8 +2,8 @@ from datetime import datetime
 from app import app, db
 from app.util import to_response
 from flask import request, session
-from app.models import Transfer, User
-import requests
+from app.models import Transfer, User, Client
+#import requests
 
 # Add transfer
 @app.route("/transfers", methods=["GET"])
@@ -15,7 +15,15 @@ def get_transfers():
 def user_transfer(user_id):
     if request.method == "GET":
         result = db.session.query(Transfer).all()
-        return "Success"
+        transfers = []
+        for t, u in result:
+            transfers.append({
+                "time": t.date,
+                "name": u.name,
+                "status": t.status,
+                "value": t.amount
+            })
+        return to_response(transfers)
     elif request.method == "POST":
         # Read from form
         response = request.get_json()
@@ -26,7 +34,7 @@ def user_transfer(user_id):
             client_id=user_id,
             status="Pending",
             date=datetime.now(),
-            amount=response.get("amount")
+            amount=float(response.get("amount"))
         )
         
         # Commit to database
@@ -34,36 +42,83 @@ def user_transfer(user_id):
         db.session.commit()
         return "Success"
 
-# Buy transfers for trader
-@app.route("/users/traders/<trader_id>/transfers/buys", methods=["GET"])
-def trader_transfer_buys(trader_id):
-    result = db.session.query(
+# Transfers by trader on behalf of client
+@app.route("/users/traders/<trader_user_id>/transfers", methods=["GET", "POST"])
+def trader_transfer(trader_user_id):
+    if request.method == "GET":
+        result = db.session.query(
         Transfer, User
         ).filter(
-            Transfer.trader_id == trader_id
+            Transfer.trader_id == trader_user_id
         ).filter(
             User.user_id == Transfer.client_id
         ).all()
-    transfers = []
-    for t, u in result:
-        transfers.append({
-            "time": t.date,
-            "name": u.name,
-            "commission": t.commission_type,
-            "status": t.status,
-            "value": t.amount
-        })
-    return to_response(transfers)
+        transfers = []
+        for t, u in result:
+            transfers.append({
+                "time": t.date,
+                "name": u.name,
+                "status": t.status,
+                "value": t.amount
+            })
+        return to_response(transfers)
+    elif request.method == "POST":
+        # Read from form
+        response = request.get_json()
+        
+        # Create transfer object
+        new_transfer = Transfer(
+            trader_id=trader_user_id,
+            client_id=response.get("clientId"),
+            status="Completed",
+            date=datetime.now(),
+            amount=float(response.get("amount"))
+        )
+        
+        # Commit to database
+        db.session.add(new_transfer)
+        db.session.commit()
+        return "Success"
+
+
+# # Transfers for trader
+# @app.route("/users/traders/<trader_id>/transfers", methods=["GET"])
+# def trader_transfer_buys(trader_id):
+    # result = db.session.query(
+    #     Transfer, User
+    #     ).filter(
+    #         Transfer.trader_id == trader_id
+    #     ).filter(
+    #         User.user_id == Transfer.client_id
+    #     ).all()
+    # transfers = []
+    # for t, u in result:
+    #     transfers.append({
+    #         "time": t.date,
+    #         "name": u.name,
+    #         "status": t.status,
+    #         "value": t.amount
+    #     })
+    # return to_response(transfers)
+
+# # Delete transfers (trader cancels)
+# @app.route("/transfers/<transfer_id>", methods=["DELETE"])
+# def transfer_delete(transfer_id):
+#     db.session.query(Transfer).filter(Transfer.transfer_id == transfer_id).delete()
+#     db.session.commit()
 
 # Delete transfers (trader cancels)
-@app.route("/transfers/<transfer_id>", methods=["DELETE"])
+@app.route("/transfers/<transfer_id>", methods=["PUT"])
 def transfer_delete(transfer_id):
-    db.session.query(Transfer).filter(Transfer.transfer_id == transfer_id).delete()
+    transfer = db.session.query(Transfer).filter(Transfer.transfer_id == transfer_id).first()
+    transfer.status = "Cancelled"
     db.session.commit()
 
-# Accept transfers (trader cancels)
+# Accept transfers (trader accepts)
 @app.route("/transfers/<transfer_id>/accept", methods=["PUT"])
 def transfer_accept(transfer_id):
     transfer = db.session.query(Transfer).filter(Transfer.transfer_id == transfer_id).first()
     transfer.status = "Complete"
+    transfer_client = db.session.query(Client).filter(Client.client_id == transfer.client_id).first()
+    transfer_client.fiat_balance+=transfer.amount
     db.session.commit()
