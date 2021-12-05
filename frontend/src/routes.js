@@ -90,7 +90,7 @@ var routes = [
   {
     path: "/new-transfer",
     name: "New Transfer",
-    icon: "nc-icon nc-cart-simple",
+    icon: "nc-icon nc-credit-card",
     component: NewTransfer,
     layout: "/admin",
     traderOnly: false,
@@ -110,7 +110,7 @@ var routes = [
   {
     path: "/approve-transfers",
     name: "Approve Transfers",
-    icon: "nc-icon nc-check-2",
+    icon: "nc-icon nc-paper",
     component: Trader_Approve,
     layout: "/admin",
     traderOnly: true,
