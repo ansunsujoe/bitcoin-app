@@ -109,35 +109,5 @@ var routes = [
     managerOnly: false,
     clientOnly: false
   },
-  {
-    path: "/typography",
-    name: "Typography",
-    icon: "nc-icon nc-caps-small",
-    component: Typography,
-    layout: "/admin",
-    traderOnly: false,
-    managerOnly: false,
-    clientOnly: false
-  },
-  {
-    path: "/icons",
-    name: "Icons",
-    icon: "nc-icon nc-diamond",
-    component: Icons,
-    layout: "/admin",
-    traderOnly: false,
-    managerOnly: false,
-    clientOnly: false
-  },
-  {
-    path: "/notifications",
-    name: "Notifications",
-    icon: "nc-icon nc-bell-55",
-    component: Notifications,
-    layout: "/admin",
-    traderOnly: false,
-    managerOnly: false,
-    clientOnly: false
-  },
 ];
 export default routes;

@@ -90,13 +90,6 @@ function Dashboard(props) {
     setLoading(false);
   }
 
-  console.log(props.userId);
-  console.log(props.userData);
-  //console.log(userData);
-  console.log(btcBal);
-  console.log(usdBal);
-  console.log(status);
-
   if (!isClient){
     return (
       <>

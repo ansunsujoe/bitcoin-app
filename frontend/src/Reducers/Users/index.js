@@ -1,10 +1,18 @@
 
 import { LOGIN, LOGOUT, CREATE, START, LOGINF, CREATEF, STARTC } from './constants';
 
-
+const getContentFromLS = localStorage.getItem("user")
+let defaultID = -1
+let JSONData
+if(getContentFromLS){
+    JSONData = JSON.parse(getContentFromLS)
+    const { user_id } = JSONData
+    defaultID = user_id
+}
+    
 const INITIAL_STATE = {
 
-    userId: -1,
+    userId: defaultID,
     loading: false,
     loginFailed: false,
     createloading: false,
@@ -23,7 +31,7 @@ const reducer = (state = INITIAL_STATE, action) => {
             localStorage.setItem("user", JSON.stringify(content))
             return {
 
-                ...state, userId: action.payload.userId, loading: false, error: "",
+                ...state, userId: content.user_id, loading: false, error: "",
 
             };
         case LOGINF:
@@ -42,7 +50,7 @@ const reducer = (state = INITIAL_STATE, action) => {
             const val = action.payload.content
             localStorage.setItem("user", JSON.stringify(val))
             return {
-                ...state, userId: action.payload.userId, createloading: false, createError: "",
+                ...state, userId: val.user_id, createloading: false, createError: "",
 
             };
 
