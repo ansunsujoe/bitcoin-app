@@ -38,6 +38,7 @@ axios.defaults.withCredentials = true;
 
 function NewTransfer(props) {
     const [transferTrader, setTransferTrader] = useState("trader-1");
+    const [transferClient, setTransferClient] = useState("client-1");
     const [transferDisabled, setTransferDisabled] = useState(true);
     const [transferAmount, setTransferAmount] = useState(0);
     const [traderList, setTraderList] = useState([]);
@@ -57,7 +58,19 @@ function NewTransfer(props) {
             })
     }
 
-    // Get Client Data
+    // Get client list
+    const getClientList = () => {
+        axios.get('http://localhost:5000/users/clients')
+            .then(response => {
+                setClientList(response.data.results);
+                setTransferClient(response.data.results[0].id);
+                //setSellTrader(response.data.results[0].id);
+            }).catch(error => {
+                console.log(error);
+            })
+    }
+
+    // Get User Data
     const getUserData = () => {
         axios.get('http://localhost:5000/users/' + props.userId)
             .then(response => {
@@ -75,18 +88,19 @@ function NewTransfer(props) {
         getUserData();
     }, []);
 
-    // Handler functions for transfer slider
-    const handleTransferChange = (e, val) => {
-        setTransferAmount(val);
-        if (val === 0) {
+    // Handler functions for transfer number field
+    const handleTransferChange = (e) => {
+        setTransferAmount(e.target.value);
+        if (e.target.value === 0) {
             setTransferDisabled(true);
         }
         else {
             setTransferDisabled(false);
+            //setTransferAmount(e.target.value);
         }
     }
 
-    // Buy/Sell Axios Request
+    // Transfer Axios Request
     const transferSubmit = (data) => {
         axios.post('http://localhost:5000/users/' + props.userId + '/transfers', data, {
             headers: {
@@ -99,15 +113,35 @@ function NewTransfer(props) {
         })
     }
 
-    // Handler function for submitting buy
+    // Trader Transfer Axios Request
+    const traderTransferSubmit = (data) => {
+        axios.post('http://localhost:5000/users/traders/' + props.userId + '/transfers', data, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
+            console.log("SUCCESS", response);
+        }).catch(error => {
+            console.log(error);
+        })
+    }
+
+    // Handler function for submitting Transfers
     const handleTransferSubmit = (e) => {
         const data = {
-            //commission_type: buyCommissionType,
             amount: transferAmount,
             traderId: transferTrader,
-            action: "buy"
         };
         transferSubmit(data);
+    }
+
+    // Handler function for submitting Transfers
+    const handleTraderTransferSubmit = (e) => {
+        const data = {
+            amount: transferAmount,
+            clientId: transferClient,
+        };
+        traderTransferSubmit(data);
     }
 
     return (
@@ -119,10 +153,11 @@ function NewTransfer(props) {
                             <CardHeader>
                                 <CardTitle tag="h5">Transfer Money</CardTitle>
                             </CardHeader>
+                            { clientProperties.isTrader ? (
                             <CardBody>
                                 <Form onSubmit={handleTransferSubmit}>
                                     <Row>
-                                        <Col className="px-1" md="4">
+                                        <Col className="px-3" md="5">
                                             <FormGroup>
                                                 <label>Assign Trader</label>
                                                 <Input type="select" name="transactionType" id="transactionType"
@@ -133,11 +168,12 @@ function NewTransfer(props) {
                                                 </Input>
                                             </FormGroup>
                                         </Col>
-                                        <Col className="px-1" md="4">
+                                        <Col className="px-3" md="7">
                                             <FormGroup>
                                                 <label>Enter Amount:</label>
                                                 <Input
                                                     defaultValue={0}
+                                                    //value={transferAmount}
                                                     type="number"
                                                     step={0.01}
                                                     min={0}
@@ -159,6 +195,51 @@ function NewTransfer(props) {
                                     </Row>
                                 </Form>
                             </CardBody>
+
+                            ):(
+                            
+                            <CardBody>
+                                <Form onSubmit={handleTransferSubmit}>
+                                    <Row>
+                                        <Col className="px-3" md="5">
+                                            <FormGroup>
+                                                <label>Select Client</label>
+                                                <Input type="select" name="transactionType" id="transactionType"
+                                                    value={transferClient} onChange={e => setTransferClient(e.currentTarget.value)}>
+                                                    {clientList.map((t) => (
+                                                        <option key={t.id} value={t.id}>{t.name}</option>
+                                                    ))}
+                                                </Input>
+                                            </FormGroup>
+                                        </Col>
+                                        <Col className="px-3" md="7">
+                                            <FormGroup>
+                                                <label>Enter Amount:</label>
+                                                <Input
+                                                    defaultValue={0}
+                                                    //value={transferAmount}
+                                                    type="number"
+                                                    step={0.01}
+                                                    min={0}
+                                                    onChange={handleTransferChange}
+                                            />
+                                            </FormGroup>
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <div className="update ml-auto mr-auto">
+                                            <Button
+                                                color="success"
+                                                type="submit"
+                                                disabled={transferDisabled}
+                                            >
+                                                Transfer Money
+                                            </Button>
+                                        </div>
+                                    </Row>
+                                </Form>
+                            </CardBody>
+                            )}
                         </Card>
                     </Col>
                 </Row>
