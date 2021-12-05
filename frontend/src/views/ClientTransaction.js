@@ -84,7 +84,6 @@ function ClientTransaction(props) {
     axios.get('http://localhost:5000/users/clients/' + buyClient + '/buying-power')
     .then(response => {
       setBuyingPower(parseFloat(response.data.results));
-      console.log(parseFloat(response.data.results));
     }).catch(error => {
       console.log(error);
     })
@@ -171,7 +170,7 @@ function ClientTransaction(props) {
     const data = {
       commission_type: buyCommissionType,
       amount: buyAmount,
-      traderId: buyClient,
+      traderId: props.userId,
       action: "buy"
     };
     transactionSubmit(data);
@@ -182,7 +181,7 @@ function ClientTransaction(props) {
     const data = {
       commission_type: sellCommissionType,
       amount: sellAmount,
-      traderId: sellClient,
+      traderId: props.userId,
       action: "sell"
     };
     transactionSubmit(data);

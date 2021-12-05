@@ -128,7 +128,7 @@ def trader_transaction_buys(trader_id):
         ).all()
     transactions = []
     for t, u, c in result:
-        if c.fiat_balance < t.amount * btc_rate():
+        if c.fiat_balance < t.amount * Decimal(btc_rate()):
             is_valid = False
         else:
             if t.commission_type == "BTC":
@@ -225,6 +225,7 @@ def transaction_accept(transaction_id):
     
     # Set transaction to complete
     transaction.status = "Complete"
+    # transaction.fiat_amount = 
     db.session.commit()
     return "Success"
 
