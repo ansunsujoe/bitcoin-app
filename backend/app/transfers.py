@@ -82,33 +82,6 @@ def trader_transfer(trader_user_id):
         db.session.commit()
         return "Success"
 
-
-# # Transfers for trader
-# @app.route("/users/traders/<trader_id>/transfers", methods=["GET"])
-# def trader_transfer_buys(trader_id):
-    # result = db.session.query(
-    #     Transfer, User
-    #     ).filter(
-    #         Transfer.trader_id == trader_id
-    #     ).filter(
-    #         User.user_id == Transfer.client_id
-    #     ).all()
-    # transfers = []
-    # for t, u in result:
-    #     transfers.append({
-    #         "time": t.date,
-    #         "name": u.name,
-    #         "status": t.status,
-    #         "value": t.amount
-    #     })
-    # return to_response(transfers)
-
-# # Delete transfers (trader cancels)
-# @app.route("/transfers/<transfer_id>", methods=["DELETE"])
-# def transfer_delete(transfer_id):
-#     db.session.query(Transfer).filter(Transfer.transfer_id == transfer_id).delete()
-#     db.session.commit()
-
 # Delete transfers (trader cancels)
 @app.route("/transfers/<transfer_id>", methods=["PUT"])
 def transfer_delete(transfer_id):
