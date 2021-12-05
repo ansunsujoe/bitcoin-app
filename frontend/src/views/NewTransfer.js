@@ -42,6 +42,7 @@ function NewTransfer(props) {
     const [transferDisabled, setTransferDisabled] = useState(true);
     const [transferAmount, setTransferAmount] = useState(0);
     const [traderList, setTraderList] = useState([]);
+    const [clientList, setClientList] = useState([]);
     const [clientProperties, setClientProperties] = useState({});
 
     axios.defaults.withCredentials = true;
@@ -81,9 +82,9 @@ function NewTransfer(props) {
             })
     }
 
-    // Get trader and user list
+    // Get trader and client list
     useEffect(() => {
-        //getCurrentBTC();
+        getClientList();
         getTraderList();
         getUserData();
     }, []);
@@ -199,7 +200,7 @@ function NewTransfer(props) {
                             ):(
                             
                             <CardBody>
-                                <Form onSubmit={handleTransferSubmit}>
+                                <Form onSubmit={handleTraderTransferSubmit}>
                                     <Row>
                                         <Col className="px-3" md="5">
                                             <FormGroup>
