@@ -1,10 +1,9 @@
 import { LOGIN, LOGINF, LOGOUT, CREATE, START, CREATEF, STARTC} from './constants';
-import  { login, create, forget } from "../../authenticate"
+import  { login, create } from "../../authenticate"
 
 
 export const loginUser = (data) => {
     return dispatch => {
-        console.log(data)
         dispatch(loginStarted())
         login(data).then(res => {
             const { success } = res
@@ -23,7 +22,6 @@ export const loginUser = (data) => {
 
   export const createUser = (data) => {
     return dispatch => {
-        console.log(data)
         dispatch(createStarted())
         create(data).then(res => {
             const { success, message } = res
@@ -44,10 +42,6 @@ export const loginUser = (data) => {
         dispatch(logoutUser())
     };
   }
-
-
-  
-
 
 const loginU = (data) => {
     return {

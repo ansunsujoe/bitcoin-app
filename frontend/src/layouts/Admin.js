@@ -34,6 +34,7 @@ function Dashboard(props) {
   const [backgroundColor, setBackgroundColor] = React.useState("black");
   const [activeColor, setActiveColor] = React.useState("info");
   const [isTrader, setIsTrader] = React.useState(false);
+  const [isClient, setIsClient] = React.useState(true);
   const [isManager, setIsManager] = React.useState(false);
   const [userId, setUserId] = React.useState(1);
   const mainPanel = React.useRef();
@@ -64,6 +65,9 @@ function Dashboard(props) {
   const handleManagerClick = (event) => {
     setIsManager(event.target.checked);
   }
+  const handleClientClick = (event) => {
+    setIsClient(event.target.checked);
+  }
   const userIdChange = (id) => {
     setUserId(id);
   }
@@ -74,6 +78,7 @@ function Dashboard(props) {
         {...props}
         isTrader={isTrader}
         isManager={isManager}
+        isClient={isClient}
         userId={userId}
         routes={routes}
         bgColor={backgroundColor}
@@ -89,7 +94,12 @@ function Dashboard(props) {
                 key={key}
                 render={() => <prop.component isTrader={isTrader} 
                 handleTraderClick={handleTraderClick}
-                isManager={isManager} 
+                setIsTrader={setIsTrader}
+                setIsManager={setIsManager}
+                setIsClient={setIsClient}
+                isManager={isManager}
+                isClient={isClient}
+                handleClientClick={handleClientClick}
                 handleManagerClick={handleManagerClick}
                 userId={userId}
                 handleUserIdChange={userIdChange} />}

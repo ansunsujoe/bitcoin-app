@@ -40,9 +40,21 @@ function Tables(props) {
   const [userSells, setUserSells] = useState([]);
   const [traderBuys, setTraderBuys] = useState([]);
   const [traderSells, setTraderSells] = useState([]);
+  const [btcRate, setBtcRate] = useState(50000.0);
   const [viewMode, setViewMode] = useState("client");
   const [userData, setUserData] = useState({});
   axios.defaults.withCredentials = true;
+
+  // Get current Bitcoin price
+  const getCurrentBTC = () => {
+    axios.get('http://localhost:5000/btc-rate')
+      .then(response => {
+        console.log(response.data);
+        setBtcRate(response.data.results);
+      }).catch(error => {
+        console.log(error);
+      })
+  }
 
   // Get User Information
   const getUserData = () => {
@@ -102,7 +114,35 @@ function Tables(props) {
     getClientSells();
   }, []);
 
-  const acceptTransaction = (tid) => {
+  // Get current bitcoin price every 10 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      getCurrentBTC();
+    }, 10000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const acceptTransaction = (tid, action, viewMode) => {
+    axios.put('http://localhost:5000/transactions/' + tid + '/accept').then(response => {
+      if (viewMode === "trader") {
+        if (action === "buy") {
+          getTraderBuys();
+        }
+        else {
+          getTraderSells();
+        }
+      }
+      else {
+        if (action === "buy") {
+          getClientBuys();
+        }
+        else {
+          getClientSells();
+        }
+      }
+    }).catch(error => {
+      console.log(error);
+    })
     console.log(tid);
   }
 
@@ -169,6 +209,7 @@ function Tables(props) {
                         <th>Commission</th>
                         <th>Status</th>
                         <th className="text-right">Value</th>
+                        <th className="text-right">Fiat Value</th>
                         <th className="text-right">Complete</th>
                         <th className="text-right">Cancel</th>
                       </tr>
@@ -179,6 +220,7 @@ function Tables(props) {
                           <th>Commission</th>
                           <th>Status</th>
                           <th className="text-right">Value</th>
+                          <th className="text-right">Fiat Value</th>
                         </tr>
                       )
                     }
@@ -193,12 +235,13 @@ function Tables(props) {
                         <td>{t.commission}</td>
                         <td>{t.status}</td>
                         <td className="text-right">{t.value} &#8383;</td>
+                        <td className="text-right">${t.fiatValue}</td>
                         <td className="text-right">
-                          <Button color="success" type="submit" size="sm" disabled={t.status === "Complete"}
+                          <Button color="success" type="submit" size="sm" disabled={!t.isValid}
                           onClick={() => acceptTransaction(t.tid, "buy", viewMode)}>Complete</Button>
                         </td>
                         <td className="text-right">
-                          <Button color="danger" type="submit" size="sm" disabled={t.status === "Complete"}
+                          <Button color="danger" type="submit" size="sm" disabled={false}
                           onClick={() => cancelTransaction(t.tid, "buy", viewMode)}>Cancel</Button>
                         </td>
                       </tr>
@@ -209,6 +252,7 @@ function Tables(props) {
                           <td>{t.commission}</td>
                           <td>{t.status}</td>
                           <td className="text-right">{t.value} &#8383;</td>
+                          <td className="text-right">${t.fiatValue}</td>
                         </tr>
                       )
                     ))}
@@ -232,6 +276,7 @@ function Tables(props) {
                         <th>Commission</th>
                         <th>Status</th>
                         <th className="text-right">Value</th>
+                        <th className="text-right">Fiat Value</th>
                         <th className="text-right">Complete</th>
                         <th className="text-right">Cancel</th>
                       </tr>
@@ -242,6 +287,7 @@ function Tables(props) {
                           <th>Commission</th>
                           <th>Status</th>
                           <th className="text-right">Value</th>
+                          <th className="text-right">Fiat Value</th>
                         </tr>
                       )
                     }
@@ -255,13 +301,14 @@ function Tables(props) {
                         <td>{t.commission}</td>
                         <td>{t.status}</td>
                         <td className="text-right">{t.value} &#8383;</td>
+                        <td className="text-right">${t.fiatValue}</td>
                         <td className="text-right">
-                          <Button color="success" type="submit" size="sm" disabled={t.status === "Complete"}
-                          onClick={() => acceptTransaction(t, "sell", viewMode)}>Complete</Button>
+                          <Button color="success" type="submit" size="sm" disabled={!t.isValid}
+                          onClick={() => acceptTransaction(t.tid, "sell", viewMode)}>Complete</Button>
                         </td>
                         <td className="text-right">
-                          <Button color="danger" type="submit" size="sm" disabled={t.status === "Complete"}
-                          onClick={() => cancelTransaction(t, "sell", viewMode)}>Cancel</Button>
+                          <Button color="danger" type="submit" size="sm" disabled={false}
+                          onClick={() => cancelTransaction(t.tid, "sell", viewMode)}>Cancel</Button>
                         </td>
                       </tr>
                       ) : (
@@ -271,6 +318,7 @@ function Tables(props) {
                           <td>{t.commission}</td>
                           <td>{t.status}</td>
                           <td className="text-right">{t.value} &#8383;</td>
+                          <td className="text-right">${t.fiatValue}</td>
                         </tr>
                       )
                     ))}

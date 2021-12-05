@@ -27,6 +27,7 @@ CREATE TABLE IF NOT EXISTS Transaction (
     Date DATETIME NOT NULL,
     Action VARCHAR(10) NOT NULL,
 	Amount DOUBLE(32, 10) NOT NULL,
+    FiatAmount DOUBLE(32, 10),
 	PRIMARY KEY (Transaction_id),
 	FOREIGN KEY (Client_id) REFERENCES User(User_ID),
     FOREIGN KEY (Trader_id) REFERENCES User(User_ID)

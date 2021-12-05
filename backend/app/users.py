@@ -6,35 +6,62 @@ from app.util import to_json, to_response
 # List all users
 @app.route("/users", methods=["GET"])
 def get_users():
-    result = db.session.query(User).all()
-    print(result)
-    return {
-        "results": [{"id": user.user_id, "name": user.name} for user in result]
-    }
-    
+    try:
+        result = db.session.query(User).all()
+        response = {
+            "results": [{"id": user.user_id, "name": user.name} for user in result]
+        }
+    except Exception:
+        return {}
+    return response
 
 # Modify/delete user
 @app.route("/users/<user_id>", methods=["GET", "PUT", "DELETE"])
 def user_info(user_id):
     if request.method == "GET":
-        # User client query
-        response = db.session.query(
-            User, Client
-        ).filter(
-            User.user_id == user_id
-        ).filter(
-            User.user_id == Client.user_id
-        ).first()
+        try:
+            # User client query
+            response = db.session.query(
+                User, Client
+            ).filter(
+                User.user_id == user_id
+            ).filter(
+                User.user_id == Client.user_id
+            ).first()
 
-        if response is not None:
-            user, client = response
-            client_json = {
+            if response is not None:
+                user, client = response
+                client_json = {
+                    "id": user.user_id,
+                    "name": user.name,
+                    "btcBalance": round(client.btc_balance, 1),
+                    "fiatBalance": round(client.fiat_balance, 2),
+                    "classification": client.user_classification,
+                    "isClient": True,
+                    "isTrader": user.is_trader,
+                    "isManager": user.is_manager,
+                    "phoneNumber": user.phone_number,
+                    "cell": user.cell,
+                    "email": user.email,
+                    "streetAddress": user.street_address,
+                    "city": user.city,
+                    "state": user.state,
+                    "zip": user.zip
+                }
+                return client_json
+            
+            # User query
+            user = db.session.query(
+                User
+            ).filter(
+                User.user_id == user_id
+            ).first()
+            
+            # User json
+            user_json = {
                 "id": user.user_id,
                 "name": user.name,
-                "btcBalance": round(client.btc_balance, 1),
-                "fiatBalance": round(client.fiat_balance, 2),
-                "classification": client.user_classification,
-                "isClient": True,
+                "isClient": False,
                 "isTrader": user.is_trader,
                 "isManager": user.is_manager,
                 "phoneNumber": user.phone_number,
@@ -45,40 +72,15 @@ def user_info(user_id):
                 "state": user.state,
                 "zip": user.zip
             }
-            return client_json
-        
-        # User query
-        user = db.session.query(
-            User
-        ).filter(
-            User.user_id == user_id
-        ).first()
-        
-        # User json
-        user_json = {
-            "id": user.user_id,
-            "name": user.name,
-            "isClient": False,
-            "isTrader": user.is_trader,
-            "isManager": user.is_manager,
-            "phoneNumber": user.phone_number,
-            "cell": user.cell,
-            "email": user.email,
-            "streetAddress": user.street_address,
-            "city": user.city,
-            "state": user.state,
-            "zip": user.zip
-        }
-        return user_json
+            return user_json
+        except Exception:
+            return {}
     
-    elif request.method == "PUT":
-        pass
-    elif request.method == "DELETE":
-        pass
    
     
 @app.route("/users/clients/<client_id>", methods=["GET"])
 def client_info(client_id):
+   try: 
     user, client = db.session.query(
         User, Client
         ).filter(
@@ -86,7 +88,6 @@ def client_info(client_id):
         ).filter(
             User.user_id == Client.user_id
         ).first()
-    
     client_json = {
         "id": user.user_id,
         "name": user.name,
@@ -102,27 +103,41 @@ def client_info(client_id):
         "city": user.city,
         "state": user.state,
         "zip": user.zip
-    }
+     }
     return client_json
+   except Exception:
+       return {} 
 
 @app.route("/users/traders", methods=["GET"])
 def trader_list():
-    result = db.session.query(User).filter(User.is_trader)
-    return {
+    try:
+     result = db.session.query(User).filter(User.is_trader)
+     return {
         "results": [{"id": trader.user_id, "name": trader.name} for trader in result]
+     }
+    except Exception:
+        return {}
+    
+@app.route("/users/clients", methods=["GET"])
+def client_list():
+   try:
+    result = db.session.query(User).filter(User.is_client)
+    return {
+        "results": [{"id": client.user_id, "name": client.name} for client in result]
     }
+   except Exception:
+       return {}
 
 @app.route("/users/login", methods=["POST"])
 def login():
+   try:
     request_data = request.get_json()
-    print(request_data)
 
     username = request_data.get("username")
     password = request_data.get("password")
     user = db.session.query(User).filter(User.user_name == username).first()   
     if(user):
       content = bcrypt.check_password_hash(user.password, password)  
-      print(content) 
       if(content):
         return { "success" : True, "content" : {
             "username" : user.name,
@@ -130,10 +145,13 @@ def login():
       }}
       return {"success" : False}
     return {"success" : False}
+   except Exception:
+     return {"success" : False}
 
 
 @app.route("/users/register", methods=["POST"])
 def register():
+   try: 
     request_data = request.get_json()
     username = request_data.get("username")
     user = db.session.query(User).filter(User.user_name == username).first()   
@@ -165,3 +183,5 @@ def register():
             "username" : user.user_name,
             "user_id" : user.user_id
     }}
+   except Exception:
+       return {"success" : False, "message" : "Unknown exception"}

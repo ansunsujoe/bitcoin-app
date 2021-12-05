@@ -17,9 +17,6 @@
 
 */
 import Dashboard from "views/Dashboard.js";
-import Notifications from "views/Notifications.js";
-import Icons from "views/Icons.js";
-import Typography from "views/Typography.js";
 import TableList from "views/Tables.js";
 import NewTransaction from "views/NewTransaction.js"
 import UserPage from "views/User.js";
@@ -27,6 +24,7 @@ import Clients from "views/Clients.js"
 import Manager from "./views/Manager";
 import Trader_Approve from "./views/Trader_Approve";
 import NewTransfer from "views/NewTransfer";
+import ClientTransaction from "./views/ClientTransaction"
 
 var routes = [
   {
@@ -36,7 +34,8 @@ var routes = [
     component: Dashboard,
     layout: "/admin",
     traderOnly: false,
-    managerOnly: false
+    managerOnly: false,
+    clientOnly: false
   },
   {
     path: "/user-page",
@@ -45,7 +44,8 @@ var routes = [
     component: UserPage,
     layout: "/admin",
     traderOnly: false,
-    managerOnly: false
+    managerOnly: false,
+    clientOnly: false
   },
   {
     path: "/transactions",
@@ -54,7 +54,8 @@ var routes = [
     component: TableList,
     layout: "/admin",
     traderOnly: false,
-    managerOnly: false
+    managerOnly: false,
+    clientOnly: false
   },
   {
     path: "/all-transactions",
@@ -63,16 +64,28 @@ var routes = [
     component: Manager,
     layout: "/admin",
     traderOnly: false,
-    managerOnly: true
+    managerOnly: true,
+    clientOnly: false
   },
   {
-    path: "/tables",
+    path: "/new-transaction",
     name: "New Transaction",
-    icon: "nc-icon nc-cart-simple",
+    icon: "nc-icon nc-credit-card",
     component: NewTransaction,
     layout: "/admin",
     traderOnly: false,
-    managerOnly: false
+    managerOnly: false,
+    clientOnly: true
+  },
+  {
+    path: "/new-client-transaction",
+    name: "Client Transaction",
+    icon: "nc-icon nc-money-coins",
+    component: ClientTransaction,
+    layout: "/admin",
+    traderOnly: true,
+    managerOnly: false,
+    clientOnly: false
   },
   {
     path: "/new-transfer",
@@ -81,7 +94,8 @@ var routes = [
     component: NewTransfer,
     layout: "/admin",
     traderOnly: false,
-    managerOnly: false
+    managerOnly: false,
+    clientOnly: true
   },
   {
     path: "/clients",
@@ -90,43 +104,18 @@ var routes = [
     component: Clients,
     layout: "/admin",
     traderOnly: true,
-    managerOnly: false
+    managerOnly: false,
+    clientOnly: false
   },
   {
     path: "/approve-transactions",
     name: "Approve Transfers",
-    icon: "nc-icon nc-globe",
+    icon: "nc-icon nc-check-2",
     component: Trader_Approve,
     layout: "/admin",
     traderOnly: true,
-    managerOnly: false
-  },
-  {
-    path: "/typography",
-    name: "Typography",
-    icon: "nc-icon nc-caps-small",
-    component: Typography,
-    layout: "/admin",
-    traderOnly: false,
-    managerOnly: false
-  },
-  {
-    path: "/icons",
-    name: "Icons",
-    icon: "nc-icon nc-diamond",
-    component: Icons,
-    layout: "/admin",
-    traderOnly: false,
-    managerOnly: false
-  },
-  {
-    path: "/notifications",
-    name: "Notifications",
-    icon: "nc-icon nc-bell-55",
-    component: Notifications,
-    layout: "/admin",
-    traderOnly: false,
-    managerOnly: false
-  },
+    managerOnly: false,
+    clientOnly: false
+  }
 ];
 export default routes;
