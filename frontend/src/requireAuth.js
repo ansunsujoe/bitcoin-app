@@ -5,7 +5,6 @@ import { useLocation } from 'react-router-dom'
 
 
 const RequireAuth = ({ children, userID })=>{
-    console.log("again")
     const location = useLocation();
     return (localStorage.getItem("user"))
       ? children 
