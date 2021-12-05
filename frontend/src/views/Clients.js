@@ -16,8 +16,13 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
-import { transactionData } from "variables/sampleData";
+import React, { useEffect, useState } from "react";
+import axios from 'axios';
+import {
+ 
+  Table,
+ 
+} from "reactstrap";
 
 // reactstrap components
 import {
@@ -38,7 +43,7 @@ import {
 
 function Clients(props) {
 
-  const [clientsList, setClientsList] = useState({});
+  const [clientsList, setClientsList] = useState([]);
   const [searchToggle, setSearchToggle] = useState(false);
   const [searchQuery, setSearchQuery] = useState();
 
@@ -49,7 +54,7 @@ function Clients(props) {
   const getClientsListAll = () => {
     axios.get('http://localhost:5000/users/clients/all')
       .then(response => {
-        setClientList(response.data.results);
+        setClientsList(response.data.results);
       }).catch(error => {
         console.log(error);
       })
@@ -72,7 +77,7 @@ function Clients(props) {
           <Col md="12">
             <Card>
               <CardBody>
-                <Form onSubmit={handleTraderTransferSubmit}>
+                <Form >
                   <Row>
                     <Col className="px-3" md="8">
                       <FormGroup>
