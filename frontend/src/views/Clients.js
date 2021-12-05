@@ -18,11 +18,6 @@
 */
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
-import {
- 
-  Table,
- 
-} from "reactstrap";
 
 // reactstrap components
 import {
@@ -37,6 +32,7 @@ import {
   Input,
   Row,
   Col,
+  Table
 } from "reactstrap";
 
 
@@ -49,6 +45,7 @@ function Clients(props) {
 
   useEffect(() => {
     getClientsListAll();
+    setSearchToggle(false);
   }, []);
 
   const getClientsListAll = () => {
