@@ -118,15 +118,17 @@ function Clients(props) {
                                   t.email.toLowerCase().indexOf(searchQuery.toLowerCase())!=-1 ||
                                   t.cell.replaceAll('-','').indexOf(searchQuery)!=-1) &&
                                 <tr>
-                                  <td>{t.time}</td>
-                                  <td>{t.client}</td>
-                                  <td>{t.amount}</td>
+                                  <td>{t.name}</td>
+                                  <td>{t.address}</td>
+                                  <td>{t.email}</td>
+                                  <td>{t.cell}</td>
                                 </tr>
                               ) : (
                                 <tr>
-                                  <td>{t.time}</td>
-                                  <td>{t.client}</td>
-                                  <td>{t.amount}</td>
+                                  <td>{t.name}</td>
+                                  <td>{t.address}</td>
+                                  <td>{t.email}</td>
+                                  <td>{t.cell}</td>
                                 </tr>
                               )))}
                             </tbody>
