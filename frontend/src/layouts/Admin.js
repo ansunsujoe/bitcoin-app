@@ -16,7 +16,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React, { useEffect } from "react";
 // javascript plugin used to create scrollbars on windows
 import PerfectScrollbar from "perfect-scrollbar";
 import { Route, Switch, useLocation } from "react-router-dom";
@@ -24,8 +24,14 @@ import { Route, Switch, useLocation } from "react-router-dom";
 import DemoNavbar from "components/Navbars/DemoNavbar.js";
 import Footer from "components/Footer/Footer.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
+import { connect } from "react-redux"
+
 
 import routes from "routes.js";
+import axios from 'axios';
+
+axios.defaults.withCredentials = true;
+
 
 var ps;
 
@@ -58,6 +64,18 @@ function Dashboard(props) {
     document.scrollingElement.scrollTop = 0;
   }, [location]);
 
+  useEffect(()=>{
+    axios.get('http://localhost:5000/users/' + props.userID)
+      .then(response => {
+        const { data } = response
+        setIsManager(data.isManager)
+        setIsClient(data.isClient)
+        setIsTrader(data.isTrader)
+      }).catch(error => {
+        console.log(error);
+      })
+  },[props.userID])
+
   // Event handlers
   const handleTraderClick = (event) => {
     setIsTrader(event.target.checked);
@@ -79,7 +97,7 @@ function Dashboard(props) {
         isTrader={isTrader}
         isManager={isManager}
         isClient={isClient}
-        userId={userId}
+        userId={props.userID}
         routes={routes}
         bgColor={backgroundColor}
         activeColor={activeColor}
@@ -99,10 +117,8 @@ function Dashboard(props) {
                 setIsClient={setIsClient}
                 isManager={isManager}
                 isClient={isClient}
-                handleClientClick={handleClientClick}
-                handleManagerClick={handleManagerClick}
-                userId={userId}
-                handleUserIdChange={userIdChange} />}
+                userId={props.userID}
+                 />}
               />)
           })}
         </Switch>
@@ -118,4 +134,11 @@ function Dashboard(props) {
   );
 }
 
-export default Dashboard;
+const mapStateToProps = state => {
+  return {
+    userID: state.user.userId,
+  }
+}
+
+
+export default connect(mapStateToProps, null)(Dashboard);
