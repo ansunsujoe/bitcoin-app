@@ -1,8 +1,9 @@
 from app import app, db, bcrypt
 from flask import request, session
-from app.models import User, Client
+from app.models import User, Client, Transaction
 from app.util import to_json, to_response
 from datetime import datetime
+from decimal import Decimal
 
 # List all users
 @app.route("/users", methods=["GET"])
@@ -143,23 +144,53 @@ def client_list_all():
 
 @app.route("/users/login", methods=["POST"])
 def login():
-   try:
-    request_data = request.get_json()
+    try:
+        request_data = request.get_json()
+        username = request_data.get("username")
+        password = request_data.get("password")
+        user = db.session.query(User).filter(User.user_name == username).first()
+        
+        if (user):
+            content = bcrypt.check_password_hash(user.password, password)  
+            if(content):
+                if user.is_client:
+                    client = db.session.query(Client).filter(
+                        Client.user_id == user.user_id
+                    ).first()
+                    if client:
+                        # Check times
+                        start_dt = client.last_classification_update
+                        end_dt = datetime.now()
+                        elapsed_months = (end_dt.year - start_dt.year) * 12 + (end_dt.month - start_dt.month)
+                        
+                        # Update classification (silver -> gold or gold -> silver)
+                        if elapsed_months >= 1:
+                            fiat_total = Decimal(0.0)
+                            result = db.session.query(Transaction).filter(
+                                Transaction.status == "Complete"
+                            ).filter(
+                                Transaction.client_id == user.user_id
+                            ).all()
+                            for t in result:
+                                fiat_total += t.fiat_amount
 
-    username = request_data.get("username")
-    password = request_data.get("password")
-    user = db.session.query(User).filter(User.user_name == username).first()   
-    if(user):
-      content = bcrypt.check_password_hash(user.password, password)  
-      if(content):
-        return { "success" : True, "content" : {
-            "username" : user.name,
-            "user_id" : user.user_id
-      }}
-      return {"success" : False}
-    return {"success" : False}
-   except Exception:
-     return {"success" : False}
+                            # Update classification
+                            if fiat_total >= Decimal(100000):
+                                client.user_classification = "gold"
+                            else:
+                                client.user_classification = "silver"
+                            client.last_classification_update = datetime.now()
+                            db.session.commit()
+                
+                # Return credentials
+                return { "success" : True, "content" : {
+                    "username" : user.name,
+                    "user_id" : user.user_id
+            }}
+            return {"success" : False}
+        return {"success" : False}
+    except Exception:
+        return {"success" : False}
 
 
 @app.route("/users/register", methods=["POST"])

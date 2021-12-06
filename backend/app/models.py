@@ -36,13 +36,6 @@ class Client(db.Model):
     user_classification = db.Column(db.String(10))
     last_classification_update = db.Column(db.DateTime)
 
-class Processed(db.Model):
-    order_id = db.Column(db.Integer, primary_key=True)
-    trader_id = db.Column(db.Integer, db.ForeignKey(User.user_id))
-    transaction_id = db.Column(db.Integer, db.ForeignKey(Transaction.transaction_id))
-    commission_paid = db.Column(db.Numeric(32, 10))
-    date = db.Column(db.DateTime)
-
 class Transfer(db.Model):
     transfer_id = db.Column(db.Integer, primary_key=True)
     trader_id = db.Column(db.Integer, db.ForeignKey(User.user_id))
