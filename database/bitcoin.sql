@@ -28,6 +28,8 @@ CREATE TABLE IF NOT EXISTS Transaction (
     Action VARCHAR(10) NOT NULL,
 	Amount DOUBLE(32, 10) NOT NULL,
     FiatAmount DOUBLE(32, 10),
+    Commission_paid DOUBLE(32, 10),
+    Date_processed DATETIME,
 	PRIMARY KEY (Transaction_id),
 	FOREIGN KEY (Client_id) REFERENCES User(User_ID),
     FOREIGN KEY (Trader_id) REFERENCES User(User_ID)
@@ -54,15 +56,6 @@ CREATE TABLE IF NOT EXISTS Processed (
     PRIMARY KEY (Order_id),
     FOREIGN KEY (Trader_id) REFERENCES User(User_ID),
     FOREIGN KEY (Transaction_id) REFERENCES Transaction(Transaction_id)
-);
-
--- Issues table
-CREATE TABLE IF NOT EXISTS IssuesTransaction (
-    Transaction_id INT NOT NULL,
-	Trader_id INT NOT NULL,
-	Client_id INT NOT NULL,
-	PRIMARY KEY (Transaction_id),
-	FOREIGN KEY (Client_id, Trader_id) REFERENCES User
 );
 
 -- Transfer Table
