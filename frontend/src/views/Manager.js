@@ -41,6 +41,9 @@ function Manager(props) {
     const [endDate, handleEndDateChange] = useState(new Date());
     const [transactions, setTransactions] = useState([]);
     const [shouldRedirect, setShouldRedirect] = useState(false);
+    const [dailyTransactions, setDailyTransactions] = useState(-1);
+    const [weeklyTransactions, setWeeklyTransactions] = useState(-1);
+    const [monthlyTransactions, setMonthlyTransactions] = useState(-1);
 
     const convertDateToString = (date) => {
         return date.toISOString().replace(/T/, ' ').replace(/\..+/, '');
@@ -49,12 +52,50 @@ function Manager(props) {
     const handleSubmit = (e) => {
         e.preventDefault();
         getTransactions(convertDateToString(startDate), convertDateToString(endDate));
+        let startDateCopy = new Date(new Date(startDate).setDate(startDate.getDate() + 1));
+        getDailyTransactions(convertDateToString(startDate), convertDateToString(startDateCopy));
+        startDateCopy = new Date(new Date(startDate).setDate(startDate.getDate() + 7));
+        getWeeklyTransactions(convertDateToString(startDate), convertDateToString(startDateCopy));
+        startDateCopy = new Date(new Date(startDate).setDate(startDate.getDate() + 30));
+        getMonthlyTranactions(convertDateToString(startDate), convertDateToString(startDateCopy));
         setShouldRedirect(!shouldRedirect);
     };
 
-    const getTransactions = (startDatetime, endDatetime) => {
+    const sumTransactions = (transactions) => {
+        let sum = 0;
+        transactions.forEach(transaction => {
+            sum += parseFloat(transaction.value);
+        });
+        return sum;
+    };
+
+    const getTransactions = async (startDatetime, endDatetime) => {
         axios.get('http://localhost:5000/transactions/' + startDatetime + '/' + endDatetime).then(response => {
             setTransactions(response.data.results);
+        }).catch(error => {
+            console.log(error);
+        })
+    }
+
+    const getDailyTransactions = (startDatetime, endDatetime) => {
+        axios.get('http://localhost:5000/transactions/' + startDatetime + '/' + endDatetime).then(response => {
+            setDailyTransactions(sumTransactions(response.data.results));
+        }).catch(error => {
+            console.log(error);
+        })
+    }
+
+    const getWeeklyTransactions = (startDatetime, endDatetime) => {
+        axios.get('http://localhost:5000/transactions/' + startDatetime + '/' + endDatetime).then(response => {
+            setWeeklyTransactions(sumTransactions(response.data.results));
+        }).catch(error => {
+            console.log(error);
+        })
+    }
+
+    const getMonthlyTranactions = (startDatetime, endDatetime) => {
+        axios.get('http://localhost:5000/transactions/' + startDatetime + '/' + endDatetime).then(response => {
+            setMonthlyTransactions(sumTransactions(response.data.results));
         }).catch(error => {
             console.log(error);
         })
@@ -106,21 +147,57 @@ function Manager(props) {
                             </CardBody>
                         </Card>
                     </Col>
-
                     <Col md="12">
-                        <Card>
+                        <Row>
+                            <Col lg="3" md="6" sm="6">
+                                <Card className="card-stats">
+                                    <CardBody>
+                                        <div className="numbers">
+                                            <p className="card-category">Total for Day of {(startDate.toLocaleDateString())}</p>
+                                            <CardTitle tag="p">&#8383; {(dailyTransactions)}</CardTitle>
+                                            <p/>
+                                        </div>
+                                    </CardBody>
+                                </Card>
+                            </Col>
+                            <Col lg="3" md="6" sm="6">
+                                <Card className="card-stats">
+                                    <CardBody>
+                                        <div className="numbers">
+                                            <p className="card-category">Total for Week of {(startDate.toLocaleDateString())}</p>
+                                            <CardTitle tag="p">&#8383; {(weeklyTransactions)}</CardTitle>
+                                            <p/>
+                                        </div>
+                                    </CardBody>
+                                </Card>
+                            </Col>
+                            <Col lg="3" md="6" sm="6">
+                                <Card className="card-stats">
+                                    <CardBody>
+                                        <div className="numbers">
+                                            <p className="card-category">Total for Month of {(startDate.toLocaleDateString())}</p>
+                                            <CardTitle tag="p">&#8383; {(monthlyTransactions)}</CardTitle>
+                                            <p/>
+                                        </div>
+                                    </CardBody>
+                                </Card>
+                            </Col>
+                        </Row>
+                    </Col>
+                    <Col md="12">
+                        <Card className="card-user">
                             <CardHeader>
-                                <CardTitle tag="h4">All Transactions</CardTitle>
+                                <CardTitle tag="h5">Transactions</CardTitle>
                             </CardHeader>
                             <CardBody>
-                                <Table responsive>
-                                    <thead className="text-primary">
-                                    <tr className="text-success">
+                                <Table>
+                                    <thead>
+                                    <tr>
                                         <th>Time</th>
                                         <th>Client</th>
                                         <th>Commission</th>
                                         <th>Status</th>
-                                        <th className="text-right">Value</th>
+                                        <th>Value</th>
                                     </tr>
                                     </thead>
                                     <tbody>
