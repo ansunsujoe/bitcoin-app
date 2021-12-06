@@ -85,15 +85,17 @@ function Clients(props) {
                           defaultValue=""
                           onChange={handleSearchChange}
                         />
+                        <Button color="danger" type="reset" size="sm" disabled={false}
+                          onClick={() => resetSearchToggle()}>RESET</Button>
                       </FormGroup>
                     </Col>
-                    <Col className="px-3" md="74">
+                    {/* <Col className="px-3" md="74">
                       <FormGroup>
                       <label></label>
                       <Button color="danger" type="reset" size="sm" disabled={false}
                           onClick={() => resetSearchToggle()}>RESET</Button>
                       </FormGroup>
-                    </Col>
+                    </Col> */}
                   </Row>
 
                   <Row>
