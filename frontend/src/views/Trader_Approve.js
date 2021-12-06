@@ -20,6 +20,7 @@
 //import { transferData } from "variables/sampleTransferData";
 import React, {useState, useEffect} from "react";
 import axios from 'axios';
+import { connect } from "react-redux";
 
 // reactstrap components
 import {
@@ -58,7 +59,7 @@ function Trader_Approve(props) {
 
   // Get User Information
   const getUserData = () => {
-    axios.get('http://localhost:5000/users/' + props.userId)
+    axios.get('http://localhost:5000/users/' + props.userID)
       .then(response => {
         setUserData(response.data);
       }).catch(error => {
@@ -67,7 +68,7 @@ function Trader_Approve(props) {
   }
 
   const getClientTransfers = () => {
-    axios.get('http://localhost:5000/users/' + props.userId + '/transfers').then(response => {
+    axios.get('http://localhost:5000/users/' + props.userID + '/transfers').then(response => {
       setClientTransfers(response.data.results);
     }).catch(error => {
       console.log(error);
@@ -75,7 +76,7 @@ function Trader_Approve(props) {
   }
 
   const getTraderTransfers = () => {
-    axios.get('http://localhost:5000/users/traders/' + props.userId + '/transfers').then(response => {
+    axios.get('http://localhost:5000/users/traders/' + props.userID + '/transfers').then(response => {
       console.log(response.data.results);
       setTraderTransfers(response.data.results);
     }).catch(error => {
@@ -129,10 +130,10 @@ function Trader_Approve(props) {
                         <td>{t.amount}</td>
                         <td>{t.status}</td>
                         <td className="text-right"><Button color="success" type="submit" size="sm" 
-                          disabled={t.status === "Complete"} 
+                          disabled={t.status === "Completed"} 
                           onClick={() => acceptTransfer(t.tid)}>ACCEPT</Button></td>
                         <td className="text-right"><Button color="danger" type="submit" size="sm" 
-                          disabled={t.status === "Complete"} 
+                          disabled={t.status === "Completed"} 
                           onClick={() => cancelTransfer(t.tid)}>CANCEL</Button></td>
                       </tr>
                       ))}
@@ -174,6 +175,10 @@ function Trader_Approve(props) {
   );
 }
 
-export default Trader_Approve;
+const mapStateToProps = state => {
+  return {
+    userID: state.user.userId,
+  }
+}
 
-
+export default connect(mapStateToProps, null)(Trader_Approve);

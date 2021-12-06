@@ -124,7 +124,7 @@ function NewTransaction(props) {
     setSellCommission(getCommission(btcRate, sellAmount, sellCommissionType, "silver"));
     setBuyCost(buyAmount > 0 ? btcRate * buyAmount + buyCommission : 0.00);
     setSellCost(sellAmount > 0 ? btcRate * sellAmount - sellCommission : 0.00);
-  }, [btcRate, buyAmount, sellAmount]);
+  }, [btcRate, buyAmount, sellAmount, buyCommissionType, sellCommissionType]);
 
   // Handler functions for buy slider
   const handleBuyChange = (e, val) => {
