@@ -124,8 +124,8 @@ function ClientTransaction(props) {
 
   // Change other variables when BTC rate changes
   useEffect(() => {
-    setBuyCommission(getCommission(btcRate, buyAmount, buyCommissionType, "silver"));
-    setSellCommission(getCommission(btcRate, sellAmount, sellCommissionType, "silver"));
+    setBuyCommission(getCommission(btcRate, buyAmount, buyCommissionType, clientProperties.classification ? clientProperties.classification : "silver"));
+    setSellCommission(getCommission(btcRate, sellAmount, sellCommissionType, clientProperties.classification ? clientProperties.classification : "silver"));
     setBuyCost(buyAmount > 0 ? btcRate * buyAmount + buyCommission : 0.00);
     setSellCost(sellAmount > 0 ? btcRate * sellAmount - sellCommission : 0.00);
   }, [btcRate, buyAmount, sellAmount, buyCommissionType, sellCommissionType]);
