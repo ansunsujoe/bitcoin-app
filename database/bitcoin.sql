@@ -6,14 +6,14 @@ CREATE TABLE IF NOT EXISTS User (
     cell VARCHAR(15) NOT NULL,
     user_name VARCHAR(50) NOT NULL UNIQUE,
     email VARCHAR(50) NOT NULL,
-    street_Address VARCHAR(50) NOT NULL,
+    street_address VARCHAR(50) NOT NULL,
     city VARCHAR(50) NOT NULL,
     state VARCHAR(20) NOT NULL,
     zip VARCHAR(5) NOT NULL,
     password VARCHAR(200) NOT NULL,
-    is_Trader BOOLEAN NOT NULL,
-    is_Manager BOOLEAN NOT NULL,
-    is_Client BOOLEAN NOT NULL,
+    is_trader BOOLEAN NOT NULL,
+    is_manager BOOLEAN NOT NULL,
+    is_client BOOLEAN NOT NULL,
     PRIMARY KEY (User_ID)
 );
 
