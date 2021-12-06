@@ -25,7 +25,6 @@ CREATE TABLE IF NOT EXISTS Transaction (
 	Client_id INT NOT NULL,
 	Status VARCHAR(10) NOT NULL,
     Date DATETIME NOT NULL,
-    Action VARCHAR(10) NOT NULL,
 	Amount DOUBLE(32, 10) NOT NULL,
     FiatAmount DOUBLE(32, 10),
     Commission_paid DOUBLE(32, 10),
