@@ -214,7 +214,7 @@ function Dashboard(props) {
                     <Col md="10" xs="7">
                       <div className="numbers">
                         <p className="card-category">USD Balance</p>
-                        <CardTitle tag="p">${(usdBal).substring(0, 2)},{(usdBal).substring(2, 8)}</CardTitle>
+                        <CardTitle tag="p">${(usdBal).substring(0, 2)}{(usdBal).substring(2, 8)}</CardTitle>
                         <p />
                       </div>
                     </Col>

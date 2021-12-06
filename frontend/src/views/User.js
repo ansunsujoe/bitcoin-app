@@ -241,16 +241,6 @@ function User(props) {
                       </FormGroup>
                     </Col>
                   </Row>
-                  <Row>
-                    <div className="update ml-auto mr-auto">
-                      <Button
-                        color="info"
-                        onClick={handleTraderSwitch}
-                      >
-                        Switch To Trader
-                      </Button>
-                    </div>
-                  </Row>
                 </Form>
               </CardBody>
             </Card>
