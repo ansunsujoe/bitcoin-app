@@ -34,6 +34,7 @@ import {
 import Slider from '@mui/material/Slider';
 import { getCommission, roundDecimal } from '../utilities/transaction';
 import axios from 'axios';
+import { connect } from "react-redux";
 
 function NewTransaction(props) {
   const [buyTrader, setBuyTrader] = useState("trader-1");
@@ -80,7 +81,7 @@ function NewTransaction(props) {
 
   // Get Buying power
   const getBuyingPower = () => {
-    axios.get('http://localhost:5000/users/clients/' + props.userId + '/buying-power')
+    axios.get('http://localhost:5000/users/clients/' + props.userID + '/buying-power')
     .then(response => {
       setBuyingPower(parseFloat(response.data.results));
       console.log(parseFloat(response.data.results));
@@ -91,7 +92,7 @@ function NewTransaction(props) {
 
   // Get Client Data
   const getUserData = () => {
-    axios.get('http://localhost:5000/users/' + props.userId)
+    axios.get('http://localhost:5000/users/' + props.userID)
     .then(response => {
       console.log(response.data);
       getBuyingPower();
@@ -149,7 +150,7 @@ function NewTransaction(props) {
 
   // Buy/Sell Axios Request
   const transactionSubmit = (data) => {
-    axios.post('http://localhost:5000/users/' + props.userId + '/transactions', data, {
+    axios.post('http://localhost:5000/users/' + props.userID + '/transactions', data, {
       headers: {
         'Content-Type': 'application/json'
       }
@@ -359,4 +360,10 @@ function NewTransaction(props) {
   );
 }
 
-export default NewTransaction;
+const mapStateToProps = state => {
+  return {
+    userID: state.user.userId,
+  }
+}
+
+export default connect(mapStateToProps, null)(NewTransaction);

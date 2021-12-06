@@ -19,6 +19,7 @@
 import React, {useState, useEffect} from "react";
 import { transactionData } from "variables/sampleData";
 import axios from 'axios';
+import { connect } from "react-redux";
 
 // reactstrap components
 import {
@@ -58,7 +59,7 @@ function Tables(props) {
 
   // Get User Information
   const getUserData = () => {
-    axios.get('http://localhost:5000/users/' + props.userId)
+    axios.get('http://localhost:5000/users/' + props.userID)
       .then(response => {
         setUserData(response.data);
         if (!response.data.isClient) {
@@ -73,7 +74,7 @@ function Tables(props) {
   }
 
   const getClientBuys = () => {
-    axios.get('http://localhost:5000/users/' + props.userId + '/transactions/buys').then(response => {
+    axios.get('http://localhost:5000/users/' + props.userID + '/transactions/buys').then(response => {
       setUserBuys(response.data.results);
     }).catch(error => {
       console.log(error);
@@ -81,7 +82,7 @@ function Tables(props) {
   }
 
   const getTraderBuys = () => {
-    axios.get('http://localhost:5000/users/traders/' + props.userId + '/transactions/buys').then(response => {
+    axios.get('http://localhost:5000/users/traders/' + props.userID + '/transactions/buys').then(response => {
       console.log(response.data.results);
       setTraderBuys(response.data.results);
     }).catch(error => {
@@ -90,7 +91,7 @@ function Tables(props) {
   }
 
   const getClientSells = () => {
-    axios.get('http://localhost:5000/users/' + props.userId + '/transactions/sells').then(response => {
+    axios.get('http://localhost:5000/users/' + props.userID + '/transactions/sells').then(response => {
       setUserSells(response.data.results);
     }).catch(error => {
       console.log(error);
@@ -98,7 +99,7 @@ function Tables(props) {
   }
 
   const getTraderSells = () => {
-    axios.get('http://localhost:5000/users/traders/' + props.userId + '/transactions/sells').then(response => {
+    axios.get('http://localhost:5000/users/traders/' + props.userID + '/transactions/sells').then(response => {
       setTraderSells(response.data.results);
     }).catch(error => {
       console.log(error);
@@ -107,6 +108,7 @@ function Tables(props) {
 
   // Get User Data
   useEffect(() => {
+    getCurrentBTC();
     getUserData();
     getTraderBuys();
     getTraderSells();
@@ -123,7 +125,14 @@ function Tables(props) {
   }, []);
 
   const acceptTransaction = (tid, action, viewMode) => {
-    axios.put('http://localhost:5000/transactions/' + tid + '/accept').then(response => {
+    const data = {
+      "btcRate": btcRate 
+    }
+    axios.put('http://localhost:5000/transactions/' + tid + '/accept', data, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(response => {
       if (viewMode === "trader") {
         if (action === "buy") {
           getTraderBuys();
@@ -333,4 +342,10 @@ function Tables(props) {
   );
 }
 
-export default Tables;
+const mapStateToProps = state => {
+  return {
+    userID: state.user.userId,
+  }
+}
+
+export default connect(mapStateToProps, null)(Tables);
