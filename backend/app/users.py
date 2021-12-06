@@ -2,6 +2,7 @@ from app import app, db, bcrypt
 from flask import request, session
 from app.models import User, Client
 from app.util import to_json, to_response
+from datetime import datetime
 
 # List all users
 @app.route("/users", methods=["GET"])
@@ -140,20 +141,6 @@ def client_list_all():
             } for client in result]
         }
 
-@app.route("/users/clients/<search_query>", methods=["GET"])
-def client_list_search(search_query):
-    result = db.session.query(User
-                ).filter(User.is_client
-                ).filter((User.name.like("%{}%".format(search_query))) | (User.street_address.like("%{}%".format(search_query))) | (User.email.like("%{}%".format(search_query))) | (User.cell.like("%{}%".format(search_query))))
-    return {
-            "results": [{"id": client.user_id, 
-            "name": client.name, 
-            "address": client.street_address+", "+client.city+", "+client.state+", "+client.zip, 
-            "email": client.email, 
-            "cell": client.cell 
-            } for client in result]
-        }
-
 @app.route("/users/login", methods=["POST"])
 def login():
    try:
@@ -177,37 +164,53 @@ def login():
 
 @app.route("/users/register", methods=["POST"])
 def register():
-   try: 
-    request_data = request.get_json()
-    username = request_data.get("username")
-    user = db.session.query(User).filter(User.user_name == username).first()   
-    if(user):
-      return {"success" : False, "message" : "User Exists"}
-    is_trader=request_data.get("trader")
-    is_manager=request_data.get("manager")
-    is_client=request_data.get("client")
-    userData = User(
-        name=request_data.get("name"),
-        phone_number=request_data.get("telephone"),
-        cell=request_data.get("cell"),
-        user_name=username,
-        email=request_data.get("email"),
-        street_address=request_data.get("address"),
-        city=request_data.get("city"),
-        state=request_data.get("state"),
-        zip=request_data.get("zip"),
-        password=bcrypt.generate_password_hash(request_data.get("password")),
-        is_trader=1 if is_trader=="yes" else 0,
-        is_manager=1 if is_manager=="yes" else 0,
-        is_client=1 if is_client=="yes" else 0
-    )
-    # Commit to database
-    db.session.add(userData)
-    db.session.commit()
-    user = db.session.query(User).filter(User.user_name == username).first() 
-    return { "success" : True, "content" : {
-            "username" : user.user_name,
-            "user_id" : user.user_id
-    }}
-   except Exception:
-       return {"success" : False, "message" : "Unknown exception"}
+    try: 
+        request_data = request.get_json()
+        username = request_data.get("username")
+        user = db.session.query(User).filter(User.user_name == username).first()   
+        if(user):
+            return {"success" : False, "message" : "User Exists"}
+        is_trader=request_data.get("trader")
+        is_manager=request_data.get("manager")
+        is_client=request_data.get("client")
+        userData = User(
+            name=request_data.get("name"),
+            phone_number=request_data.get("telephone"),
+            cell=request_data.get("cell"),
+            user_name=username,
+            email=request_data.get("email"),
+            street_address=request_data.get("address"),
+            city=request_data.get("city"),
+            state=request_data.get("state"),
+            zip=request_data.get("zip"),
+            password=bcrypt.generate_password_hash(request_data.get("password")),
+            is_trader=1 if is_trader=="yes" else 0,
+            is_manager=1 if is_manager=="yes" else 0,
+            is_client=1 if is_client=="yes" else 0
+        )
+        
+        # Commit to database
+        db.session.add(userData)
+        db.session.commit()
+        
+        user = db.session.query(User).filter(User.user_name == username).first()
+        user_id_data = { "success" : True, "content" : {
+                "username" : user.user_name,
+                "user_id" : user.user_id
+        }}
+        
+        # Add a client entry if necessary
+        new_client = Client(
+            user_id=user.user_id,
+            fiat_balance=0.0,
+            btc_balance=0.0,
+            user_classification="silver",
+            last_classification_update=datetime.now()
+        )
+        # Commit to database
+        db.session.add(new_client)
+        db.session.commit()
+        
+        return user_id_data
+    except Exception:
+        return {"success" : False, "message" : "Unknown exception"}

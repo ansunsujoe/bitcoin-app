@@ -54,9 +54,10 @@ def user_transaction(user_id):
             date=datetime.now(),
             action=response.get("action"),
             amount=response.get("amount"),
-            fiat_amount=None
-        )
-        
+            fiat_amount=None,
+            commission_paid=None,
+            date_processed=None
+        )    
         # Commit to database
         db.session.add(new_transaction)
         db.session.commit()
@@ -84,6 +85,7 @@ def user_transaction_buys(user_id):
             "value": t.amount,
             "fiatValue": t.fiat_amount
         })
+        app.logger.debug(t.fiat_amount)
     return to_response(transactions)
 
 # Sell transactions for user
@@ -108,6 +110,7 @@ def user_transaction_sells(user_id):
             "value": t.amount,
             "fiatValue": t.fiat_amount
         })
+        app.logger.debug(t.fiat_amount)
     return to_response(transactions)
 
 # Buy transactions for trader
@@ -212,20 +215,37 @@ def transaction_delete(transaction_id):
 @app.route("/transactions/<transaction_id>/accept", methods=["PUT"])
 def transaction_accept(transaction_id):
     # Get transaction and client ID
+    response = request.get_json()
     transaction = db.session.query(Transaction).filter(Transaction.transaction_id == transaction_id).first()
     client = db.session.query(Client).filter(Client.user_id == transaction.client_id).first()
+    btcRate = response.get("btcRate")
     
     # Handle a buy and a sell
+    commission_rate = class_prices.get(client.user_classification)
     if transaction.action == "buy":
-        client.btc_balance += transaction.amount
-        client.fiat_balance -= transaction.amount * Decimal(btc_rate())
+        if transaction.commission_type == "BTC":
+            client.btc_balance += transaction.amount + Decimal(1 - commission_rate)
+            client.fiat_balance -= transaction.amount * Decimal(btcRate)
+            commission_paid = transaction.amount * Decimal(commission_rate)
+        else:
+            client.btc_balance += transaction.amount
+            client.fiat_balance -= transaction.amount * Decimal(btcRate * (1 + commission_rate))
+            commission_paid = transaction.amount * Decimal(commission_rate * btcRate)
     elif transaction.action == "sell":
-        client.btc_balance -= transaction.amount
-        client.fiat_balance += transaction.amount * Decimal(btc_rate())
+        if transaction.commission_type == "BTC": 
+            client.btc_balance -= transaction.amount * Decimal(1 + commission_rate)
+            client.fiat_balance += transaction.amount * Decimal(btcRate)
+            commission_paid = transaction.amount * Decimal(commission_rate)
+        else:
+            client.btc_balance -= transaction.amount
+            client.fiat_balance += transaction.amount * Decimal(btcRate * (1 - commission_rate))
+            commission_paid = transaction.amount * Decimal(commission_rate * btcRate)
     
     # Set transaction to complete
     transaction.status = "Complete"
-    # transaction.fiat_amount = 
+    transaction.commission_paid = commission_paid
+    transaction.fiat_amount = transaction.amount * Decimal(btcRate)
+    transaction.date_processed = datetime.now()
     db.session.commit()
     return "Success"
 
@@ -287,4 +307,5 @@ def buying_power(client_id):
         return to_response(0.0)
     
     # Btc Rate
-    return to_response(float(c.fiat_balance) / btc_rate() - num_bitcoin)
+    commission_rate = class_prices.get(c.user_classification)
+    return to_response((float(c.fiat_balance) / btc_rate() - num_bitcoin) * (1 - commission_rate))

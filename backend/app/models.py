@@ -26,6 +26,8 @@ class Transaction(db.Model):
     action = db.Column(db.String(10))
     amount = db.Column(db.Numeric(32, 10))
     fiat_amount = db.Column(db.Numeric(32, 10))
+    commission_paid = db.Column(db.Numeric(32, 10))
+    date_processed = db.Column(db.DateTime)
 
 class Client(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey(User.user_id), primary_key=True)

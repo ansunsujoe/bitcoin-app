@@ -34,6 +34,7 @@ import {
 import Slider from '@mui/material/Slider';
 import { getCommission, roundDecimal } from '../utilities/transaction';
 import axios from 'axios';
+import { connect } from "react-redux";
 
 function ClientTransaction(props) {
   const [buyClient, setBuyClient] = useState("trader-1");
@@ -127,7 +128,7 @@ function ClientTransaction(props) {
     setSellCommission(getCommission(btcRate, sellAmount, sellCommissionType, "silver"));
     setBuyCost(buyAmount > 0 ? btcRate * buyAmount + buyCommission : 0.00);
     setSellCost(sellAmount > 0 ? btcRate * sellAmount - sellCommission : 0.00);
-  }, [btcRate, buyAmount, sellAmount]);
+  }, [btcRate, buyAmount, sellAmount, buyCommissionType, sellCommissionType]);
 
   // Handler functions for buy slider
   const handleBuyChange = (e, val) => {
@@ -170,7 +171,7 @@ function ClientTransaction(props) {
     const data = {
       commission_type: buyCommissionType,
       amount: buyAmount,
-      traderId: props.userId,
+      traderId: props.userID,
       action: "buy"
     };
     transactionSubmit(data);
@@ -181,7 +182,7 @@ function ClientTransaction(props) {
     const data = {
       commission_type: sellCommissionType,
       amount: sellAmount,
-      traderId: props.userId,
+      traderId: props.userID,
       action: "sell"
     };
     transactionSubmit(data);
@@ -363,4 +364,10 @@ function ClientTransaction(props) {
   );
 }
 
-export default ClientTransaction;
+const mapStateToProps = state => {
+  return {
+    userID: state.user.userId,
+  }
+}
+
+export default connect(mapStateToProps, null)(ClientTransaction);
