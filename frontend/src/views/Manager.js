@@ -122,14 +122,13 @@ function Manager(props) {
                                         <th>Status</th>
                                         <th className="text-right">Value</th>
                                     </tr>
-                                    }
                                     </thead>
                                     <tbody>
                                     {transactions.map((t) => (
                                         (
                                             <tr key={t.tid + " " + t.name}>
                                                 <td>{t.time}</td>
-                                                <td>{t.client}</td>
+                                                <td>{t.name}</td>
                                                 <td>{t.commission}</td>
                                                 <td>{t.status}</td>
                                                 <td className="text-right">{t.value} &#8383;</td>

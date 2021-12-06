@@ -90,6 +90,7 @@ def transfer_delete(transfer_id):
     transfer = db.session.query(Transfer).filter(Transfer.transfer_id == transfer_id).first()
     transfer.status = "Cancelled"
     db.session.commit()
+    return "Success"
 
 # Accept transfers (trader accepts)
 @app.route("/transfers/<transfer_id>/accept", methods=["PUT"])
