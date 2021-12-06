@@ -46,18 +46,6 @@ CREATE TABLE IF NOT EXISTS Client (
     FOREIGN KEY (User_ID) REFERENCES User(User_ID)
 );
 
--- Processed table
-CREATE TABLE IF NOT EXISTS Processed (
-	Trader_id INT NOT NULL,
-    Transaction_id INT NOT NULL,
-	Order_id INT NOT NULL AUTO_INCREMENT,
-	Commission_paid DOUBLE(32, 10) NOT NULL,
-    Date DATETIME NOT NULL,
-    PRIMARY KEY (Order_id),
-    FOREIGN KEY (Trader_id) REFERENCES User(User_ID),
-    FOREIGN KEY (Transaction_id) REFERENCES Transaction(Transaction_id)
-);
-
 -- Transfer Table
 CREATE TABLE IF NOT EXISTS Transfer (
 	Transfer_id int NOT NULL AUTO_INCREMENT,
