@@ -201,9 +201,11 @@ def register():
         is_manager=1 if is_manager=="yes" else 0,
         is_client=1 if is_client=="yes" else 0
     )
+    
     # Commit to database
     db.session.add(userData)
     db.session.commit()
+    
     user = db.session.query(User).filter(User.user_name == username).first() 
     return { "success" : True, "content" : {
             "username" : user.user_name,

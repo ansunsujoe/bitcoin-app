@@ -34,7 +34,8 @@ import {
 // import Slider from '@mui/material/Slider';
 // import { getCommission, roundDecimal } from '../utilities/transaction';
 import axios from 'axios';
-axios.defaults.withCredentials = true;
+import { connect } from "react-redux";
+
 
 function NewTransfer(props) {
     const [transferTrader, setTransferTrader] = useState("trader-1");
@@ -73,7 +74,7 @@ function NewTransfer(props) {
 
     // Get User Data
     const getUserData = () => {
-        axios.get('http://localhost:5000/users/' + props.userId)
+        axios.get('http://localhost:5000/users/' + props.userID)
             .then(response => {
                 console.log(response.data);
                 setUserProperties(response.data);
@@ -103,7 +104,7 @@ function NewTransfer(props) {
 
     // Transfer Axios Request
     const transferSubmit = (data) => {
-        axios.post('http://localhost:5000/users/' + props.userId + '/transfers', data, {
+        axios.post('http://localhost:5000/users/' + props.userID + '/transfers', data, {
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -116,7 +117,7 @@ function NewTransfer(props) {
 
     // Trader Transfer Axios Request
     const traderTransferSubmit = (data) => {
-        axios.post('http://localhost:5000/users/traders/' + props.userId + '/transfers', data, {
+        axios.post('http://localhost:5000/users/traders/' + props.userID + '/transfers', data, {
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -250,4 +251,10 @@ function NewTransfer(props) {
     );
 }
 
-export default NewTransfer;
+const mapStateToProps = state => {
+    return {
+      userID: state.user.userId,
+    }
+  }
+  
+  export default connect(mapStateToProps, null)(NewTransfer);

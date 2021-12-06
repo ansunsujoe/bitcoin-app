@@ -60,7 +60,8 @@ def trader_transfer(trader_user_id):
                 "time": t.date,
                 "name": u.name,
                 "status": t.status,
-                "amount": t.amount
+                "amount": t.amount,
+                "tid": t.transfer_id
             })
         return to_response(transfers)
     elif request.method == "POST":
@@ -98,3 +99,4 @@ def transfer_accept(transfer_id):
     transfer_client = db.session.query(Client).filter(Client.user_id == transfer.client_id).first()
     transfer_client.fiat_balance=transfer_client.fiat_balance+Decimal(transfer.amount)
     db.session.commit()
+    return "Success"
