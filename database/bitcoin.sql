@@ -1,3 +1,9 @@
+-- Vashisht Gupta - vxg210001 
+-- Caleb Jiang - cgj180000 
+-- Ansun Sujoe - axs180210
+-- Annika Hendrickson - alh190000 
+-- Ashish Pratap - axp200189
+
 -- User Table
 CREATE TABLE IF NOT EXISTS User (
     user_ID INT NOT NULL AUTO_INCREMENT,

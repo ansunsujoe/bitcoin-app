@@ -1,4 +1,10 @@
-Create Tables:
+-- Vashisht Gupta - vxg210001 
+-- Caleb Jiang - cgj180000 
+-- Ansun Sujoe - axs180210
+-- Annika Hendrickson - alh190000 
+-- Ashish Pratap - axp200189
+
+-- Create Tables:
 -- User Table
 CREATE TABLE IF NOT EXISTS User (
     user_ID INT NOT NULL AUTO_INCREMENT,
@@ -58,7 +64,7 @@ CREATE TABLE IF NOT EXISTS Transfer (
     FOREIGN KEY (Trader_id) REFERENCES User(User_ID)
 );
 
-Drop Tables:
+-- Drop Tables:
 DROP TABLE Transaction;
 DROP TABLE Transfer;
 DROP TABLE Client;
