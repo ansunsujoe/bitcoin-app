@@ -37,23 +37,23 @@ CREATE TABLE IF NOT EXISTS Transaction (
 
 -- Client table
 CREATE TABLE IF NOT EXISTS Client (
-    User_ID INT NOT NULL,
-    Fiat_balance DOUBLE(32, 2) NOT NULL,
-    BTC_balance DOUBLE(32, 10) NOT NULL,
-    User_classification VARCHAR(10) NOT NULL,
-    Last_classification_update DATETIME NOT NULL,
+    user_ID INT NOT NULL,
+    fiat_balance DOUBLE(32, 2) NOT NULL,
+    btc_balance DOUBLE(32, 10) NOT NULL,
+    user_classification VARCHAR(10) NOT NULL,
+    last_classification_update DATETIME NOT NULL,
     PRIMARY KEY (User_ID),
     FOREIGN KEY (User_ID) REFERENCES User(User_ID)
 );
 
 -- Transfer Table
 CREATE TABLE IF NOT EXISTS Transfer (
-	Transfer_id int NOT NULL AUTO_INCREMENT,
-	Client_id NOT NULL, 	
-    Trader_id int NOT NULL,
-	Amount DOUBLE(32,2),
-	Status VARCHAR(10),
-    Date DATETIME NOT NULL,
+	transfer_id int NOT NULL AUTO_INCREMENT,
+	client_id NOT NULL, 	
+    trader_id int NOT NULL,
+	amount DOUBLE(32,2),
+	status VARCHAR(10),
+    date DATETIME NOT NULL,
     PRIMARY KEY (Transfer_id),
 	FOREIGN KEY (Client_id) REFERENCES User(User_ID),
     FOREIGN KEY (Trader_id) REFERENCES User(User_ID)
