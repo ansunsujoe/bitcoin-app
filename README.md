@@ -2,11 +2,11 @@
 Bitcoin Application for CS 6360
 
 ## Contributors
-Vashisht Gupta - vxg210001 
-Caleb Jiang - cgj180000 
-Ansun Sujoe - axs180210
-Annika Hendrickson - alh190000 
-Ashish Pratap - axp200189
+* Vashisht Gupta - vxg210001 
+* Caleb Jiang - cgj180000 
+* Ansun Sujoe - axs180210
+* Annika Hendrickson - alh190000 
+* Ashish Pratap - axp200189
 
 ## Dependencies
 * Docker: https://docs.docker.com/get-docker/
